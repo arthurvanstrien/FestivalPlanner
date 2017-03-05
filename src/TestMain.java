@@ -6,13 +6,14 @@ public class TestMain {
         int errors = 0;
         System.out.println("Running tests...");
 
+        System.out.println("--Begin Artist Test------------------------------------");
         errors = errors + TestArtist.runTest();
-        System.out.println("--Einde Artist Test------------------------------------");
-        errors = errors + TestShow.runTest();
-        System.out.println("--Einde Show Test------------------------------------");
+        //System.out.println("--Begin Show Test------------------------------------");
+        //errors = errors + TestShow.runTest();
+        System.out.println("--Begin Stage Test------------------------------------");
         errors = errors + TestStage.runTest();
-        System.out.println("--Einde Stage Test------------------------------------");
 
+        System.out.println("=======================================================");
         System.out.println("Running completed.");
         System.out.println("There where " + errors + " errors found while running the tests.");
     }
