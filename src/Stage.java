@@ -19,12 +19,15 @@ public class Stage implements Serializable, Comparable {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public int getSurfaceArea() {
         return surfaceArea;
     }
+    
     public void setSurfaceArea(int surfaceArea) {
         this.surfaceArea = surfaceArea;
     }
