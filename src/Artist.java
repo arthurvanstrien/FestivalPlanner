@@ -8,7 +8,6 @@ import java.util.HashMap;
  */
 public class Artist extends Human implements Comparable {
     String genre;
-    Image image;
     HashMap<Integer, Boolean> performingTimes;
 
     public Artist(String name, String genre) {
@@ -18,15 +17,11 @@ public class Artist extends Human implements Comparable {
     }
 
     public String toString() {
-        return super.getName();
+        return "Artiest: " + super.getName() + ", Genre: " + genre;
     }
 
     public String getGenre() {
         return genre;
-    }
-
-    public Image getImage() {
-        return image;
     }
 
     public void setGenre(String genre) {
