@@ -17,6 +17,7 @@ public class TestShow {
         Stage stage = new Stage("Main Stage", 50);
         Show s1 = new Show("Jimi Hendrix Experience", beginTime, endTime, stage, artists, 5);
 
+        /*CRASH IN CODE ON LINE21 BELOW. REASON UNKNOWN:
         if(!s1.toString().equals("Begint om: 12:00:00 eindigd om: 16:00:00 Stage{name='stage'} [Artiest: artist Genre: genre, Artiest: artist2 Genre: genre2]")) {
             if(!s1.getBeginTime().equals(new Time(12, 0))) {
                 System.out.println("There is a problem with the begin time in the getBeginTime method from the Show class .");
@@ -34,6 +35,8 @@ public class TestShow {
             }
         }
 
-        return amountOfErrors;
+        return amountOfErrors;*/
+
+        return 9000; //To make sure someone fixes the error above.
     }
 }
