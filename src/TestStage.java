@@ -1,5 +1,6 @@
 /**
  * Created by dionb on 13-2-2017.
+ * Edited by Arthur on 05-03-2017.
  */
 public class TestStage {
 
@@ -7,7 +8,7 @@ public class TestStage {
         int amountOfErrors = 0;
         Stage s1 = new Stage("Test stage 1", 100);
 
-        if (!s1.toString().equals("Stage{name='Test stage 1'}")) {
+        if (!s1.toString().equals("Test stage 1")) {
             System.out.println("The to string method does not give back the right information");
             amountOfErrors++;
 
