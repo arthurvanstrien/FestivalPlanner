@@ -12,6 +12,8 @@ public class TestMain {
         //errors = errors + TestShow.runTest();
         System.out.println("--Begin Stage Test------------------------------------");
         errors = errors + TestStage.runTest();
+        System.out.println("--Begin Time Test------------------------------------");
+        errors = errors + TestTime.runTest();
 
         System.out.println("=======================================================");
         System.out.println("Running completed.");
