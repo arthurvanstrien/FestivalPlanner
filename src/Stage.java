@@ -27,7 +27,7 @@ public class Stage implements Serializable, Comparable {
     public int getSurfaceArea() {
         return surfaceArea;
     }
-    
+
     public void setSurfaceArea(int surfaceArea) {
         this.surfaceArea = surfaceArea;
     }
