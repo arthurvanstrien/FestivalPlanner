@@ -1,21 +1,24 @@
-//import javax.swing.*;
-//
-///**
-// * Created by snick on 12/02/2017.
-// */
-//public class Tab extends JScrollPane {
-//    private AgendaView agendaView;
-//
-//    public Tab(Agenda agenda) {
-//        this.agendaView = new AgendaView(agenda);
-//        this.getViewport().add(agendaView);
-//    }
-//
-//    public void setEditable(boolean isEditable) {
-//        agendaView.setEditable(isEditable);
-//    }
-//
-//    public void addStage(Stage stage) {
-//        agendaView.addStage(stage);
-//    }
-//}
+import javax.swing.*;
+
+/**
+ * Created by snick on 12/02/2017.
+ */
+public class Tab extends JScrollPane {
+    AgendaView agendaView;
+
+    /**
+    Create new tab of given agenda and display it in the given main.
+     */
+    public Tab(Main main, Agenda agenda) {
+        super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        agendaView = agenda.getAgendaView();
+        getViewport().add(agendaView);
+    }
+
+    /**
+    Passes the isEditable boolean to AgendaView setEditable() method.
+     */
+    public void setEditable(boolean isEditable) {
+        agendaView.setEditable(isEditable);
+    }
+}

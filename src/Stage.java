@@ -3,7 +3,7 @@ import java.io.Serializable;
 /**
  * Created by dionb on 6-2-2017.
  */
-public class Stage implements Serializable {
+public class Stage implements Serializable, Comparable {
     private String name;
     private int surfaceArea;
 
@@ -29,12 +29,14 @@ public class Stage implements Serializable {
         this.surfaceArea = surfaceArea;
     }
 
-
-
     @Override
     public String toString() {
-        return "Stage{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Stage comparableStage = (Stage) o;
+        return comparableStage.getSurfaceArea() - this.getSurfaceArea();
     }
 }
