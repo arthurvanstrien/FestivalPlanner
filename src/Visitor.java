@@ -39,7 +39,7 @@ public class Visitor implements Drawable {
 
     /**
      * Method is unfinished
-     * Right now te mathod makes te visitors walk to a point(the mouse pointer)
+     *
      * This will change in the future
      *
      * Updates the location of the visitor.
@@ -57,6 +57,7 @@ public class Visitor implements Drawable {
             difference += 2 * Math.PI;
         while (difference > Math.PI)
             difference -= 2 * Math.PI;
+
         //Wijzigt de angle van het visitor
         if (difference > 0.1)
             angle += 0.1;
@@ -90,12 +91,25 @@ public class Visitor implements Drawable {
 
 
 
+
+
+
+
     /**
      * @return gives the position of the visitor
      */
     @Override
     public Point2D getPosition() {
         return position;
+    }
+
+    /**
+     * this method sets the destination.
+     * @param destination will be the new destination
+     */
+    @Override
+    public void setDestination(Point2D destination) {
+        this.destination = destination;
     }
 
     /**
