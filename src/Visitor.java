@@ -53,10 +53,14 @@ public class Visitor implements Drawable {
         double dy = destination.getY() - position.getY();
         double newAngle = Math.atan2(dy, dx);
         double difference = newAngle - angle;
+        /**
         while (difference < -Math.PI)
             difference += 2 * Math.PI;
         while (difference > Math.PI)
             difference -= 2 * Math.PI;
+        */
+        if(difference > Math.PI || difference < -Math.PI)
+            difference = -((difference) % (2* Math.PI));
 
         //Wijzigt de angle van het visitor
         if (difference > 0.1)
