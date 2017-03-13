@@ -4,8 +4,11 @@
 public class TestArtist {
     public static int runTest() {
         int errors = 0;
+
+        //Create a new Artist with the given values.
         Artist artist = new Artist("Jantje Smit", "Baggerzooi");
 
+        //Check if the given values are correct by requesting them.
         if(!artist.toString().equals("Artiest: Jantje Smit, Genre: Baggerzooi")) {
             System.out.println("There is a problem with the toString method of the Artist class");
             errors++;
@@ -16,6 +19,7 @@ public class TestArtist {
             errors++;
         }
 
+        //Check if the set methods work as they supposed to work.
         artist.setGenre("Rock");
         if(!artist.getGenre().equals("Rock")) {
             System.out.println("There is a problem with the getGenre or setGenre method of the Artist class");
