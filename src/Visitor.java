@@ -121,31 +121,31 @@ public class Visitor implements Drawable {
      */
     private void appointImage(){
         int randomNumber = (int) (Math.random() * 100);
-        if (randomNumber < 25) {
-            try {
-                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorBlueBlond.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (randomNumber >= 25 && randomNumber <= 50) {
-            try {
-                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorGreenBlond.png"));
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else if (randomNumber > 50 && randomNumber < 75) {
-            try {
-                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorBlackBlond.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            try {
-                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorRedBlack.png"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+//        if (randomNumber < 25) {
+//            try {
+//                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorBlueBlond.png"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } else if (randomNumber >= 25 && randomNumber <= 50) {
+//            try {
+//                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorGreenBlond.png"));
+//
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } else if (randomNumber > 50 && randomNumber < 75) {
+//            try {
+//                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorBlackBlond.png"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            try {
+//                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorRedBlack.png"));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 }
