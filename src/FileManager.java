@@ -1,4 +1,3 @@
-import javax.naming.InvalidNameException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
@@ -25,7 +24,7 @@ public class FileManager {
   /**
    * Save agenda to file.
    */
-  public void saveFile(Agenda agenda) {
+  public void saveAgenda(Agenda agenda) {
     File file;
 
     int returnVal = fileChooser.showSaveDialog(main);
@@ -54,14 +53,14 @@ public class FileManager {
         e.printStackTrace();
         JOptionPane.showMessageDialog(fileChooser, "Incorrect file name.", "Save",
             JOptionPane.WARNING_MESSAGE);
-        saveFile(agenda);
+        saveAgenda(agenda);
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
   }
 
-  public Agenda loadFile() {
+  public Agenda loadAgenda() {
     File file;
 
     int returnVal = fileChooser.showOpenDialog(main);
@@ -78,9 +77,21 @@ public class FileManager {
   /**
    * Load agenda from file.
    */
-  public Agenda loadFile(File file) {
+  public Agenda loadAgenda(File file) {
     return load(file);
   }
+
+//  public TileMap loadMap() {
+//    File file;
+//
+//    int returnVal = fileChooser.showOpenDialog(main);
+//
+//    if (returnVal != JFileChooser.APPROVE_OPTION) {
+//      file = null;  // cancelled
+//    }
+//
+//    file = fileChooser.getSelectedFile();
+//  }
 
   private Agenda load(File file) {
     try {
@@ -89,22 +100,9 @@ public class FileManager {
       agenda.setAgendaView(new AgendaView(main, agenda));
       inputStream.close();
       return agenda;
-    } catch (FileNotFoundException e) {
+    } catch (ClassNotFoundException | IOException e) {
       e.printStackTrace();
       return null;
-    } catch (IOException e) {
-      e.printStackTrace();
-      return null;
-    } catch (ClassNotFoundException e) {
-      e.printStackTrace();
-      return null;
-    }
-  }
-
-  private class InvalidFileNameException extends Exception {
-
-    public InvalidFileNameException(String message) {
-      super(message);
     }
   }
 }

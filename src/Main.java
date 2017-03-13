@@ -27,7 +27,7 @@ public class Main extends JTabbedPane {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    frame = new JFrame("Agenda");
+    frame = new JFrame("Festival Planner");
     fileManager = new FileManager(this);
     agendas = new ArrayList<>();
     Dimension screenSize = (Toolkit.getDefaultToolkit().getScreenSize());
@@ -54,7 +54,7 @@ public class Main extends JTabbedPane {
       for (int i = 0; i < args.length; i++) {
         File file = new File(args[i]);
         try {
-          add(fileManager.loadFile(file));
+          add(fileManager.loadAgenda(file));
         } catch (NullPointerException e) {
           e.printStackTrace();
         }
@@ -82,30 +82,33 @@ public class Main extends JTabbedPane {
 
   private class MainMenuBar extends JMenuBar {
 
-    private JMenu fileMenu, editMenu, saveAgendaMenu, addArtistMenu;
-    private JMenuItem newAgendaItem, loadAgendaItem;
+    private JMenu agendaMenu, mapMenu, saveAgendaMenu, addArtistMenu;
+    private JMenuItem newAgendaItem, loadAgendaItem, loadMapItem;
     private JCheckBoxMenuItem editableCheckBox;
 
     private MainMenuBar() {
-      fileMenu = new JMenu("File");
-      editMenu = new JMenu("Edit");
+      agendaMenu = new JMenu("Agenda");
+      mapMenu = new JMenu("Map");
       saveAgendaMenu = new JMenu("Save");
-      addArtistMenu = new JMenu("Add Artist");
+      addArtistMenu = new JMenu("Add artist(s) to: ");
       newAgendaItem = new JMenuItem("New");
       loadAgendaItem = new JMenuItem("Load");
+      loadMapItem = new JMenuItem("Load");
       editableCheckBox = new JCheckBoxMenuItem("Editable");
 
       newAgendaItem.addActionListener(e -> newAgendaEvent());
       loadAgendaItem.addActionListener(e -> loadAgendaEvent());
+      loadMapItem.addActionListener(e -> loadMapEvent());
       editableCheckBox.addActionListener(e -> editableEvent());
 
-      fileMenu.add(newAgendaItem);
-      fileMenu.add(loadAgendaItem);
-      fileMenu.add(saveAgendaMenu);
-      editMenu.add(editableCheckBox);
-      editMenu.add(addArtistMenu);
-      add(fileMenu);
-      add(editMenu);
+      agendaMenu.add(newAgendaItem);
+      agendaMenu.add(loadAgendaItem);
+      agendaMenu.add(saveAgendaMenu);
+      agendaMenu.add(addArtistMenu);
+      agendaMenu.add(editableCheckBox);
+      mapMenu.add(loadMapItem);
+      add(agendaMenu);
+      add(mapMenu);
     }
 
     public void updateAgendas(Agenda agenda) {
@@ -134,7 +137,7 @@ public class Main extends JTabbedPane {
 
     private void loadAgendaEvent() {
       try {
-        Main.this.add(fileManager.loadFile());
+        Main.this.add(fileManager.loadAgenda());
         editableEvent();
       } catch (NullPointerException e) {
         e.printStackTrace();
@@ -142,7 +145,11 @@ public class Main extends JTabbedPane {
     }
 
     private void saveAgendaEvent(Agenda agenda) {
-      fileManager.saveFile(agenda);
+      fileManager.saveAgenda(agenda);
+    }
+
+    private void loadMapEvent() {
+      fileManager.loadAgenda();
     }
 
     private void editableEvent() {
