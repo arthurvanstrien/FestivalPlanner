@@ -1,3 +1,10 @@
+/**
+ * Created by Arthur on 13-3-2017.
+ */
+public class TestAgenda {
+
+}
+
 //import java.io.*;
 //import java.sql.Time;
 //import java.util.*;
@@ -27,7 +34,6 @@
 //        Artist robbel = new Artist("Erwin Robbel", "panzer");
 //        Artist overig = new Artist("overig", "overig");
 //        Artist ochtendArtiest = new Artist("ochtendArtiest", "saai");
-//
 //
 //        Show hairyPotter = new Show(new Time(14, 0, 0), new Time(16, 0, 0), mainStage, artiest1, 0.1);
 //        Show show88 = new Show(new Time(16, 30, 0), new Time(19, 0, 0), mainStage, djAdolf, 0.9);
