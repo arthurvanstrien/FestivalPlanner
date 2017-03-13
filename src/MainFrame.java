@@ -29,14 +29,7 @@ public class MainFrame extends JPanel {
         drawings = new ArrayList<>();
         for(int i = 0; i < numberOfVisitors; i++){
             drawings.add(new Visitor(new Point2D.Double(Math.random()*100, Math.random()*100)));
-
-
         }
-
-
-
-
-
     }
 
     public void paintComponent(Graphics g) {

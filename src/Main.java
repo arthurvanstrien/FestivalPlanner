@@ -12,6 +12,7 @@ public class Main extends JTabbedPane {
   private FileManager fileManager;
   private ArrayList<Agenda> agendas;
   private MainMenuBar menuBar;
+  private TiledMap tiledMap;
 
   public static void main(String[] args) {
     SwingUtilities.invokeLater(new Runnable() {
@@ -29,6 +30,7 @@ public class Main extends JTabbedPane {
     }
     frame = new JFrame("Festival Planner");
     fileManager = new FileManager(this);
+    tiledMap = new TiledMap();
     agendas = new ArrayList<>();
     Dimension screenSize = (Toolkit.getDefaultToolkit().getScreenSize());
     double screenWidth = screenSize.getWidth();
@@ -149,7 +151,7 @@ public class Main extends JTabbedPane {
     }
 
     private void loadMapEvent() {
-      fileManager.loadAgenda();
+      tiledMap = fileManager.loadTiledMap();
     }
 
     private void editableEvent() {

@@ -17,7 +17,6 @@ public class FileManager {
     dir.mkdirs();
     fileChooser = new JFileChooser();
     fileChooser.setAcceptAllFileFilterUsed(false);
-    fileChooser.setFileFilter(new FileNameExtensionFilter("Agenda (*.agd)", "agd"));
     fileChooser.setCurrentDirectory(dir);
   }
 
@@ -61,6 +60,7 @@ public class FileManager {
   }
 
   public Agenda loadAgenda() {
+    fileChooser.setFileFilter(new FileNameExtensionFilter("Agenda (*.agd)", "agd"));
     File file;
 
     int returnVal = fileChooser.showOpenDialog(main);
@@ -81,17 +81,20 @@ public class FileManager {
     return load(file);
   }
 
-//  public TileMap loadMap() {
-//    File file;
-//
-//    int returnVal = fileChooser.showOpenDialog(main);
-//
-//    if (returnVal != JFileChooser.APPROVE_OPTION) {
-//      file = null;  // cancelled
-//    }
-//
-//    file = fileChooser.getSelectedFile();
-//  }
+  public TiledMap loadTiledMap() {
+    fileChooser.setFileFilter(new FileNameExtensionFilter("Tiled Map (*.json)", "json"));
+    File file;
+
+    int returnVal = fileChooser.showOpenDialog(main);
+
+    if (returnVal != JFileChooser.APPROVE_OPTION) {
+      file = null;  // cancelled
+    }
+
+    file = fileChooser.getSelectedFile();
+
+    return new TiledMap(file.getName());
+  }
 
   private Agenda load(File file) {
     try {
