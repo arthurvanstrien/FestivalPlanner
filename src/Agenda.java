@@ -6,72 +6,74 @@ import java.util.Collections;
  * Created by dionb on 6-2-2017.
  */
 public class Agenda implements Serializable {
-    private String name;
-    private Show[][] shows;
-    private Time[] times;
-    private transient AgendaView agendaView;
-    private ArrayList<Stage> stages;
-    private ArrayList<Artist> artists;
 
-    public Agenda(Main main, String name, ArrayList<Artist> artists) {
-        this.name = name;
-        this.artists = artists;
-        createStages();
-        shows = new Show[48][stages.size()];times = new Time[48];
-        for(int i = 0; i < 48; i++) {
-            int minutes = i * 30;
-            int hours = minutes /60;
-            times[i] = new Time(hours, minutes % 60);
-        }
-        agendaView = new AgendaView(main, this);
-        Collections.sort(this.artists);
-        Collections.sort(stages);
-    }
+  private String name;
+  private Show[][] shows;
+  private Time[] times;
+  private transient AgendaView agendaView;
+  private ArrayList<Stage> stages;
+  private ArrayList<Artist> artists;
 
-    public String getName() {
-        return name;
+  public Agenda(Main main, String name, ArrayList<Artist> artists) {
+    this.name = name;
+    this.artists = artists;
+    createStages();
+    shows = new Show[48][stages.size()];
+    times = new Time[48];
+    for (int i = 0; i < 48; i++) {
+      int minutes = i * 30;
+      int hours = minutes / 60;
+      times[i] = new Time(hours, minutes % 60);
     }
+    agendaView = new AgendaView(main, this);
+    Collections.sort(this.artists);
+    Collections.sort(stages);
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public Show[][] getShows() {
-        return shows;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    private void createStages() {
-        stages = new ArrayList<>();
-        stages.add(new Stage("Main Stage", 100));
-        stages.add(new Stage("Second Stage", 75));
-        stages.add(new Stage("Third Stage", 50));
-    }
+  public Show[][] getShows() {
+    return shows;
+  }
 
-    public ArrayList<Stage> getStages() {
-        return stages;
-    }
+  private void createStages() {
+    stages = new ArrayList<>();
+    stages.add(new Stage("Main Stage", 100));
+    stages.add(new Stage("Second Stage", 75));
+    stages.add(new Stage("Third Stage", 50));
+  }
 
-    public ArrayList<Artist> getArtists() {
-        return artists;
-    }
+  public ArrayList<Stage> getStages() {
+    return stages;
+  }
 
-    /**
-    Add arrayList of artists to existing arrayList of artists.
-     */
-    public void addArtists(ArrayList<Artist> artistsToAdd) {
-        artists.addAll(artistsToAdd);
-        Collections.sort(artists);
-    }
+  public ArrayList<Artist> getArtists() {
+    return artists;
+  }
 
-    public AgendaView getAgendaView() {
-        return agendaView;
-    }
+  /**
+   * Add arrayList of artists to existing arrayList of artists.
+   */
+  public void addArtists(ArrayList<Artist> artistsToAdd) {
+    artists.addAll(artistsToAdd);
+    Collections.sort(artists);
+  }
 
-    public void setAgendaView(AgendaView agendaView) {
-        this.agendaView = agendaView;
-    }
+  public AgendaView getAgendaView() {
+    return agendaView;
+  }
 
-    public Time[] getTimes() {
-        return times;
-    }
+  public void setAgendaView(AgendaView agendaView) {
+    this.agendaView = agendaView;
+  }
+
+  public Time[] getTimes() {
+    return times;
+  }
 }
