@@ -2,7 +2,16 @@
  * Created by Arthur on 13-3-2017.
  */
 public class TestAgenda {
+    public static int runTest() {
+        int errors = 0;
 
+        //Create a new Agenda with the given values.
+        //Agenda agenda = new Agenda()
+
+
+
+        return errors;
+    }
 }
 
 //import java.io.*;
