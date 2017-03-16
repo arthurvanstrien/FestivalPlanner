@@ -8,6 +8,8 @@ public class TestMain {
 
         System.out.println("--Begin Artist Test------------------------------------");
         errors = errors + TestArtist.runTest();
+        System.out.println("--Begin Agenda Test------------------------------------");
+        errors = errors + TestAgenda.runTest();
         //System.out.println("--Begin Show Test------------------------------------");
         //errors = errors + TestShow.runTest();
         System.out.println("--Begin Stage Test------------------------------------");
