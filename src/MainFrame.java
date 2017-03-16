@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class MainFrame extends JPanel {
     public static void main(String[] args) {
         JFrame frame = new JFrame("Hello Java2D");
-        frame.setDefaultCloseOperation(3);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(800, 600));
         frame.setExtendedState(frame.getExtendedState() | 6);
         frame.setContentPane(new MainFrame());
@@ -29,8 +29,6 @@ public class MainFrame extends JPanel {
         drawings = new ArrayList<>();
         for(int i = 0; i < numberOfVisitors; i++){
             drawings.add(new Visitor(new Point2D.Double(Math.random()*100, Math.random()*100)));
-
-
         }
 
 
@@ -43,7 +41,12 @@ public class MainFrame extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setTransform(this.camera.getTransform(this.getWidth(), this.getHeight()));
+
+        //draws map complete
         tm.draw(g2d);
+
+        //draws map complete and with all the layers next to it
+        tm.testDraw(g2d);
     }
 
     private  void fillVisitorImageList(){

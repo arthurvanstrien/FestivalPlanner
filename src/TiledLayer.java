@@ -22,6 +22,7 @@ public class TiledLayer {
 
         int index = 0;
 
+        //the right tiles get connected to the structure (data is a 1D array so with this loop it gets structured in a 2D array)
         for(int y = 0; y < this.height; ++y) {
             for(int x = 0; x < this.width; ++x) {
                 data2D[y][x] = data.getInt(index);
@@ -32,6 +33,7 @@ public class TiledLayer {
         this.img = this.getImage();
     }
 
+    //if isDirty is true then the layer gets redrawn
     public BufferedImage getImage() {
         BufferedImage img = new BufferedImage(width * 24, height * 24, 2);
         Graphics2D g2 = img.createGraphics();
@@ -48,6 +50,7 @@ public class TiledLayer {
         }
     }
 
+    //set isDirty true so that the layer gets redrawn
     public void setDirty() {
         isDirty = true;
     }
