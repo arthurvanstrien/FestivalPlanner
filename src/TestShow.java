@@ -6,16 +6,16 @@ import java.util.ArrayList;
  */
 public class TestShow {
 
-    public static int runTest(){
-        int amountOfErrors = 0;
+  public static int runTest() {
+    int amountOfErrors = 0;
 
-        ArrayList<Artist> artists = new ArrayList<>();
-        artists.add(new Artist("artist", "genre"));
-        artists.add(new Artist("artist2", "genre2"));
-        Time beginTime = new Time(12, 0);
-        Time endTime = new Time(16,0);
-        Stage stage = new Stage("Main Stage", 50);
-        Show s1 = new Show("Jimi Hendrix Experience", beginTime, endTime, stage, artists, 5);
+    ArrayList<Artist> artists = new ArrayList<>();
+    artists.add(new Artist("artist", "genre"));
+    artists.add(new Artist("artist2", "genre2"));
+    Time beginTime = new Time(12, 0);
+    Time endTime = new Time(16, 0);
+    Stage stage = new Stage("Main Stage", 50);
+    Show s1 = new Show("Jimi Hendrix Experience", beginTime, endTime, stage, artists, 5);
 
         /*CRASH IN CODE ON LINE21 BELOW. REASON UNKNOWN:
         if(!s1.toString().equals("Begint om: 12:00:00 eindigd om: 16:00:00 Stage{name='stage'} [Artiest: artist Genre: genre, Artiest: artist2 Genre: genre2]")) {
@@ -37,6 +37,6 @@ public class TestShow {
 
         return amountOfErrors;*/
 
-        return 9000; //To make sure someone fixes the error above.
-    }
+    return 9000; //To make sure someone fixes the error above.
+  }
 }
