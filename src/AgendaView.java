@@ -70,6 +70,7 @@ public class AgendaView extends JTable {
         }
       }
     });
+    getTableHeader().setReorderingAllowed(false);
   }
 
   /**
