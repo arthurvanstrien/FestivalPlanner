@@ -46,7 +46,7 @@ public class Main extends JTabbedPane {
     frame.setContentPane(this);
 
     try {
-      ImageIcon img = new ImageIcon(this.getClass().getResource("/Images/Agenda.png"));
+      ImageIcon img = new ImageIcon(this.getClass().getResource("\\Images\\Agenda.png"));
       frame.setIconImage(img.getImage());
     } catch (Exception e) {
       e.printStackTrace();
@@ -74,8 +74,7 @@ public class Main extends JTabbedPane {
     Tab tab = new Tab(this, agenda);
     addTab(agenda.getName(), tab);
     setSelectedComponent(tab);
-    menuBar.updateAgendas(agenda);
-    menuBar.updateArtists(agenda);
+    menuBar.update(agenda);
   }
 
   public JFrame getFrame() {
@@ -85,47 +84,55 @@ public class Main extends JTabbedPane {
   private class MainMenuBar extends JMenuBar {
 
     private JMenu agendaMenu, mapMenu, saveAgendaMenu, addArtistMenu;
-    private JMenuItem newAgendaItem, loadAgendaItem, loadMapItem, simulateItem;
+    private JMenuItem newAgendaItem, loadAgendaItem, loadMapItem, simulateMenu;
     private JCheckBoxMenuItem editableCheckBox;
 
     private MainMenuBar() {
       agendaMenu = new JMenu("Agenda");
       mapMenu = new JMenu("Map");
+      simulateMenu = new JMenu("Simulate");
       saveAgendaMenu = new JMenu("Save");
       addArtistMenu = new JMenu("Add artist(s) to: ");
       newAgendaItem = new JMenuItem("New");
       loadAgendaItem = new JMenuItem("Load");
       loadMapItem = new JMenuItem("Load");
       editableCheckBox = new JCheckBoxMenuItem("Editable");
-      simulateItem = new JMenuItem("Simulate");
 
       newAgendaItem.addActionListener(e -> newAgendaEvent());
       loadAgendaItem.addActionListener(e -> loadAgendaEvent());
       loadMapItem.addActionListener(e -> loadMapEvent());
       editableCheckBox.addActionListener(e -> editableEvent());
-      simulateItem.addActionListener(e -> new SimulationView(fileManager.loadAgenda()));
+
+      saveAgendaMenu.setEnabled(false);
+      addArtistMenu.setEnabled(false);
+      simulateMenu.setEnabled(false);
 
       agendaMenu.add(newAgendaItem);
       agendaMenu.add(loadAgendaItem);
       agendaMenu.add(saveAgendaMenu);
-      agendaMenu.add(simulateItem);
       agendaMenu.add(addArtistMenu);
       agendaMenu.add(editableCheckBox);
       mapMenu.add(loadMapItem);
       add(agendaMenu);
       add(mapMenu);
+      add(simulateMenu);
     }
 
-    public void updateAgendas(Agenda agenda) {
+    public void update(Agenda agenda) {
+      saveAgendaMenu.setEnabled(true);
       JMenuItem saveAgendaMenuItem = new JMenuItem(agenda.getName());
       saveAgendaMenuItem.addActionListener(e -> saveAgendaEvent(agenda));
       saveAgendaMenu.add(saveAgendaMenuItem);
-    }
 
-    public void updateArtists(Agenda agenda) {
+      addArtistMenu.setEnabled(true);
       JMenuItem addArtistAgendaMenuItem = new JMenuItem(agenda.getName());
       addArtistAgendaMenuItem.addActionListener(e -> addArtistEvent(agenda));
       addArtistMenu.add(addArtistAgendaMenuItem);
+
+      simulateMenu.setEnabled(true);
+      JMenuItem simulateMenuItem = new JMenuItem(agenda.getName());
+      simulateMenuItem.addActionListener(e -> new SimulationView(agenda));
+      simulateMenu.add(simulateMenuItem);
     }
 
     private void newAgendaEvent() {

@@ -4,7 +4,7 @@ import java.awt.*;
 /**
  * Created by Eversdijk on 14-3-2017.
  */
-public class TimeGui extends JFrame {
+public class TimeGui extends JDialog {
 
   private JComboBox<Integer> hoursC, minutesC;
   private SimulationView frame;
@@ -17,8 +17,9 @@ public class TimeGui extends JFrame {
    */
 
   public TimeGui(SimulationView simulationView) {
-    super("Time selection");
-
+    super(simulationView, "Time selection", true);
+    setLocationRelativeTo(simulationView);
+    setResizable(false);
     setSize(200, 200);
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     time = new Time(0, 0);
@@ -50,7 +51,10 @@ public class TimeGui extends JFrame {
     timePanel.add(minutesC);
 
     JButton setTime = new JButton("Set time");
-    setTime.addActionListener(e -> setTime());
+    setTime.addActionListener(e -> {
+      setTime();
+      dispose();
+    });
 
     content.add(mainFrame);
     content.add(timePanel);

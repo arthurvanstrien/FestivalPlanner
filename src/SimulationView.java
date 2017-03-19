@@ -24,7 +24,6 @@ public class SimulationView extends JFrame implements ActionListener {
    */
   public SimulationView(Agenda agenda) {
     super("Simulation: " + agenda.getName());
-
     //Initializing atributes
     time = new Time(0, 0);
     lastTime = System.nanoTime();
@@ -40,6 +39,13 @@ public class SimulationView extends JFrame implements ActionListener {
     setExtendedState(Frame.MAXIMIZED_BOTH);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+    try {
+      ImageIcon img = new ImageIcon(this.getClass().getResource("\\Images\\Cogs.png"));
+      setIconImage(img.getImage());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     JPanel content = new JPanel(new BorderLayout());
     add(content);
@@ -60,7 +66,7 @@ public class SimulationView extends JFrame implements ActionListener {
     JPanel timePanel = new JPanel(new GridLayout(0, 1));
     currentTime = new JLabel("Current time : " + time.toString());
     ImageIcon clock = new ImageIcon(
-        new ImageIcon("res\\Images\\clock.png").getImage().getScaledInstance(50, 50, 1));
+        new ImageIcon("res\\Images\\Clock.png").getImage().getScaledInstance(50, 50, 1));
     JButton clockImage = new JButton(clock);
     clockImage.addActionListener(e -> new TimeGui(this));
 
