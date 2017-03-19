@@ -7,8 +7,9 @@ import javax.swing.Timer;
 /**
  * Created by Eversdijk on 14-3-2017.
  */
-public class SimulationView extends JFrame implements ActionListener{
+public class SimulationView extends JFrame implements ActionListener {
 
+  private Agenda agenda;
   private Time time;
   private JLabel currentTime, currentSpeed;
   private JSlider sliderSpeed;
@@ -16,18 +17,20 @@ public class SimulationView extends JFrame implements ActionListener{
   private long currenttime;
   private double seconds;
 
-  /**
-   * creates Gui
-   */
 
-  public SimulationView() {
-    super("Simulation"/* plus agenda name*/);
+  /**
+   * Generates GUI with an agenda to simulate
+   * @param agenda
+   */
+  public SimulationView(Agenda agenda) {
+    super("Simulation: " + agenda.getName());
 
     //Initializing atributes
     time = new Time(0, 0);
     lastTime = System.nanoTime();
-    new Timer(15,this).start();
+    new Timer(15, this).start();
     seconds = 0;
+    this.agenda = agenda;
 
     Dimension screenSize = (Toolkit.getDefaultToolkit().getScreenSize());
     double screenWidth = screenSize.getWidth();
@@ -37,8 +40,6 @@ public class SimulationView extends JFrame implements ActionListener{
     setExtendedState(Frame.MAXIMIZED_BOTH);
     setLocationRelativeTo(null);
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-
-
 
     JPanel content = new JPanel(new BorderLayout());
     add(content);
@@ -82,24 +83,21 @@ public class SimulationView extends JFrame implements ActionListener{
 
     content.add(simulation, BorderLayout.CENTER);
     content.add(options, BorderLayout.EAST);
-
-
-
     setVisible(true);
   }
 
   public void setTime(Time time) {
     this.time = time;
-    seconds = ((time.getHour()* 60) + time.getMinute()) * 60;
+    seconds = ((time.getHour() * 60) + time.getMinute()) * 60;
 
   }
 
   public void update() {
     currenttime = System.nanoTime();
-    double elapsedTime = (currenttime-lastTime) / 1000000000.0;
+    double elapsedTime = (currenttime - lastTime) / 1000000000.0;
     lastTime = currenttime;
     seconds += (elapsedTime * (sliderSpeed.getValue() / 100));
-    time = new Time((int)seconds/60/60 % 24,(int) seconds /60 % 60);
+    time = new Time((int) seconds / 60 / 60 % 24, (int) seconds / 60 % 60);
     currentTime.setText("Current time : " + time.toString());
     currentSpeed.setText("speed: " + sliderSpeed.getValue());
   }

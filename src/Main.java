@@ -103,7 +103,7 @@ public class Main extends JTabbedPane {
       loadAgendaItem.addActionListener(e -> loadAgendaEvent());
       loadMapItem.addActionListener(e -> loadMapEvent());
       editableCheckBox.addActionListener(e -> editableEvent());
-      simulateItem.addActionListener(e -> new SimulationView());
+      simulateItem.addActionListener(e -> new SimulationView(fileManager.loadAgenda()));
 
       agendaMenu.add(newAgendaItem);
       agendaMenu.add(loadAgendaItem);
