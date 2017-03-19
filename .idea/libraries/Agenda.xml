@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="javax.json (2)">
+  <library name="Agenda">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/javax.json.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/artifacts/Agenda_jar/Agenda.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

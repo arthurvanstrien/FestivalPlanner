@@ -93,7 +93,7 @@ public class FileManager {
 
     file = fileChooser.getSelectedFile();
 
-    return new TiledMap(file.getName());
+    return new TiledMap(file.getPath());
   }
 
   private Agenda load(File file) {

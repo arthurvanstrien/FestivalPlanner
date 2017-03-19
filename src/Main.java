@@ -85,7 +85,7 @@ public class Main extends JTabbedPane {
   private class MainMenuBar extends JMenuBar {
 
     private JMenu agendaMenu, mapMenu, saveAgendaMenu, addArtistMenu;
-    private JMenuItem newAgendaItem, loadAgendaItem, loadMapItem;
+    private JMenuItem newAgendaItem, loadAgendaItem, loadMapItem, simulateItem;
     private JCheckBoxMenuItem editableCheckBox;
 
     private MainMenuBar() {
@@ -97,15 +97,18 @@ public class Main extends JTabbedPane {
       loadAgendaItem = new JMenuItem("Load");
       loadMapItem = new JMenuItem("Load");
       editableCheckBox = new JCheckBoxMenuItem("Editable");
+      simulateItem = new JMenuItem("Simulate");
 
       newAgendaItem.addActionListener(e -> newAgendaEvent());
       loadAgendaItem.addActionListener(e -> loadAgendaEvent());
       loadMapItem.addActionListener(e -> loadMapEvent());
       editableCheckBox.addActionListener(e -> editableEvent());
+      simulateItem.addActionListener(e -> new SimulationView());
 
       agendaMenu.add(newAgendaItem);
       agendaMenu.add(loadAgendaItem);
       agendaMenu.add(saveAgendaMenu);
+      agendaMenu.add(simulateItem);
       agendaMenu.add(addArtistMenu);
       agendaMenu.add(editableCheckBox);
       mapMenu.add(loadMapItem);
