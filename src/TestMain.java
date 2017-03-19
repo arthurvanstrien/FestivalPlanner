@@ -19,6 +19,8 @@ public class TestMain {
     errors = errors + TestTime.runTest();
     System.out.println("--Begin Period Test------------------------------------");
     errors = errors + TestPeriod.runTest();
+    System.out.println("--Begin BFS Test------------------------------------");
+    errors += TestBFS.runTest();
 
     System.out.println("=======================================================");
     System.out.println("Running completed.");
