@@ -17,6 +17,7 @@ public class Visitor implements Drawable {
   private BufferedImage image;
   private double angle;
   private double speed;
+  private boolean isOnLocation;
 
   public Visitor(Point2D position) {
     speed = 1;
@@ -24,6 +25,7 @@ public class Visitor implements Drawable {
     this.position = position;
     destination = position;
     appointImage();
+    isOnLocation = false;
   }
 
   /**
@@ -52,6 +54,25 @@ public class Visitor implements Drawable {
    */
   @Override
   public void update(ArrayList<Drawable> drawings) {
+    if(isOnLocation){
+      dance(drawings);
+      /**
+       * Set een timer die na een n.t.b. tijd de dance.activiteit uit en een nieuwe destination zetten.
+       */
+
+
+    } else{
+
+
+
+
+      /**
+       * code met if in objectlayer van een Location, isOnLocation = true;
+       * set current location to location van objectlayer.
+       * 
+       */
+    }
+    //oude code
     //De berekening van de nieuwe angle
     double dx = destination.getX() - position.getX();
     double dy = destination.getY() - position.getY();
@@ -102,6 +123,16 @@ public class Visitor implements Drawable {
 
   }
 
+  /**
+   * Lets teh visitor dance within tebounds of the stage
+   * @param drawings --> to check for collision
+   */
+  public void dance(ArrayList<Drawable> drawings){
+    /**
+     * Code that lets teh visitor dance;
+     */
+  }
+
 
   /**
    * @return gives the position of the visitor
@@ -150,8 +181,6 @@ public class Visitor implements Drawable {
       currentDestination = Location.STAGE_2;
     else
       currentDestination = Location.STAGE_3;
-
-
-
   }
+
 }
