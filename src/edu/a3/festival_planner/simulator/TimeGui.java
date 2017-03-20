@@ -23,17 +23,20 @@ public class TimeGui extends JDialog {
     super(simulationView, "Time selection", true);
     setLocationRelativeTo(simulationView);
     setResizable(false);
-    setSize(200, 200);
+    Dimension screenSize = (Toolkit.getDefaultToolkit().getScreenSize());
+    double screenWidth = screenSize.getWidth();
+    double screenHeight = screenSize.getHeight();
+    setSize((int) screenWidth / 8, (int) screenHeight / 7);
+    setMinimumSize(new Dimension(240,155));
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     time = new Time(0, 0);
     this.frame = simulationView;
-    JPanel content = new JPanel(new GridLayout(0, 1));
+    JPanel content = new JPanel(new BorderLayout());
     add(content);
 
-    JPanel mainFrame = new JPanel(new GridLayout(0, 1));
 
     //Timepanel
-    JPanel timePanel = new JPanel(new GridLayout(1, 0));
+    JPanel timePanel = new JPanel(new GridLayout(2, 2,5,20));
     JLabel hoursL = new JLabel("Hours: ");
     JLabel minutesL = new JLabel("Minutes: ");
 
@@ -57,9 +60,8 @@ public class TimeGui extends JDialog {
       dispose();
     });
 
-    content.add(mainFrame);
-    content.add(timePanel);
-    content.add(setTime);
+    content.add(timePanel,BorderLayout.NORTH);
+    content.add(setTime,BorderLayout.SOUTH);
 
     setVisible(true);
   }
