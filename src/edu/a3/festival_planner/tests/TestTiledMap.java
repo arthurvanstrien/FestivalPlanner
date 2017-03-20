@@ -63,26 +63,30 @@ public class TestTiledMap extends JPanel {
   private void fillVisitorImageList() {
     try {
       VisitorImageList
-          .addImage(ImageIO.read(this.getClass().getResource("bezoekers/VisitorBlueBlond.png")));
+          .addImage(ImageIO.read(
+              this.getClass().getClassLoader().getResource("bezoekers/VisitorBlueBlond.png")));
     } catch (IOException e) {
       e.printStackTrace();
     }
     try {
       VisitorImageList
-          .addImage(ImageIO.read(this.getClass().getResource("bezoekers/VisitorGreenBlond.png")));
+          .addImage(ImageIO.read(
+              this.getClass().getClassLoader().getResource("bezoekers/VisitorGreenBlond.png")));
 
     } catch (IOException e) {
       e.printStackTrace();
     }
     try {
       VisitorImageList
-          .addImage(ImageIO.read(this.getClass().getResource("bezoekers/VisitorBlackBlond.png")));
+          .addImage(ImageIO.read(
+              this.getClass().getClassLoader().getResource("bezoekers/VisitorBlackBlond.png")));
     } catch (IOException e) {
       e.printStackTrace();
     }
     try {
       VisitorImageList
-          .addImage(ImageIO.read(this.getClass().getResource("bezoekers/VisitorRedBlack.png")));
+          .addImage(ImageIO
+              .read(this.getClass().getClassLoader().getResource("bezoekers/VisitorRedBlack.png")));
     } catch (IOException e) {
       e.printStackTrace();
     }

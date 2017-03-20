@@ -15,12 +15,12 @@ public class TestArtist {
 
     //Check if the given values are correct by requesting them.
     if (!artist.toString().equals("Artiest: Jantje Smit, Genre: Baggerzooi")) {
-      System.out.println("There is a problem with the toString method of the Agenda.Artist class");
+      System.out.println("There is a problem with the toString method of the Artist class");
       errors++;
     }
 
     if (!artist.getGenre().equals("Baggerzooi")) {
-      System.out.println("There is a problem with the getGenre method of the Agenda.Artist class");
+      System.out.println("There is a problem with the getGenre method of the Artist class");
       errors++;
     }
 
@@ -29,7 +29,7 @@ public class TestArtist {
     if (!artist.getGenre().equals("Rock")) {
       System.out
           .println(
-              "There is a problem with the getGenre or setGenre method of the Agenda.Artist class");
+              "There is a problem with the getGenre or setGenre method of the Artist class");
       errors++;
     }
 

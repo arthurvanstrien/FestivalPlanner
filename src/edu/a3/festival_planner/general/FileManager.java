@@ -66,7 +66,7 @@ public class FileManager {
   }
 
   public Agenda loadAgenda() {
-    fileChooser.setFileFilter(new FileNameExtensionFilter("Agenda.Agenda (*.agd)", "agd"));
+    fileChooser.setFileFilter(new FileNameExtensionFilter("Agenda (*.agd)", "agd"));
     File file;
 
     int returnVal = fileChooser.showOpenDialog(main);

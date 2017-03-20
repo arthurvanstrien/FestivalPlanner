@@ -20,7 +20,7 @@ public class TimeGui extends JDialog {
    */
 
   public TimeGui(SimulationView simulationView) {
-    super(simulationView, "Agenda.Time selection", true);
+    super(simulationView, "Time selection", true);
     setLocationRelativeTo(simulationView);
     setResizable(false);
     setSize(200, 200);
@@ -73,7 +73,7 @@ public class TimeGui extends JDialog {
     int hours = (int) hoursC.getSelectedItem();
     int minutes = (int) minutesC.getSelectedItem();
     time = new Time(hours, minutes);
-    System.out.println("Agenda.Time:" + time.toString());
+    System.out.println("Time:" + time.toString());
     frame.setTime(time);
   }
 }

@@ -56,7 +56,7 @@ public class AgendaView extends JTable {
       @Override
       public String getColumnName(int column) {
         if (column == 0) {
-          return "Agenda.Time";
+          return "Time";
         }
         return agenda.getStages().get(column - 1).getName();
       }
@@ -118,7 +118,7 @@ public class AgendaView extends JTable {
     private int expectedPopularity;
 
     public ShowEditWindow(int row, int col) {
-      super(main.getFrame(), "Edit Agenda.Show");
+      super(main.getFrame(), "Edit Show");
       Show show;
 
       JPanel tempPanel = new JPanel(new BorderLayout());
@@ -140,13 +140,13 @@ public class AgendaView extends JTable {
       setDefaultCloseOperation(DISPOSE_ON_CLOSE);
       setResizable(false);
 
-      JLabel showNameLabel = new JLabel("Agenda.Show Name");
+      JLabel showNameLabel = new JLabel("Show Name");
       JTextField showNameText = new JTextField("");
 
-      JLabel stageLabel = new JLabel("Agenda.Stage");
+      JLabel stageLabel = new JLabel("Stage");
       JComboBox stageCB = new JComboBox(stages.toArray());
 
-      JLabel timeLabel = new JLabel("Begin / End Agenda.Time");
+      JLabel timeLabel = new JLabel("Begin / End Time");
       JComboBox beginTimeCB = new JComboBox(times);
       JComboBox endTimeCB = new JComboBox(times);
       JPanel timeCB = new JPanel(new GridLayout(1, 2));
@@ -154,7 +154,7 @@ public class AgendaView extends JTable {
       timeCB.add(endTimeCB);
 
       JComboBox artistsCB = new JComboBox(AgendaView.this.artists.toArray());
-      JButton addArtistButton = new JButton("Add/Remove Agenda.Artist");
+      JButton addArtistButton = new JButton("Add/Remove Artist");
 
       JLabel popularityLabel = new JLabel("Expected Popularity");
       JTextField popularityText = new JTextField("");
@@ -303,14 +303,14 @@ public class AgendaView extends JTable {
 
     private void showWarning(Exception e) {
       JOptionPane
-          .showMessageDialog(this, e.getMessage(), "Agenda.Show", JOptionPane.WARNING_MESSAGE);
+          .showMessageDialog(this, e.getMessage(), "Show", JOptionPane.WARNING_MESSAGE);
     }
   }
 
   private class ShowDisplayWindow extends JDialog {
 
     public ShowDisplayWindow(int row, int col) {
-      super(main.getFrame(), "Agenda.Show Info");
+      super(main.getFrame(), "Show Info");
 
       Show show = shows[row][col - 1];
 
@@ -327,7 +327,7 @@ public class AgendaView extends JTable {
 
         //JLabel showNameLabel = new JLabel(show.getName());
         //showNameLabel.setBounds(120, 10, 100, 25);
-        JLabel artistsLabel = new JLabel("Agenda.Artist(s)");
+        JLabel artistsLabel = new JLabel("Artist(s)");
         JTextArea nameText = new JTextArea();
         JScrollPane artistPane = new JScrollPane(nameText,
             ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -340,7 +340,7 @@ public class AgendaView extends JTable {
         JLabel startTimeLabel = new JLabel(show.getBeginTime().toString());
         JLabel endTimeTextLabel = new JLabel("End time");
         JLabel endTimeLabel = new JLabel(show.getEndTime().toString());
-        JLabel stageTextLabel = new JLabel("Agenda.Stage");
+        JLabel stageTextLabel = new JLabel("Stage");
         JLabel stageLabel = new JLabel(show.getStage().toString());
         JLabel expectedPopularityLabel = new JLabel("Expected Popularity");
         JLabel expectedPopularityTextLabel = new JLabel(
@@ -367,7 +367,7 @@ public class AgendaView extends JTable {
         setVisible(true);
       } else {
         JOptionPane
-            .showMessageDialog(AgendaView.this, "No show.", "Agenda.Show",
+            .showMessageDialog(AgendaView.this, "No show.", "Show",
                 JOptionPane.WARNING_MESSAGE);
       }
     }

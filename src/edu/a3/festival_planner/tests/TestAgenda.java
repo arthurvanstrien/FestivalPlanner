@@ -42,7 +42,7 @@ public class TestAgenda {
 
     if (agenda.getArtists().size() != 10) {
       System.out
-          .println("There is a problem with the getArtists method of the Agenda.Agenda class.");
+          .println("There is a problem with the getArtists method of the Agenda class.");
       errors++;
     }
 
@@ -52,23 +52,23 @@ public class TestAgenda {
     agenda.addArtists(addArtists);
     if (agenda.getArtists().size() != 11) {
       System.out
-          .println("There is a problem with the addArtists method of the Agenda.Agenda class.");
+          .println("There is a problem with the addArtists method of the Agenda class.");
       errors++;
     }
 
     if (!agenda.getName().equals("Test")) {
-      System.out.println("There is a problem with the getName method of the Agenda.Agenda class.");
+      System.out.println("There is a problem with the getName method of the Agenda class.");
       errors++;
     }
 
     agenda.setName("Not a test");
     if (!agenda.getName().equals("Not a test")) {
-      System.out.println("There is a problem with the setName method of the Agenda.Agenda class.");
+      System.out.println("There is a problem with the setName method of the Agenda class.");
       errors++;
     }
 
     if (agenda.getShows().length != 48) {
-      System.out.println("There is a problem with the getShows method of the Agenda.Agenda class.");
+      System.out.println("There is a problem with the getShows method of the Agenda class.");
       errors++;
     }
 
@@ -76,7 +76,7 @@ public class TestAgenda {
     for (int i = 0; i < shows.length; i++) {
       if (agenda.getShows()[i].length != 3) {
         System.out
-            .println("There is a problem with the getShows method of the Agenda.Agenda class. " +
+            .println("There is a problem with the getShows method of the Agenda class. " +
                 "The problem occured with show" + i + ".");
         errors++;
       }
@@ -84,12 +84,12 @@ public class TestAgenda {
 
     if (agenda.getStages().size() != 3) {
       System.out
-          .println("There is a problem with the getStages method of the Agenda.Agenda class.");
+          .println("There is a problem with the getStages method of the Agenda class.");
       errors++;
     }
 
     if (agenda.getTimes().length != 48) {
-      System.out.println("There is a problem with the getTimes method of the Agenda.Agenda class.");
+      System.out.println("There is a problem with the getTimes method of the Agenda class.");
       errors++;
     }
 

@@ -20,7 +20,7 @@ public class Tab extends JScrollPane {
   }
 
   /**
-   * Passes the isEditable boolean to Agenda.AgendaView setEditable() method.
+   * Passes the isEditable boolean to AgendaView setEditable() method.
    */
   public void setEditable(boolean isEditable) {
     agendaView.setEditable(isEditable);

@@ -48,9 +48,9 @@ public class Agenda implements Serializable {
 
   private void createStages() {
     stages = new ArrayList<>();
-    stages.add(new Stage("Agenda.Main Agenda.Stage", 100));
-    stages.add(new Stage("Second Agenda.Stage", 75));
-    stages.add(new Stage("Third Agenda.Stage", 50));
+    stages.add(new Stage("Main Stage", 100));
+    stages.add(new Stage("Second Stage", 75));
+    stages.add(new Stage("Third Stage", 50));
   }
 
   public ArrayList<Stage> getStages() {

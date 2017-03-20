@@ -47,7 +47,7 @@ public class TiledMap {
       String photoName = jsonTileSet.getString("image");
 
       try {
-        img = ImageIO.read(getClass().getResource(photoName));
+        img = ImageIO.read(getClass().getClassLoader().getResource(photoName));
       } catch (Exception e) {
         e.printStackTrace();
         System.out.println(photoName);
@@ -98,7 +98,7 @@ public class TiledMap {
       String photoName = jsonTileSet.getString("image");
 
       try {
-        img = ImageIO.read(getClass().getResource(photoName));
+        img = ImageIO.read(getClass().getClassLoader().getResource(photoName));
       } catch (Exception e) {
         e.printStackTrace();
         System.out.println(photoName);

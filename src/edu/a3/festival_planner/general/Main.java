@@ -53,7 +53,8 @@ public class Main extends JTabbedPane {
     frame.setContentPane(this);
 
     try {
-      ImageIcon img = new ImageIcon(this.getClass().getResource("\\Images\\Agenda.Agenda.png"));
+      ImageIcon img = new ImageIcon(
+          this.getClass().getClassLoader().getResource("\\Images\\Agenda.png"));
       frame.setIconImage(img.getImage());
     } catch (Exception e) {
       e.printStackTrace();

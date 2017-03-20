@@ -45,7 +45,8 @@ public class SimulationView extends JFrame implements ActionListener {
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     try {
-      ImageIcon img = new ImageIcon(this.getClass().getResource("\\Images\\Cogs.png"));
+      ImageIcon img = new ImageIcon(
+          this.getClass().getClassLoader().getResource("\\Images\\Cogs.png"));
       setIconImage(img.getImage());
     } catch (Exception e) {
       e.printStackTrace();

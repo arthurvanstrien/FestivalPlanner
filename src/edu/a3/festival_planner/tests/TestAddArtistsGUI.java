@@ -9,7 +9,7 @@ public class TestAddArtistsGUI {
     int errors = 0;
 
     //Create a new AddArtistGUI with the given values.
-    //Agenda.AddArtistsGUI addArtistGUI = new Agenda.AddArtistsGUI();
+    //AddArtistsGUI addArtistGUI = new AddArtistsGUI();
 
     return errors;
   }

@@ -83,7 +83,7 @@ public class Show implements Serializable {
     for (Artist artist : artists) {
       for (Time time : Period.getTimes(beginTime, endTime)) {
         if (artist.isPerforming(time)) {
-          throw new ArtistException("Agenda.Artist unavailable");
+          throw new ArtistException("Artist unavailable");
         } else {
           artist.setPerforming(time, true);
         }

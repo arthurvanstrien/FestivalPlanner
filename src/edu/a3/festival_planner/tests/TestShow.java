@@ -20,7 +20,7 @@ public class TestShow {
     artists.add(new Artist("artist2", "genre2"));
     Time beginTime = new Time(12, 0);
     Time endTime = new Time(16, 0);
-    Stage stage = new Stage("Agenda.Main Agenda.Stage", 50);
+    Stage stage = new Stage("Main Stage", 50);
     Show s1 = new Show("Jimi Hendrix Experience", beginTime, endTime, stage, artists, 5);
 
         /*CRASH IN CODE ON LINE21 BELOW. REASON UNKNOWN:

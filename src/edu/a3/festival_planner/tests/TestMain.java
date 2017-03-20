@@ -9,17 +9,17 @@ public class TestMain {
     int errors = 0;
     System.out.println("Running tests...");
 
-    System.out.println("--Begin Agenda.Artist Test------------------------------------");
+    System.out.println("--Begin Artist Test------------------------------------");
     errors = errors + TestArtist.runTest();
-    System.out.println("--Begin Agenda.Agenda Test------------------------------------");
+    System.out.println("--Begin Agenda Test------------------------------------");
     errors = errors + TestAgenda.runTest();
     //System.out.println("--Begin Agenda.Show Test------------------------------------");
     //errors = errors + TestShow.runTest();
-    System.out.println("--Begin Agenda.Stage Test------------------------------------");
+    System.out.println("--Begin Stage Test------------------------------------");
     errors = errors + TestStage.runTest();
-    System.out.println("--Begin Agenda.Time Test------------------------------------");
+    System.out.println("--Begin Time Test------------------------------------");
     errors = errors + TestTime.runTest();
-    System.out.println("--Begin Agenda.Period Test------------------------------------");
+    System.out.println("--Begin Period Test------------------------------------");
     errors = errors + TestPeriod.runTest();
     System.out.println("--Begin BFS Test------------------------------------");
     errors += TestBFS.runTest();

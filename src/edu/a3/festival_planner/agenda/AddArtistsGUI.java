@@ -55,7 +55,7 @@ public class AddArtistsGUI extends JDialog {
     });
 
     setResizable(false);
-    JLabel nameLabel = new JLabel("Agenda.Artist name");
+    JLabel nameLabel = new JLabel("Artist name");
     nameLabel.setBounds(10, 10, 100, 25);
     JLabel genreLabel = new JLabel("Genre");
     genreLabel.setBounds(10, 50, 100, 25);
@@ -67,7 +67,7 @@ public class AddArtistsGUI extends JDialog {
     addButton.addActionListener(e -> {
       if (!nameText.getText().equals("") && !genreText.getText().equals("")) {
         artists.add(new Artist(nameText.getText(), genreText.getText()));
-        JOptionPane.showMessageDialog(this, "Agenda.Artist added", "Add Artists",
+        JOptionPane.showMessageDialog(this, "Artist added", "Add Artists",
             JOptionPane.INFORMATION_MESSAGE);
         nameText.setText("");
         genreText.setText("");

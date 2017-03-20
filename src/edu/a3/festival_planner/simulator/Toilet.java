@@ -21,7 +21,7 @@ public class Toilet implements Drawable {
     this.position = position;
     this.angle = angle;
     try {
-      image = ImageIO.read(this.getClass().getResource("facilities/Toilet.png"));
+      image = ImageIO.read(this.getClass().getClassLoader().getResource("facilities/Toilet.png"));
     } catch (IOException e) {
       e.printStackTrace();
     }

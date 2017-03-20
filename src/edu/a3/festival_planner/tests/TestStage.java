@@ -17,13 +17,13 @@ public class TestStage {
       amountOfErrors++;
 
       if (!s1.getName().equals("Test stage 1")) {
-        System.out.println("There is a problem with the getName method of the class Agenda.Stage.");
+        System.out.println("There is a problem with the getName method of the class Stage.");
         amountOfErrors++;
       }
 
       if (s1.getSurfaceArea() != 100) {
         System.out.println(
-            "There is a problem with the getSurfaceArea method of the class Agenda.Stage.");
+            "There is a problem with the getSurfaceArea method of the class Stage.");
         amountOfErrors++;
       }
     }

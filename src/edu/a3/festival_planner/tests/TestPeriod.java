@@ -18,27 +18,27 @@ public class TestPeriod {
 
     if (!period.getBeginTime().equals(beginTime)) {
       System.out
-          .println("There is a problem with the getBeginTime method of the Agenda.Period class.");
+          .println("There is a problem with the getBeginTime method of the Period class.");
       errors++;
     }
 
     if (!period.getEndTime().equals(endTime)) {
       System.out
-          .println("There is a problem with the getEndTime method of the Agenda.Period class.");
+          .println("There is a problem with the getEndTime method of the Period class.");
       errors++;
     }
 
     period.setBeginTime(secondBeginTime);
     if (!period.getBeginTime().equals(secondBeginTime)) {
       System.out.println(
-          "There is a problem with the getBeginTime or setBeginTime method of the Agenda.Period class.");
+          "There is a problem with the getBeginTime or setBeginTime method of the Period class.");
       errors++;
     }
 
     period.setEndTime(secondEndTime);
     if (!period.getEndTime().equals(secondEndTime)) {
       System.out.println(
-          "There is a problem with the getEndTime of setEndTime method of the Agenda.Period class.");
+          "There is a problem with the getEndTime of setEndTime method of the Period class.");
       errors++;
     }
 
