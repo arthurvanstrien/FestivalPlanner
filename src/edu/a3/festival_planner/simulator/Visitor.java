@@ -10,7 +10,8 @@ import java.util.ArrayList;
  * Created by robin on 12-3-2017.
  */
 public class Visitor implements Drawable {
-
+  private Location currentLocation;
+  private Location currentDestination;
   Point2D position;
   Point2D destination;
   private BufferedImage image;
@@ -125,31 +126,32 @@ public class Visitor implements Drawable {
    */
   private void appointImage() {
     int randomNumber = (int) (Math.random() * 100);
-//        if (randomNumber < 25) {
-//            try {
-//                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorBlueBlond.png"));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } else if (randomNumber >= 25 && randomNumber <= 50) {
-//            try {
-//                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorGreenBlond.png"));
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } else if (randomNumber > 50 && randomNumber < 75) {
-//            try {
-//                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorBlackBlond.png"));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } else {
-//            try {
-//                image = ImageIO.read(this.getClass().getResource("bezoekers/VisitorRedBlack.png"));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
+    if(randomNumber < 25)
+      image = VisitorImageList.getImageAtIndex(1);
+    else if(randomNumber < 50)
+      image = VisitorImageList.getImageAtIndex(2);
+    else if(randomNumber < 75)
+      image = VisitorImageList.getImageAtIndex(3);
+    else
+      image = VisitorImageList.getImageAtIndex(4);
+  }
+
+  public void setNewDestination(){
+    int number = (int) Math.random()*100;
+    if(number < 2)
+      currentDestination = Location.EXIT;
+    else if(number < 7)
+      currentDestination = Location.TOILET_2;
+    else if(number < 10)
+      currentDestination = Location.TOILET_1;
+    else if(number < 40)
+      currentDestination = Location.STAGE_1;
+    else if(number < 70)
+      currentDestination = Location.STAGE_2;
+    else
+      currentDestination = Location.STAGE_3;
+
+
+
   }
 }

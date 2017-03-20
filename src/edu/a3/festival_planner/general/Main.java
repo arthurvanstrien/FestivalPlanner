@@ -5,6 +5,9 @@ import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.agenda.Tab;
 import edu.a3.festival_planner.simulator.SimulationView;
 import edu.a3.festival_planner.simulator.TiledMap;
+import edu.a3.festival_planner.simulator.VisitorImageList;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -30,6 +33,9 @@ public class Main extends JTabbedPane {
   }
 
   public Main(String[] args) {
+
+    fillVisitorImageList();
+
     try {
       UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
     } catch (Exception e) {
@@ -83,6 +89,41 @@ public class Main extends JTabbedPane {
     addTab(agenda.getName(), tab);
     setSelectedComponent(tab);
     menuBar.update(agenda);
+  }
+
+  /**
+   * Fill the VisitorImageList with images
+   */
+  private void fillVisitorImageList() {
+    try {
+      VisitorImageList
+          .addImage(ImageIO.read(
+              this.getClass().getClassLoader().getResource("bezoekers/VisitorBlueBlond.png")));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    try {
+      VisitorImageList
+          .addImage(ImageIO.read(
+              this.getClass().getClassLoader().getResource("bezoekers/VisitorGreenBlond.png")));
+
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    try {
+      VisitorImageList
+          .addImage(ImageIO.read(
+              this.getClass().getClassLoader().getResource("bezoekers/VisitorBlackBlond.png")));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    try {
+      VisitorImageList
+          .addImage(ImageIO
+              .read(this.getClass().getClassLoader().getResource("bezoekers/VisitorRedBlack.png")));
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   public JFrame getFrame() {
@@ -182,5 +223,7 @@ public class Main extends JTabbedPane {
     private void addArtistEvent(Agenda agenda) {
       new AddArtistsGUI(agenda, Main.this);
     }
+
+
   }
 }
