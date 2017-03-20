@@ -19,6 +19,11 @@ public class Main extends JTabbedPane {
   private FileManager fileManager;
   private ArrayList<Agenda> agendas;
   private MainMenuBar menuBar;
+
+  public TiledMap getTiledMap() {
+    return tiledMap;
+  }
+
   private TiledMap tiledMap;
 
   public static void main(String[] args) {
@@ -37,7 +42,6 @@ public class Main extends JTabbedPane {
     }
     frame = new JFrame("Festival Planner");
     fileManager = new FileManager(this);
-    tiledMap = new TiledMap();
     agendas = new ArrayList<>();
     Dimension screenSize = (Toolkit.getDefaultToolkit().getScreenSize());
     double screenWidth = screenSize.getWidth();
@@ -137,9 +141,11 @@ public class Main extends JTabbedPane {
       addArtistAgendaMenuItem.addActionListener(e -> addArtistEvent(agenda));
       addArtistMenu.add(addArtistAgendaMenuItem);
 
-      simulateMenu.setEnabled(true);
+      if (Main.this.tiledMap != null) {
+        simulateMenu.setEnabled(true);
+      }
       JMenuItem simulateMenuItem = new JMenuItem(agenda.getName());
-      simulateMenuItem.addActionListener(e -> new SimulationView(agenda));
+      simulateMenuItem.addActionListener(e -> new SimulationView(Main.this, agenda));
       simulateMenu.add(simulateMenuItem);
     }
 
@@ -170,6 +176,9 @@ public class Main extends JTabbedPane {
 
     private void loadMapEvent() {
       tiledMap = fileManager.loadTiledMap();
+      if (Main.this.agendas.size() > 0) {
+        simulateMenu.setEnabled(true);
+      }
     }
 
     private void editableEvent() {
