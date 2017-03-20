@@ -1,10 +1,16 @@
 package edu.a3.festival_planner.tests;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import edu.a3.festival_planner.simulator.Camera;
 import edu.a3.festival_planner.simulator.Drawable;
+import edu.a3.festival_planner.simulator.TiledLayer;
 import edu.a3.festival_planner.simulator.TiledMap;
 import edu.a3.festival_planner.simulator.Visitor;
 import edu.a3.festival_planner.simulator.VisitorImageList;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.nio.Buffer;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -22,7 +28,7 @@ public class TestTiledMap extends JPanel {
     frame.setDefaultCloseOperation(3);
     frame.setMinimumSize(new Dimension(800, 600));
     frame.setExtendedState(frame.getExtendedState() | 6);
-    frame.setContentPane(new TestTiledMap());
+    frame.setContentPane(new TestTiledMap(new TiledMap("maps/MapV2.json")));
     frame.setVisible(true);
   }
 /*
@@ -44,9 +50,9 @@ public class TestTiledMap extends JPanel {
   Camera camera = new Camera(this);
   TiledMap tm;
 
-  public TestTiledMap() {
+  public TestTiledMap(TiledMap tm) {
     fillVisitorImageList();
-    tm = new TiledMap("maps/map.json");
+    this.tm = tm;
     drawings = new ArrayList<>();
     for (int i = 0; i < numberOfVisitors; i++) {
       drawings.add(new Visitor(new Point2D.Double(Math.random() * 100, Math.random() * 100)));
@@ -57,7 +63,7 @@ public class TestTiledMap extends JPanel {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
     g2d.setTransform(this.camera.getTransform(this.getWidth(), this.getHeight()));
-    tm.draw(g2d);
+    testDraw(g2d);
   }
 
   private void fillVisitorImageList() {
@@ -90,5 +96,31 @@ public class TestTiledMap extends JPanel {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  //draws the layers next to the original map so you can see if each layer has been correctly displayed
+  public void testDraw(Graphics2D g2d) {
+    Iterator<TiledLayer> it1 = tm.getArrayLayers().iterator();
+    AffineTransform tx = new AffineTransform();
+    int layers = tm.getArrayLayers().size();
+    int index = 1;
+    int movedX = 0;
+    tm.draw(g2d);
+    while (it1.hasNext()) {
+      TiledLayer t1 = (TiledLayer) it1.next();
+      if (index == 1) {
+        g2d.translate(t1.getWidth() * 32, 0);
+        movedX += t1.getWidth() * 32;
+      }
+      if (index % 4 == 0 && index != 0) {
+        g2d.translate(-movedX, t1.getHeight() * 32);
+        movedX = 0;
+      }
+      g2d.drawImage((Image) t1.getImage(), tx, null);
+      g2d.translate(t1.getWidth() * 32, 0);
+      movedX += t1.getWidth() * 32;
+      index++;
+    }
+    System.out.println(index - 1);
   }
 }

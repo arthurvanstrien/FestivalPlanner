@@ -90118,7 +90118,7 @@
     {
       "columns": 32,
       "firstgid": 1,
-      "image": "tilesets\/terrain_atlas.png",
+      "image": "tiles\/terrain_atlas.png",
       "imageheight": 1024,
       "imagewidth": 1024,
       "margin": 0,
@@ -90527,7 +90527,7 @@
     {
       "columns": 16,
       "firstgid": 1025,
-      "image": "tilesets\/PathAndObjects.png",
+      "image": "tiles\/PathAndObjects.png",
       "imageheight": 512,
       "imagewidth": 512,
       "margin": 0,
@@ -90644,7 +90644,7 @@
     {
       "columns": 32,
       "firstgid": 1281,
-      "image": "tilesets\/build_atlas.png",
+      "image": "tiles\/build_atlas.png",
       "imageheight": 1024,
       "imagewidth": 1024,
       "margin": 0,
@@ -90673,7 +90673,7 @@
     {
       "columns": 32,
       "firstgid": 2305,
-      "image": "tilesets\/obj_misk_atlas.png",
+      "image": "tiles\/obj_misk_atlas.png",
       "imageheight": 1024,
       "imagewidth": 1024,
       "margin": 0,
@@ -90686,7 +90686,7 @@
     {
       "columns": 5,
       "firstgid": 3329,
-      "image": "..\/..\/..\/..\/..\/Downloads\/colorstrip.png",
+      "image": "tiles\/colorstrip.png",
       "imageheight": 32,
       "imagewidth": 160,
       "margin": 0,
