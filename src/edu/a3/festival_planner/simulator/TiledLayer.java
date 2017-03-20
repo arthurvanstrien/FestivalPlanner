@@ -38,13 +38,12 @@ public class TiledLayer {
   }
 
   public BufferedImage getImage() {
-    BufferedImage img = new BufferedImage(width * 24, height * 24, 2);
-    Graphics2D g2 = img.createGraphics();
+    BufferedImage img = new BufferedImage(width * 32, height * 32, 2);
+    Graphics2D g2d = img.createGraphics();
     if (isDirty) {
       for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-          g2.drawImage((Image) map.arrayImages.get(this.data2D[y][x]), x * 24, y * 24,
-              (ImageObserver) null);
+          g2d.drawImage((Image) map.arrayImages.get(this.data2D[y][x]), x * 32, y * 32, (ImageObserver) null);
         }
       }
       isDirty = false;

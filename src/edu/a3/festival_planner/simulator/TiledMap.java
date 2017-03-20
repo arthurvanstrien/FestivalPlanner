@@ -15,6 +15,7 @@ public class TiledMap {
 
   ArrayList<TiledLayer> arrayLayers;
   ArrayList<BufferedImage> arrayImages;
+  ArrayList<ObstacleLayer> arrayObjectLayers;
 
 //  public TiledMap() {
 //    JsonObject jo = null;
@@ -75,6 +76,7 @@ public class TiledMap {
     JsonObject jo = null;
     arrayLayers = new ArrayList<>();
     arrayImages = new ArrayList<>();
+    arrayObjectLayers = new ArrayList<>();
     try (
 
         InputStream is = new FileInputStream(fileName);
@@ -117,16 +119,17 @@ public class TiledMap {
 
     for (int x = 0; x < jsonArrayLayers.size(); ++x) {
       JsonObject layer = jsonArrayLayers.getJsonObject(x);
-      if(!layer.getString("name").equals( "StageObjects")) {
-        arrayLayers.add(new TiledLayer(jsonArrayLayers.getJsonObject(x), this));
+        if(layer.getJsonArray("data") != null) {
+          arrayLayers.add(new TiledLayer(layer, this));
+        } else {
+          arrayObjectLayers.add(new ObstacleLayer(layer, this));
+        }
       }
-    }
 
   }
 
   public void draw(Graphics2D g2d) {
     Iterator<TiledLayer> it1 = arrayLayers.iterator();
-
     while (it1.hasNext()) {
       TiledLayer tl = (TiledLayer) it1.next();
       if(!tl.name.equals("Walkable")) {

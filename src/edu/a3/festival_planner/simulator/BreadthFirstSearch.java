@@ -134,5 +134,14 @@ public class BreadthFirstSearch {
       }
       return super.equals(obj);
     }
+
+//    public boolean equals(Object obj) {
+//      if (obj instanceof Vertex) {
+//        if (this.location.equals(((Vertex) obj).location)) {
+//          return true;
+//        }
+//      }
+//      return super.equals(obj);
+//    }
   }
 }
