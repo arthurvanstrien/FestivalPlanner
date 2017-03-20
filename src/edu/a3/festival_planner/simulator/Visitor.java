@@ -69,7 +69,7 @@ public class Visitor implements Drawable {
       /**
        * code met if in objectlayer van een Location, isOnLocation = true;
        * set current location to location van objectlayer.
-       * 
+       *
        */
     }
     //oude code
