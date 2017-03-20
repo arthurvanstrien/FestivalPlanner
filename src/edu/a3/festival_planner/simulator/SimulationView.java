@@ -1,6 +1,7 @@
 package edu.a3.festival_planner.simulator;
 
 import edu.a3.festival_planner.agenda.Agenda;
+import edu.a3.festival_planner.general.Main;
 import edu.a3.festival_planner.general.Time;
 import edu.a3.festival_planner.tests.TestTiledMap;
 import javax.swing.*;
@@ -13,6 +14,7 @@ import javax.swing.Timer;
  */
 public class SimulationView extends JFrame implements ActionListener {
 
+  private Main main;
   private Agenda agenda;
   private Time time;
   private JLabel currentTime, currentSpeed;
@@ -26,13 +28,14 @@ public class SimulationView extends JFrame implements ActionListener {
    * Generates GUI with an agenda to simulate
    * @param agenda
    */
-  public SimulationView(Agenda agenda) {
+  public SimulationView(Main main, Agenda agenda) {
     super("Simulation: " + agenda.getName());
     //Initializing atributes
     time = new Time(0, 0);
     lastTime = System.nanoTime();
     new Timer(15, this).start();
     seconds = 0;
+    this.main = main;
     this.agenda = agenda;
 
     Dimension screenSize = (Toolkit.getDefaultToolkit().getScreenSize());
@@ -58,7 +61,7 @@ public class SimulationView extends JFrame implements ActionListener {
     //SimulationPanel
 
     JPanel simulation = new JPanel(new BorderLayout());
-    JPanel tiledMap = new TestTiledMap();
+    JPanel tiledMap = new TiledMapView(main.getTiledMap());
     simulation.setBorder(BorderFactory.createEtchedBorder());
     simulation.add(tiledMap, BorderLayout.CENTER);
 

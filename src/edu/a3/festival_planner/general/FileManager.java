@@ -16,20 +16,28 @@ public class FileManager {
 
   private JFileChooser fileChooser;
   private Main main;
+  private File agendasDir;
+  private File mapsDir;
 
   public FileManager(Main main) {
     this.main = main;
-    File dir = new File(System.getProperty("user.home") + File.separator + "Agendas");
-    dir.mkdirs();
+    agendasDir = new File(
+        System.getProperty("user.home") + File.separator + "Festival Planner" + File.separator
+            + "Agendas");
+    mapsDir = new File(
+        System.getProperty("user.home") + File.separator + "Festival Planner" + File.separator
+            + "Maps");
+    agendasDir.mkdirs();
+    mapsDir.mkdirs();
     fileChooser = new JFileChooser();
     fileChooser.setAcceptAllFileFilterUsed(false);
-    fileChooser.setCurrentDirectory(dir);
   }
 
   /**
    * Save agenda to file.
    */
   public void saveAgenda(Agenda agenda) {
+    fileChooser.setCurrentDirectory(agendasDir);
     File file;
 
     int returnVal = fileChooser.showSaveDialog(main);
@@ -66,6 +74,7 @@ public class FileManager {
   }
 
   public Agenda loadAgenda() {
+    fileChooser.setCurrentDirectory(agendasDir);
     fileChooser.setFileFilter(new FileNameExtensionFilter("Agenda (*.agd)", "agd"));
     File file;
 
@@ -88,6 +97,7 @@ public class FileManager {
   }
 
   public TiledMap loadTiledMap() {
+    fileChooser.setCurrentDirectory(mapsDir);
     fileChooser.setFileFilter(new FileNameExtensionFilter("Tiled Map (*.json)", "json"));
     File file;
 
