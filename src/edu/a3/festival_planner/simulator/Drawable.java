@@ -11,7 +11,7 @@ public interface Drawable {
 
   void draw(Graphics2D g2d);
 
-  void update(ArrayList<Drawable> drawings);
+  void update(ArrayList<Drawable> drawings, TiledMap map);
 
   Point2D getPosition();
 

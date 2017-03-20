@@ -101,7 +101,6 @@ public class TiledMap {
         img = ImageIO.read(getClass().getClassLoader().getResource(photoName));
       } catch (Exception e) {
         e.printStackTrace();
-        System.out.println(photoName);
       }
 
       while (arrayImages.size() < gid + jsonTileSet.getInt("tilecount")) {
@@ -117,7 +116,10 @@ public class TiledMap {
     }
 
     for (int x = 0; x < jsonArrayLayers.size(); ++x) {
-      arrayLayers.add(new TiledLayer(jsonArrayLayers.getJsonObject(x), this));
+      JsonObject layer = jsonArrayLayers.getJsonObject(x);
+      if(!layer.getString("name").equals( "StageObjects")) {
+        arrayLayers.add(new TiledLayer(jsonArrayLayers.getJsonObject(x), this));
+      }
     }
 
   }
@@ -127,7 +129,9 @@ public class TiledMap {
 
     while (it1.hasNext()) {
       TiledLayer tl = (TiledLayer) it1.next();
-      g2d.drawImage((Image) tl.getImage(), new AffineTransform(), (ImageObserver) null);
+      if(!tl.name.equals("Walkable")) {
+        g2d.drawImage((Image) tl.getImage(), new AffineTransform(), (ImageObserver) null);
+      }
     }
   }
 }

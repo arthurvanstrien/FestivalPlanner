@@ -46,7 +46,8 @@ public class TestTiledMap extends JPanel {
 
   public TestTiledMap() {
     fillVisitorImageList();
-    tm = new TiledMap("maps/map.json");
+    //tm = new TiledMap("C:\\Users\\Gebruiker\\Festival Planner\\Maps\\Map_20_03_2017_V4.json");
+    tm = new TiledMap("maps/MapV4.json");
     drawings = new ArrayList<>();
     for (int i = 0; i < numberOfVisitors; i++) {
       drawings.add(new Visitor(new Point2D.Double(Math.random() * 100, Math.random() * 100)));
@@ -58,6 +59,9 @@ public class TestTiledMap extends JPanel {
     Graphics2D g2d = (Graphics2D) g;
     g2d.setTransform(this.camera.getTransform(this.getWidth(), this.getHeight()));
     tm.draw(g2d);
+    for(Drawable drawable: drawings){
+      drawable.draw(g2d);
+    }
   }
 
   private void fillVisitorImageList() {

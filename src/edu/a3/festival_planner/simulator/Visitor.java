@@ -10,6 +10,9 @@ import java.util.ArrayList;
  * Created by robin on 12-3-2017.
  */
 public class Visitor implements Drawable {
+  private final int red = 3329;
+  private final int green = 3331;
+
   private Location currentLocation;
   private Location currentDestination;
   Point2D position;
@@ -18,6 +21,7 @@ public class Visitor implements Drawable {
   private double angle;
   private double speed;
   private boolean isOnLocation;
+  private int imageDiameter;
 
   public Visitor(Point2D position) {
     speed = 1;
@@ -53,37 +57,28 @@ public class Visitor implements Drawable {
    * through te list to meet all constraints and collisions with the objects.
    */
   @Override
-  public void update(ArrayList<Drawable> drawings) {
+  public void update(ArrayList<Drawable> drawings, TiledMap map) {
+    Point2D newPosition;
     if(isOnLocation){
-      dance(drawings);
       /**
        * Set een timer die na een n.t.b. tijd de dance.activiteit uit en een nieuwe destination zetten.
        */
-
-
     } else{
-
-
-
-
       /**
        * code met if in objectlayer van een Location, isOnLocation = true;
        * set current location to location van objectlayer.
        *
        */
     }
-    //oude code
+
     //De berekening van de nieuwe angle
     double dx = destination.getX() - position.getX();
     double dy = destination.getY() - position.getY();
     double newAngle = Math.atan2(dy, dx);
     double difference = newAngle - angle;
-    /**
-     while (difference < -Math.PI)
-     difference += 2 * Math.PI;
-     while (difference > Math.PI)
-     difference -= 2 * Math.PI;
-     */
+
+
+
     if (difference > Math.PI || difference < -Math.PI) {
       difference = -((difference) % (2 * Math.PI));
     }
@@ -98,30 +93,58 @@ public class Visitor implements Drawable {
     }
 
     //Berekent de nieuwe positie van de visitor
-    Point2D newPosition = new Point2D.Double(
+    newPosition = new Point2D.Double(
         position.getX() + speed * Math.cos(angle),
         position.getY() + speed * Math.sin(angle));
 
-    boolean collided = false;
-    //Collission detection
-    for (Drawable drawing : drawings) {
-      if (drawing == this) {
-        continue;
-      }
-      if (drawing.getPosition().distance(newPosition) < 15) {
-        collided = true;
-        break;
-      }
+    if(!collides(drawings, map, newPosition)) {
+      position = newPosition;
+    } else{
+      angle+=0.2;
     }
 
-    //zorgt ervoor dat visitor om elkaar heen lopen
-    if (!collided) {
-      position = newPosition;
-    } else {
-      angle += 0.2;
-    }
+  /**
+     while (difference < -Math.PI)
+     difference += 2 * Math.PI;
+     while (difference > Math.PI)
+     difference -= 2 * Math.PI;
+   */
 
   }
+
+  /**
+   * Checks for collision with unwalkable paths and other drawables
+   * @param drawings
+   * @param map
+   * @return
+   */
+  public boolean collides(ArrayList<Drawable> drawings, TiledMap map, Point2D newPosition) {
+    TiledLayer tiledLayer = null;
+    for(int i = 0; i < map.arrayLayers.size(); i++) {
+      if(map.arrayLayers.get(i).name.equals("Walkable")) {
+        tiledLayer = map.arrayLayers.get(i);
+      }
+    }
+    int currentTile = tiledLayer.data2D[(int) newPosition.getX()*32][(int)newPosition.getY()*32];
+    if(currentTile == red) {
+      System.out.println("Collision met map");
+      return true;
+    }else{
+      for(Drawable drawing:drawings){
+        if (drawing == this) {
+          continue;
+        }
+        if (newPosition.distance(drawing.getPosition()) < imageDiameter) {
+          System.out.println("Collision met drawing");
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+
+
 
   /**
    * Lets teh visitor dance within tebounds of the stage
@@ -156,15 +179,17 @@ public class Visitor implements Drawable {
    * Gives the visitor a random image of a predefined pool
    */
   private void appointImage() {
+    imageDiameter = 8;
     int randomNumber = (int) (Math.random() * 100);
     if(randomNumber < 25)
-      image = VisitorImageList.getImageAtIndex(1);
+      image = VisitorImageList.getImageAtIndex(0);
     else if(randomNumber < 50)
-      image = VisitorImageList.getImageAtIndex(2);
+      image = VisitorImageList.getImageAtIndex(1);
     else if(randomNumber < 75)
-      image = VisitorImageList.getImageAtIndex(3);
+      image = VisitorImageList.getImageAtIndex(2);
     else
-      image = VisitorImageList.getImageAtIndex(4);
+      image = VisitorImageList.getImageAtIndex(3);
+
   }
 
   public void setNewDestination(){

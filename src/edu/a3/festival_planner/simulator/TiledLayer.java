@@ -13,6 +13,7 @@ public class TiledLayer {
   int[][] data2D;
   BufferedImage img;
   boolean isDirty;
+  String name;
 
   public TiledLayer(JsonObject jsonLayer, TiledMap map) {
     this.map = map;
@@ -20,6 +21,7 @@ public class TiledLayer {
     this.height = jsonLayer.getInt("height");
     this.width = jsonLayer.getInt("width");
     data2D = new int[height][width];
+    name = jsonLayer.getString("name");
 
     JsonArray data = jsonLayer.getJsonArray("data");
 

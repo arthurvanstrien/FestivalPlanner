@@ -43,7 +43,7 @@ public class Toilet implements Drawable {
   }
 
   @Override
-  public void update(ArrayList<Drawable> drawings) {
+  public void update(ArrayList<Drawable> drawings, TiledMap map) {
 
   }
 
