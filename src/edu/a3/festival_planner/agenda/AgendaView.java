@@ -136,6 +136,7 @@ public class AgendaView extends JTable {
       double screenWidth = screenSize.getWidth();
       double screenHeight = screenSize.getHeight();
       setSize((int) screenWidth / 6, (int) screenHeight / 3);
+      setMinimumSize(new Dimension(320,360));
       setLocationRelativeTo(main.getFrame());
       setDefaultCloseOperation(DISPOSE_ON_CLOSE);
       setResizable(false);
@@ -321,6 +322,7 @@ public class AgendaView extends JTable {
         double screenWidth = screenSize.getWidth();
         double screenHeight = screenSize.getHeight();
         setSize((int) screenWidth / 5, (int) screenHeight / 4);
+        setMinimumSize(new Dimension(384,270));
         setLocationRelativeTo(main.getFrame());
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setResizable(false);

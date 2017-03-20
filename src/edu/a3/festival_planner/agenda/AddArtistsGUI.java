@@ -42,6 +42,7 @@ public class AddArtistsGUI extends JDialog {
     double screenWidth = screenSize.getWidth();
     double screenHeight = screenSize.getHeight();
     setSize((int) screenWidth / 7, (int) screenHeight / 7);
+    setMinimumSize(new Dimension(275,155));
     setLocationRelativeTo(main.getFrame());
     addWindowListener(new WindowAdapter() {
       public void windowClosing(WindowEvent windowEvent) {
