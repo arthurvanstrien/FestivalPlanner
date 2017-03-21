@@ -7,7 +7,7 @@ import javax.json.JsonObject;
 /**
  * Created by dionb on 20-3-2017.
  */
-public class Obstacle {
+public class Area {
   private double x = 0;
   private double y = 0;
   private double height = 0;
@@ -15,7 +15,7 @@ public class Obstacle {
   private String type = "";
 
 
-  public Obstacle(JsonObject jsonObject) {
+  public Area(JsonObject jsonObject) {
     this.x = jsonObject.getInt("x");
     this.y = jsonObject.getInt("y");
     this.height = jsonObject.getInt("height");

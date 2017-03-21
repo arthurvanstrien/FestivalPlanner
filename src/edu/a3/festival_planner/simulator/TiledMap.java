@@ -15,7 +15,7 @@ public class TiledMap {
 
   ArrayList<TiledLayer> arrayLayers;
   ArrayList<BufferedImage> arrayImages;
-  ArrayList<ObstacleLayer> arrayObjectLayers;
+  ArrayList<AreaLayer> arrayObjectLayers;
 
 //  public TiledMap() {
 //    JsonObject jo = null;
@@ -122,7 +122,7 @@ public class TiledMap {
         if(layer.getJsonArray("data") != null) {
           arrayLayers.add(new TiledLayer(layer, this));
         } else {
-          arrayObjectLayers.add(new ObstacleLayer(layer, this));
+          arrayObjectLayers.add(new AreaLayer(layer, this));
         }
       }
 
