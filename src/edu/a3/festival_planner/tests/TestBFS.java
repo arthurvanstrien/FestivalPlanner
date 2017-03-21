@@ -9,54 +9,56 @@ import java.util.List;
  * Created by snick on 19-3-2017.
  */
 public class TestBFS {
-
-  private static int X0 = 100, Y0 = 100, X1 = 33, Y1 = 11, X2 = 7, Y2 = 89;
-
   /**
-   * Run breadth first search test with predefined variables.
-   *
+   * Run breadth first search test 1000x from random source point to one random target point.
+   * @param xSize size of x-axis of searchable field
+   * @param ySize size of y-axis of searchable field
+   * @param verbose if true prints routes and runtime
    * @return Error count
    */
-  public static int runTest() {
+  public static int runTest(int xSize, int ySize, boolean verbose) {
     int errors = 0;
+    long startTime = System.nanoTime();
 
     List<Point> points = new ArrayList<>();
-    for (int x = 0; x < X0; x++) {
-      for (int y = 0; y < Y0; y++) {
+    for (int x = 0; x < xSize; x++) {
+      for (int y = 0; y < ySize; y++) {
         points.add(new Point(x, y));
       }
     }
 
-    BreadthFirstSearch bfs = new BreadthFirstSearch(points);
-    try {
-      List<Point> shortestPath = bfs.searchShortestPath(new Point(X1, Y1), new Point(X2, Y2));
+    int xTarget = (int) (xSize * Math.random());
+    int yTarget = (int) (ySize * Math.random());
+    BreadthFirstSearch breadthFirstSearch = new BreadthFirstSearch(points,
+        new Point(xTarget, yTarget));
+    for (int i = 0; i < 1000; i++) {
+      int xSource = (int) (xSize * Math.random());
+      int ySource = (int) (ySize * Math.random());
 
-      if (shortestPath.size() != Math.abs(X1 - X2) + Math.abs(Y1 - Y2)) {
-        System.out.println("Path is not as short as possible.");
+      try {
+        List<Point> shortestPath = breadthFirstSearch
+            .searchShortestPath(new Point(xSource, ySource));
+        if (verbose) {
+          System.out.println(
+              "\nFrom: " + xSource + "," + ySource + "\t To: " + xTarget + "," + yTarget
+                  + "\t Path:\n" + shortestPath);
+        }
+        if (shortestPath.size() != Math.abs(xSource - xTarget) + Math.abs(ySource - yTarget)) {
+          System.out.println("Path is not as short as possible.");
+          errors++;
+          break;
+        }
+      } catch (NullPointerException e) {
+        System.out.println("Source and/or target not within scope.");
         errors++;
+        break;
       }
-    } catch (NullPointerException e) {
-      System.out.println("Source and/or target not within scope.");
-      errors++;
+    }
+
+    long endTime = System.nanoTime();
+    if (verbose) {
+      System.out.println("\nRun time: " + (endTime - startTime) / 1000000000.0 + "s");
     }
     return errors;
-  }
-
-  /**
-   * Run breadth first search test with parametrised variables.
-   *
-   * @param x0 x scope
-   * @param y0 y scope
-   * @param x1 x value source point
-   * @param y1 y value source point
-   * @param x2 x value target point
-   * @param y2 y value target point
-   */
-  public static int runtTest(int x0, int y0, int x1, int y1, int x2, int y2) {
-    X1 = x1;
-    Y1 = y1;
-    X2 = x2;
-    Y2 = y2;
-    return runTest();
   }
 }

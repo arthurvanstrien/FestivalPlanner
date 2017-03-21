@@ -4,9 +4,10 @@ import com.sun.istack.internal.NotNull;
 import com.sun.istack.internal.Nullable;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -14,55 +15,58 @@ import java.util.Queue;
  */
 public class BreadthFirstSearch {
 
-  private List<Point> accessiblePoints;
+  List<Point> accessiblePoints;
+  Vertex target;
+  Map<Vertex, Integer> distance;
 
   /**
-   * Holds list of points to repeatedly search path for.
-   *
-   * @param accessiblePoints List of points available for search.
+   * Maps the distance from each point in accessiblePoints to the target point.
+   * @param accessiblePoints list of points available for search.
+   * @param target point to navigate to
+   * @throws NullPointerException Target not within scope.
    */
-  public BreadthFirstSearch(@NotNull List<Point> accessiblePoints) {
+  public BreadthFirstSearch(@NotNull List<Point> accessiblePoints, @NotNull Point target)
+      throws NullPointerException {
     this.accessiblePoints = accessiblePoints;
+    this.target = new Vertex(target, null);
+    bfs();
   }
 
   /**
    * @param source point to start at
-   * @param target point to navigate to
    * @return List containing the points between source and target, excludes source, includes target.
-   * @throws NullPointerException Source and/or target not within scope.
+   * @throws NullPointerException Source not within scope.
    */
-  public List<Point> searchShortestPath(@NotNull Point source, @NotNull Point target)
-      throws NullPointerException {
+  public List<Point> searchShortestPath(@NotNull Point source) throws NullPointerException {
     Vertex src = new Vertex(source, null);
-    Vertex trg = new Vertex(target, null);
-    bfs(src, trg);
-
-    List<Point> path = new ArrayList<>();
-    while (trg.getPredecessor() != src) {
-      trg = trg.getPredecessor();
-      path.add(trg.location);
+    for (Vertex v : distance.keySet()) {
+      if (v.equals(src)) {
+        src = v;
+      }
     }
-    Collections.reverse(path);
+    List<Point> path = new ArrayList<>();
+    while (distance.get(target) < distance.get(src)) {
+      path.add(src.location);
+      src = src.predecessor;
+    }
+    path.remove(source);
+    path.add(target.location);
     return path;
   }
 
-  private void bfs(Vertex source, Vertex target) {
+  private void bfs() {
     Queue<Vertex> queue = new LinkedList<>();
-    List<Vertex> visited = new ArrayList<>();
-    queue.add(source);
-    visited.add(source);
+    distance = new HashMap<>();
+    queue.add(target);
+    distance.put(target, 0);
 
     while (!queue.isEmpty()) {
       Vertex current = queue.poll();
-      if (current.equals(target)) {
-        target.setPredecessor(current);
-        return;
-      }
       for (Vertex v : current.getAdjacentVertices()) {
-        if (!visited.contains(v)) {
+        if (!distance.containsKey(v)) {
           v.setPredecessor(current);
           queue.add(v);
-          visited.add(v);
+          distance.put(v, distance.get(current) + 1);
         }
       }
     }
@@ -75,7 +79,6 @@ public class BreadthFirstSearch {
 
     /**
      * Create new Vertex
-     *
      * @param location location of the vertex
      * @param predecessor preceding vertex
      */
@@ -133,6 +136,11 @@ public class BreadthFirstSearch {
         }
       }
       return super.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+      return location.hashCode();
     }
   }
 }
