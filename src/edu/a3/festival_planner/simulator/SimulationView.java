@@ -114,6 +114,7 @@ public class SimulationView extends JFrame implements ActionListener {
     time = new Time((int) seconds / 60 / 60 % 24, (int) seconds / 60 % 60);
     currentTime.setText("Current time : " + time.toString());
     currentSpeed.setText("speed: " + sliderSpeed.getValue());
+
   }
 
   @Override

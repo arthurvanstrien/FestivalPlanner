@@ -56,4 +56,8 @@ public class TiledLayer {
   public void setDirty() {
     isDirty = true;
   }
+
+  public String getName(){
+    return name;
+  }
 }

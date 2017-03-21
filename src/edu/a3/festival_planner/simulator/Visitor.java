@@ -40,19 +40,21 @@ public class Visitor implements Drawable {
    * @param drawings
    * @param walklayer
    */
-  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer){
+  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, ArrayList<AreaLayer> entrances){
       speed = 1;
       angle = 0;
-      this.position = spawnOnEntrance(drawings,walklayer);
+      this.position = spawnOnEntrance(drawings,walklayer,entrances);
       destination = position;
       appointImage();
       isOnLocation = false;
   }
 
-  private Point2D spawnOnEntrance(ArrayList<Drawable> drawings, TiledLayer walklayer) {
+  private Point2D spawnOnEntrance(ArrayList<Drawable> drawings, TiledLayer walklayer,ArrayList<AreaLayer> entrances) {
     Point2D point= null;
-
-
+    Area entrance = entrances.get(0).getEntrances().get(0);
+    /**
+     * gebruik data uit de Area entrance om te bepalen waar de visitors mogen spawnen, let op, zet collision wel aan
+     */
 
 
 

@@ -25,4 +25,8 @@ public class TiledMapView extends JPanel {
       tiledMap.draw(g2d);
     }
   }
+
+  public void update(){
+
+  }
 }

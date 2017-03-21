@@ -138,4 +138,10 @@ public class TiledMap {
     }
   }
 
+  public ArrayList<AreaLayer> getAreaLayers(){
+    return arrayObjectLayers;
+  }
+  public ArrayList<TiledLayer> getTiledLayers(){
+    return arrayLayers;
+  }
 }

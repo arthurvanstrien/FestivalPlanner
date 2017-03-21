@@ -52,4 +52,8 @@ public class AreaLayer {
       o.draw(g2d);
     }
   }
+
+  public ArrayList<Area> getEntrances(){
+    return entrances;
+  }
 }

@@ -2,6 +2,8 @@ package edu.a3.festival_planner.simulator;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import javax.json.JsonObject;
 
 /**
@@ -13,6 +15,7 @@ public class Area {
   private double height = 0;
   private double width = 0;
   private String type = "";
+  private String name = "";
 
 
   public Area(JsonObject jsonObject) {
@@ -21,6 +24,7 @@ public class Area {
     this.height = jsonObject.getInt("height");
     this.width = jsonObject.getInt("width");
     this.type = jsonObject.getString("type");
+    this.name = jsonObject.getString("name");
   }
 
   public void draw(Graphics2D g2d) {
@@ -30,4 +34,24 @@ public class Area {
     g2d.fillRect((int)(this.x), (int)(this.y), (int)(this.width), (int)(this.height));
   }
 
+  public String getType(){
+    return type;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public double getHeigt(){
+      return height;
+  }
+  public double getWidth(){
+    return width;
+  }
+  public double getX(){
+    return x;
+  }
+  public double getY(){
+    return y;
+  }
 }

@@ -1,5 +1,6 @@
 package edu.a3.festival_planner.tests;
 
+import edu.a3.festival_planner.simulator.AreaLayer;
 import edu.a3.festival_planner.simulator.Camera;
 import edu.a3.festival_planner.simulator.Drawable;
 import edu.a3.festival_planner.simulator.TiledLayer;
@@ -50,9 +51,15 @@ public class TestTiledMap extends JPanel {
     //tm = new TiledMap("C:\\Users\\Gebruiker\\Festival Planner\\Maps\\Map_20_03_2017_V4.json");
     tm = new TiledMap("maps/MapV4.json");
     drawings = new ArrayList<>();
-
+    TiledLayer walkable = null;
+    for(int i = 0; i < tm.getTiledLayers().size(); i++){
+      if(tm.getTiledLayers().get(i).getName().equals("Walkable")){
+        walkable = tm.getTiledLayers().get(i);
+      }
+    }
+    ArrayList<AreaLayer> entrances = tm.getAreaLayers();
     for (int i = 0; i < numberOfVisitors; i++) {
-      drawings.add(new Visitor(drawings,tm,new Point2D.Double(3168,1368)));
+      drawings.add(new Visitor(drawings,walkable,entrances));
     }
   }
 
