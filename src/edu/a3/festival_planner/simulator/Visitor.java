@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * Created by robin on 12-3-2017.
  */
 public class Visitor implements Drawable {
+
   private final int red = 3329;
   private final int green = 3331;
 
@@ -23,13 +24,46 @@ public class Visitor implements Drawable {
   private boolean isOnLocation;
   private int imageDiameter;
 
-  public Visitor(Point2D position) {
-    speed = 1;
-    angle = 0;
-    this.position = position;
-    destination = position;
-    appointImage();
-    isOnLocation = false;
+  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, Point2D position) {
+    if (canSpawnOnLocation(drawings, walklayer, position)) {
+      speed = 1;
+      angle = 0;
+      this.position = position;
+      destination = position;
+      appointImage();
+      isOnLocation = false;
+    }
+  }
+
+  /**
+   * Constructor to spawn a visitor at the entrance
+   * @param drawings
+   * @param walklayer
+   */
+  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer){
+      speed = 1;
+      angle = 0;
+      this.position = spawnOnEntrance(drawings,walklayer);
+      destination = position;
+      appointImage();
+      isOnLocation = false;
+  }
+
+  private Point2D spawnOnEntrance(ArrayList<Drawable> drawings, TiledLayer walklayer) {
+    Point2D point= null;
+
+
+
+
+
+    return point;
+  }
+
+  /**
+   * checks if a visitor can spawn on this location
+   */
+  private boolean canSpawnOnLocation(ArrayList<Drawable> drawings, TiledLayer walklayer, Point2D position) {
+    return collides(drawings, walklayer, position);
   }
 
   /**
@@ -57,13 +91,13 @@ public class Visitor implements Drawable {
    * through te list to meet all constraints and collisions with the objects.
    */
   @Override
-  public void update(ArrayList<Drawable> drawings, TiledMap map) {
+  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer) {
     Point2D newPosition;
-    if(isOnLocation){
+    if (isOnLocation) {
       /**
        * Set een timer die na een n.t.b. tijd de dance.activiteit uit en een nieuwe destination zetten.
        */
-    } else{
+    } else {
       /**
        * code met if in objectlayer van een Location, isOnLocation = true;
        * set current location to location van objectlayer.
@@ -76,8 +110,6 @@ public class Visitor implements Drawable {
     double dy = destination.getY() - position.getY();
     double newAngle = Math.atan2(dy, dx);
     double difference = newAngle - angle;
-
-
 
     if (difference > Math.PI || difference < -Math.PI) {
       difference = -((difference) % (2 * Math.PI));
@@ -97,60 +129,52 @@ public class Visitor implements Drawable {
         position.getX() + speed * Math.cos(angle),
         position.getY() + speed * Math.sin(angle));
 
-    if(!collides(drawings, map, newPosition)) {
+    if (!collides(drawings, walklayer, newPosition)) {
       position = newPosition;
-    } else{
-      angle+=0.2;
+    } else {
+      angle += 0.2;
     }
 
-  /**
+    /**
      while (difference < -Math.PI)
      difference += 2 * Math.PI;
      while (difference > Math.PI)
      difference -= 2 * Math.PI;
-   */
+     */
 
   }
 
   /**
    * Checks for collision with unwalkable paths and other drawables
-   * @param drawings
-   * @param map
-   * @return
    */
-  public boolean collides(ArrayList<Drawable> drawings, TiledMap map, Point2D newPosition) {
-    TiledLayer tiledLayer = null;
-    for(int i = 0; i < map.arrayLayers.size(); i++) {
-      if(map.arrayLayers.get(i).name.equals("Walkable")) {
-        tiledLayer = map.arrayLayers.get(i);
-      }
-    }
-    int currentTile = tiledLayer.data2D[(int) newPosition.getX()*32][(int)newPosition.getY()*32];
-    if(currentTile == red) {
-      System.out.println("Collision met map");
-      return true;
-    }else{
-      for(Drawable drawing:drawings){
-        if (drawing == this) {
-          continue;
-        }
-        if (newPosition.distance(drawing.getPosition()) < imageDiameter) {
-          System.out.println("Collision met drawing");
-          return true;
+  public boolean collides(ArrayList<Drawable> drawings, TiledLayer walklayer, Point2D newPosition) {
+      int currentTile = walklayer.data2D[(int) newPosition.getX() / 32][(int) newPosition.getY()
+          / 32];
+
+      if (currentTile == red) {
+        System.out.println("Collision met map");
+        return true;
+      } else {
+        for (Drawable drawing : drawings) {
+          if (drawing == this) {
+            continue;
+          }
+          if (newPosition.distance(drawing.getPosition()) < imageDiameter) {
+            System.out.println("Collision met drawing");
+            return true;
+          }
         }
       }
-    }
     return false;
   }
 
 
-
-
   /**
    * Lets teh visitor dance within tebounds of the stage
+   *
    * @param drawings --> to check for collision
    */
-  public void dance(ArrayList<Drawable> drawings){
+  public void dance(ArrayList<Drawable> drawings) {
     /**
      * Code that lets teh visitor dance;
      */
@@ -181,31 +205,33 @@ public class Visitor implements Drawable {
   private void appointImage() {
     imageDiameter = 8;
     int randomNumber = (int) (Math.random() * 100);
-    if(randomNumber < 25)
+    if (randomNumber < 25) {
       image = VisitorImageList.getImageAtIndex(0);
-    else if(randomNumber < 50)
+    } else if (randomNumber < 50) {
       image = VisitorImageList.getImageAtIndex(1);
-    else if(randomNumber < 75)
+    } else if (randomNumber < 75) {
       image = VisitorImageList.getImageAtIndex(2);
-    else
+    } else {
       image = VisitorImageList.getImageAtIndex(3);
+    }
 
   }
 
-  public void setNewDestination(){
-    int number = (int) Math.random()*100;
-    if(number < 2)
+  public void setNewDestination() {
+    int number = (int) Math.random() * 100;
+    if (number < 2) {
       currentDestination = Location.EXIT;
-    else if(number < 7)
+    } else if (number < 7) {
       currentDestination = Location.TOILET_2;
-    else if(number < 10)
+    } else if (number < 10) {
       currentDestination = Location.TOILET_1;
-    else if(number < 40)
+    } else if (number < 40) {
       currentDestination = Location.STAGE_1;
-    else if(number < 70)
+    } else if (number < 70) {
       currentDestination = Location.STAGE_2;
-    else
+    } else {
       currentDestination = Location.STAGE_3;
+    }
   }
 
 }

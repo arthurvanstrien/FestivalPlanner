@@ -2,6 +2,7 @@ package edu.a3.festival_planner.tests;
 
 import edu.a3.festival_planner.simulator.Camera;
 import edu.a3.festival_planner.simulator.Drawable;
+import edu.a3.festival_planner.simulator.TiledLayer;
 import edu.a3.festival_planner.simulator.TiledMap;
 import edu.a3.festival_planner.simulator.Visitor;
 import edu.a3.festival_planner.simulator.VisitorImageList;
@@ -49,8 +50,9 @@ public class TestTiledMap extends JPanel {
     //tm = new TiledMap("C:\\Users\\Gebruiker\\Festival Planner\\Maps\\Map_20_03_2017_V4.json");
     tm = new TiledMap("maps/MapV4.json");
     drawings = new ArrayList<>();
+
     for (int i = 0; i < numberOfVisitors; i++) {
-      drawings.add(new Visitor(new Point2D.Double(Math.random() * 100, Math.random() * 100)));
+      drawings.add(new Visitor(drawings,tm,new Point2D.Double(3168,1368)));
     }
   }
 
