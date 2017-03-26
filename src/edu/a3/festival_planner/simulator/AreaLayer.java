@@ -1,6 +1,7 @@
 package edu.a3.festival_planner.simulator;
 
 import java.awt.Graphics2D;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.json.JsonObject;
 
@@ -56,4 +57,8 @@ public class AreaLayer {
   public ArrayList<Area> getEntrances(){
     return entrances;
   }
+
+  public ArrayList<Area> getStages() {return stages;}
+
+  public ArrayList<Area> getOtherAreas() {return locations;}
 }

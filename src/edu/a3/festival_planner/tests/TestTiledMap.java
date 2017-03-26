@@ -1,12 +1,17 @@
 package edu.a3.festival_planner.tests;
 
 import edu.a3.festival_planner.simulator.AreaLayer;
+import edu.a3.festival_planner.simulator.BreadthFirstSearch;
 import edu.a3.festival_planner.simulator.Camera;
 import edu.a3.festival_planner.simulator.Drawable;
+import edu.a3.festival_planner.simulator.Location;
 import edu.a3.festival_planner.simulator.TiledLayer;
 import edu.a3.festival_planner.simulator.TiledMap;
 import edu.a3.festival_planner.simulator.Visitor;
 import edu.a3.festival_planner.simulator.VisitorImageList;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D.Double;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -17,7 +22,7 @@ import java.util.ArrayList;
 /**
  * Created by dionb on 20-2-2017.
  */
-public class TestTiledMap extends JPanel {
+public class TestTiledMap extends JPanel implements ActionListener {
 
   public static void main(String[] args) {
     JFrame frame = new JFrame("Hello Java2D");
@@ -41,26 +46,35 @@ public class TestTiledMap extends JPanel {
         frame.setVisible(true);
     }*/
 
-  final int numberOfVisitors = 100;
+  long lastTime = System.currentTimeMillis();
+  long totalPastTime = 0;
+  final int startNumberOfVisitors = 1;
+  final int totalNumberOfVisitors = 1000;
   ArrayList<Drawable> drawings;
+  ArrayList<Visitor> visitors;
   Camera camera = new Camera(this);
   TiledMap tm;
+  BreadthFirstSearch bfs;
 
   public TestTiledMap() {
     fillVisitorImageList();
+    visitors = new ArrayList<>();
     //tm = new TiledMap("C:\\Users\\Gebruiker\\Festival Planner\\Maps\\Map_20_03_2017_V4.json");
     tm = new TiledMap("maps/MapV4.json");
     drawings = new ArrayList<>();
-    TiledLayer walkable = null;
-    for(int i = 0; i < tm.getTiledLayers().size(); i++){
-      if(tm.getTiledLayers().get(i).getName().equals("Walkable")){
-        walkable = tm.getTiledLayers().get(i);
+    TiledLayer walkable = tm.getWalkableLayer();
+    bfs = new BreadthFirstSearch(walkable.getAccesiblePoints());
+    ArrayList<AreaLayer> entrances = tm.getAreaLayers();
+    for (int i = 0; visitors.size() < startNumberOfVisitors; i++) {
+      Visitor tempVisitor = new Visitor(drawings,walkable,entrances, bfs);
+      if(tempVisitor.canSpawnOnLocation(drawings, walkable)) {
+        tempVisitor.setNewDestination();
+        tempVisitor.setDestination(tm.enumToPointDestination(tempVisitor.getCurrentDestination()));
+        drawings.add(tempVisitor);
+        visitors.add(tempVisitor);
       }
     }
-    ArrayList<AreaLayer> entrances = tm.getAreaLayers();
-    for (int i = 0; i < numberOfVisitors; i++) {
-      drawings.add(new Visitor(drawings,walkable,entrances));
-    }
+    new Timer(1000/100, this).start();
   }
 
   public void paintComponent(Graphics g) {
@@ -72,6 +86,36 @@ public class TestTiledMap extends JPanel {
       drawable.draw(g2d);
     }
   }
+
+  public void update() {
+    long pastTime = System.currentTimeMillis() - lastTime;
+    totalPastTime += pastTime;
+    lastTime = lastTime;
+
+    //if the amount of total visitors has not been reached there is a chance to spawn a new visitor
+    if (visitors.size() < totalNumberOfVisitors && Math.random() > 0.7) {
+      Visitor tempVisitor = new Visitor(drawings, tm.getWalkableLayer(), tm.getAreaLayers(), bfs);
+      if (tempVisitor.canSpawnOnLocation(drawings, tm.getWalkableLayer())) {
+        tempVisitor.setNewDestination();
+        tempVisitor.setDestination(tm.enumToPointDestination(tempVisitor.getCurrentDestination()));
+        drawings.add(tempVisitor);
+        visitors.add(tempVisitor);
+      }
+    }
+
+    //check wether the visitor is at his destination, if he is a new location is set
+    for(Visitor v : visitors) {
+      if(v.getAtDestination()) {
+        v.setNewDestination();
+        v.setDestination(tm.enumToPointDestination(v.getCurrentDestination()));
+      }
+    }
+
+    for (Drawable drawable : drawings) {
+        drawable.update(drawings, tm.getWalkableLayer(), pastTime);
+      }
+      repaint();
+    }
 
   private void fillVisitorImageList() {
     try {
@@ -103,5 +147,10 @@ public class TestTiledMap extends JPanel {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    update();
   }
 }

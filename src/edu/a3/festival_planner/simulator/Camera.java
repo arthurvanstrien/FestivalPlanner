@@ -17,7 +17,7 @@ import javax.swing.SwingUtilities;
 public class Camera implements MouseListener, MouseMotionListener, MouseWheelListener {
 
   Point2D centerPoint = new Double(0.0D, 0.0D);
-  double zoom = 1.0D;
+  double zoom = 0.4D;
   double rotation = 0.0D;
   Point2D lastMousePos;
   JPanel panel;

@@ -111,10 +111,9 @@ public class SimulationView extends JFrame implements ActionListener {
     double elapsedTime = (currenttime - lastTime) / 1000000000.0;
     lastTime = currenttime;
     seconds += (elapsedTime * (sliderSpeed.getValue() / 100));
-    time = new Time((int) seconds / 60 / 60 % 24, (int) seconds / 60 % 60);
+    time = new Time((int) ((seconds / 60) / 60) % 24, (int) (seconds / 60) % 60);
     currentTime.setText("Current time : " + time.toString());
     currentSpeed.setText("speed: " + sliderSpeed.getValue());
-
   }
 
   @Override

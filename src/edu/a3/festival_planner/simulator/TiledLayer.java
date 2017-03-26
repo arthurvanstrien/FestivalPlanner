@@ -1,5 +1,7 @@
 package edu.a3.festival_planner.simulator;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import javax.json.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -14,10 +16,12 @@ public class TiledLayer {
   BufferedImage img;
   boolean isDirty;
   String name;
+  ArrayList<Point> accesiblePoints;
 
   public TiledLayer(JsonObject jsonLayer, TiledMap map) {
     this.map = map;
     isDirty = true;
+    accesiblePoints = new ArrayList<>();
     this.height = jsonLayer.getInt("height");
     this.width = jsonLayer.getInt("width");
     data2D = new int[height][width];
@@ -30,6 +34,9 @@ public class TiledLayer {
     for (int y = 0; y < this.height; ++y) {
       for (int x = 0; x < this.width; ++x) {
         data2D[y][x] = data.getInt(index);
+        if(data.getInt(index) == 3331 || data.getInt(index) == 0) {
+          accesiblePoints.add(new Point(x, y));
+        }
         ++index;
       }
     }
@@ -60,4 +67,6 @@ public class TiledLayer {
   public String getName(){
     return name;
   }
+
+  public ArrayList<Point> getAccesiblePoints() {return accesiblePoints;}
 }
