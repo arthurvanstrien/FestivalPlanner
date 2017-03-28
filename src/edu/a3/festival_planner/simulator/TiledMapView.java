@@ -5,6 +5,7 @@ import edu.a3.festival_planner.general.Time;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.JPanel;
 
 /**
@@ -17,7 +18,7 @@ public class TiledMapView extends JPanel {
   ArrayList<Drawable> visitors;
   BreadthFirstSearch bfs;
   Agenda agenda;
-  int maxNumberOfVisitors = 1;
+  int maxNumberOfVisitors = 100;
 
   public TiledMapView(TiledMap tiledMap, Agenda agenda) {
     this.tiledMap = tiledMap;
@@ -41,22 +42,21 @@ public class TiledMapView extends JPanel {
 
   public void update(double elapsedTime, Time time){
     spawnVisitor(time);
-    for(Drawable v : visitors) {
-      v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime, agenda, time);
-      if(v instanceof  Visitor) {
-        if(((Visitor) v).getAtDestination()) {
-          v.setDestination(tiledMap.enumToPointDestination(((Visitor) v).getCurrentDestination()), time);
-        }
-      }
+    Iterator it = visitors.iterator();
+    while(it.hasNext()) {
+      Visitor v = (Visitor) it.next();
+      v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime, agenda, time, tiledMap);
     }
-
+    if(visitors.size() > 0) {
+      ((Visitor) visitors.get(0)).printBlatter();
+    }
     repaint();
   }
 
   public void spawnVisitor(Time time) {
     //if the amount of total visitors has not been reached there is a chance to spawn a new visitor
     if (visitors.size() < maxNumberOfVisitors && Math.random() > 0.7) {
-      Visitor tempVisitor = new Visitor(visitors, tiledMap.getWalkableLayer(), tiledMap.getAreaLayers(), bfs, agenda,time);
+      Visitor tempVisitor = new Visitor(visitors, tiledMap.getWalkableLayer(), tiledMap.getAreaLayers(), bfs, agenda,time, tiledMap);
       if (tempVisitor.canSpawnOnLocation(visitors, tiledMap.getWalkableLayer())) {
         tempVisitor.setDestination(tiledMap.enumToPointDestination(tempVisitor.getCurrentDestination()),
             time);

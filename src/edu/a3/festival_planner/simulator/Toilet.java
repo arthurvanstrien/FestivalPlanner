@@ -45,7 +45,7 @@ public class Toilet implements Drawable {
   }
 
   @Override
-  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double pastTime, Agenda agenda, Time time) {
+  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double pastTime, Agenda agenda, Time time, TiledMap tiledMap) {
 
   }
 
