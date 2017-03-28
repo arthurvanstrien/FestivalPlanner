@@ -18,6 +18,7 @@ public class Visitor implements Drawable {
 
   private final int red = 3329;
   private final int green = 3331;
+  private final double pathAccurency = (Math.random() * 8) + 8;
 
   private Location currentLocation;
   private Location currentDestination;
@@ -28,12 +29,15 @@ public class Visitor implements Drawable {
   int currentStepInPath = 0;
   BreadthFirstSearch bfs;
   boolean newDestination = false;
-  long totalPastTime = 0;
+  long totalElapsedTime = 0;
   private BufferedImage image;
   private double angle;
   private double speed;
   private boolean isOnLocation;
   private int imageDiameter;
+  private final int mapWith = 100;
+  private final int mapHeight = 100;
+  private int collisionCounter = 0;
 
 //  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, Point2D position) {
 //    if (canSpawnOnLocation(drawings, walklayer, position)) {
@@ -48,22 +52,22 @@ public class Visitor implements Drawable {
 
   /**
    * Constructor to spawn a visitor at the entrance
-   * @param drawings
-   * @param walklayer
    */
-  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, ArrayList<AreaLayer> entrances){
-      speed = 10;
-      angle = 0;
-      this.position = spawnOnEntrance(drawings,walklayer,entrances);
-      destination = new Point2D.Double(0, 0);
-      appointImage();
-      isOnLocation = false;
-  }
+//  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer,
+//      ArrayList<AreaLayer> entrances) {
+//    speed = 10;
+//    angle = 0;
+//    this.position = spawnOnEntrance(drawings, walklayer, entrances);
+//    destination = new Point2D.Double(0, 0);
+//    appointImage();
+//    isOnLocation = false;
+//  }
 
-  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, ArrayList<AreaLayer> entrances, BreadthFirstSearch bfs){
-    speed = 5;
+  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, ArrayList<AreaLayer> entrances,
+      BreadthFirstSearch bfs) {
+    speed = 10;
     angle = Math.PI;
-    this.position = spawnOnEntrance(drawings,walklayer,entrances);
+    this.position = spawnOnEntrance(drawings, walklayer, entrances);
     appointImage();
     isOnLocation = false;
     this.bfs = bfs;
@@ -72,12 +76,15 @@ public class Visitor implements Drawable {
   }
 
   /**
-   * gebruik data uit de Area entrance om te bepalen waar de visitors mogen spawnen, let op, zet collision wel aan
+   * gebruik data uit de Area entrance om te bepalen waar de visitors mogen spawnen, let op, zet
+   * collision wel aan
    */
-  private Point2D spawnOnEntrance(ArrayList<Drawable> drawings, TiledLayer walklayer,ArrayList<AreaLayer> entrances) {
-    Point2D point= null;
+  private Point2D spawnOnEntrance(ArrayList<Drawable> drawings, TiledLayer walklayer,
+      ArrayList<AreaLayer> entrances) {
+    Point2D point = null;
     Area entrance = entrances.get(0).getEntrances().get(0);
-    point = new Point2D.Double(entrance.getX() + (entrance.getWidth() - 50 * Math.random()), entrance.getY() + (entrance.getHeigt() * Math.random()));
+    point = new Point2D.Double(entrance.getX() + (entrance.getWidth() - 50 * Math.random()),
+        entrance.getY() + (entrance.getHeigt() * Math.random()));
     return point;
   }
 
@@ -88,8 +95,17 @@ public class Visitor implements Drawable {
     return !collides(drawings, walklayer, position);
   }
 
+  public boolean hasSpawned() {
+    if (position == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   /**
    * Draws the visitor.
+   *
    * @param g2d is the graphics object the visitor wil be drawn on.
    */
   @Override
@@ -112,8 +128,8 @@ public class Visitor implements Drawable {
    * through te list to meet all constraints and collisions with the objects.
    */
   @Override
-  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, long pastTime) {
-    totalPastTime += pastTime;
+  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double elapsedTime) {
+    totalElapsedTime += elapsedTime;
     Point2D newPosition;
     if (isOnLocation) {
       /**
@@ -128,24 +144,23 @@ public class Visitor implements Drawable {
       if (newDestination) {
         //the new path gets calculated and the inBetweenDestination gets set to the next inBetweedDestination
         newDestination = false;
-        path = bfs.searchShortestPath(new Point((int) position.getX() / 32, (int) position.getY() / 32),
+        path = bfs
+            .searchShortestPath(new Point((int) position.getX() / 32, (int) position.getY() / 32),
                 new Point((int) destination.getX() / 32, (int) destination.getY() / 32));
         currentStepInPath = 0;
         if (currentStepInPath < path.size()) {
-          inBetweenDestination = new Point2D.Double(path.get(currentStepInPath).getX() * 32,
-              path.get(currentStepInPath).getY() * 32);
+          inBetweenDestination = new Point2D.Double((path.get(currentStepInPath).getX() * 32) + 10,
+              (path.get(currentStepInPath).getY() * 32) + 10);
         } else {
           isOnLocation = true;
         }
       } else {
         //check if het visitor is at the current inBetweenDestination if true then the next inBetweenDestination is set
-        if (position.getX() >= (inBetweenDestination.getX() - 8) && position.getX() <= (
-            inBetweenDestination.getX() + 8) && position.getY() >= (inBetweenDestination.getY() - 8)
-            && position.getY() <= (inBetweenDestination.getY() + 8)) {
+        if (position.getX() >= (inBetweenDestination.getX() - pathAccurency) && position.getX() <= (
+            inBetweenDestination.getX() + pathAccurency) && position.getY() >= (inBetweenDestination.getY() - pathAccurency)
+            && position.getY() <= (inBetweenDestination.getY() + pathAccurency)) {
           if (currentStepInPath < path.size()) {
-            inBetweenDestination = new Point2D.Double(path.get(currentStepInPath).getX() * 32,
-                path.get(currentStepInPath).getY() * 32);
-            currentStepInPath++;
+            nextPointInPath();
           } else {
             isOnLocation = true;
           }
@@ -174,59 +189,163 @@ public class Visitor implements Drawable {
 
     //Berekent de nieuwe positie van de visitor
     newPosition = new Point2D.Double(
-        position.getX() + speed * Math.cos(angle),
-        position.getY() + speed * Math.sin(angle));
+        position.getX() + elapsedTime * speed * Math.cos(angle),
+        position.getY() + elapsedTime * speed * Math.sin(angle));
 
-    if (!collides(drawings, walklayer, newPosition)) {
-      position = newPosition;
-    } else {
-      if(Math.random() > 0.5) {
-        angle += 2;
+//    Old collision code
+//    if (!collides(drawings, walklayer, newPosition)) {
+//      position = newPosition;
+//    } else {
+//      if(Math.random() > 0.5) {
+//        angle += 2;
+//      } else {
+//        angle -= 2;
+//      }
+//    }
+
+    if (!collidesWithVisitor(drawings, newPosition)) {
+      if (!collidesWithTiles(walklayer, newPosition)) {
+        position = newPosition;
+        collisionCounter = 0;
       } else {
-        angle -= 2;
+        rotateLikeADumbAss();
+      }
+    } else {
+      evadeVisitor(newPosition,drawings);
+    }
+  }
+
+  private void nextPointInPath() {
+    if(currentStepInPath < path.size()) {
+      inBetweenDestination = new Point2D.Double(path.get(currentStepInPath).getX() * 32,
+          path.get(currentStepInPath).getY() * 32);
+      currentStepInPath++;
+    } else {
+      System.out.println("Visitor weet niets meer");
+
+    }
+  }
+
+  /**
+   * Let a visitor evade another visitor, we think
+   * @param newPosition
+   * @param drawings
+   */
+  public void evadeVisitor(Point2D newPosition,ArrayList<Drawable> drawings){
+    angle = angle % 360;
+    if(angle >= 45 && angle <= 135){
+      newPosition = new Double(newPosition.getX() + 5, newPosition.getY());
+    }else if(angle > 135 && angle <= 225){
+      newPosition = new Double(newPosition.getX(), newPosition.getY() - 5);
+    }else if(angle > 225 && angle <= 315){
+      newPosition = new Double(newPosition.getX() - 5, newPosition.getY());
+    }else {
+      newPosition = new Double(newPosition.getX(), newPosition.getY() + 5);
+    }
+    if(!collidesWithVisitor(drawings,newPosition)) {
+      position = newPosition;
+    }else {
+      if (collisionCounter < 30) {
+        rotateLikeADumbAss();
+      } else {
+        collisionCounter = 0;
+        nextPointInPath();
+        System.out.println("Kutzooi");
       }
     }
   }
+
 
   /**
    * Checks for collision with unwalkable paths and other drawables
+   * Old method, do not use.
    */
   public boolean collides(ArrayList<Drawable> drawings, TiledLayer walklayer, Point2D newPosition) {
-    if(newPosition.getY() > 99 * 32) {
+    if (newPosition.getY() > (mapWith - 1) * 32) {
       newPosition = new Double(newPosition.getX(), 99 * 32);
-    } else if(newPosition.getX() > 99 * 32) {
+    } else if (newPosition.getX() > (mapHeight - 1) * 32) {
       newPosition = new Double(99 * 32, newPosition.getX());
     }
-      int currentTile = walklayer.data2D[ (int)Math.floor(newPosition.getY() / 32)][(int) Math.floor(newPosition.getX()
-          / 32)];
+    int currentTile = walklayer.data2D[(int) Math.floor(newPosition.getY() / 32)][(int) Math
+        .floor(newPosition.getX()
+            / 32)];
 
-      if (currentTile == red) {
-        //System.out.println("Collision met map");
-        return true;
-      } else {
-        for (Drawable drawing : drawings) {
-          if (drawing == this) {
-            continue;
-          }
-          if (newPosition.distance(drawing.getPosition()) < imageDiameter) {
-            //System.out.println("Collision met drawing");
-            return true;
-          }
+    if (currentTile == red) {
+      //System.out.println("Collision met map");
+      return true;
+    } else {
+      for (Drawable drawing : drawings) {
+        if (drawing == this) {
+          continue;
+        }
+        if (newPosition.distance(drawing.getPosition()) < imageDiameter) {
+          //System.out.println("Collision met drawing");
+          return true;
         }
       }
+    }
     return false;
+  }
+
+  /**
+   * Let the visitor rotate like a dumbass
+   */
+  private void rotateLikeADumbAss(){
+    if (Math.random() > 0.5) {
+      angle += 2;
+    } else {
+      angle -= 2;
+    }
+    collisionCounter++;
+  }
+
+  /**
+   * checks collision with visitors
+   */
+  public boolean collidesWithVisitor(ArrayList<Drawable> drawings, Point2D newPosition) {
+    for (Drawable drawing : drawings) {
+      if (drawing == this) {
+        continue;
+      }
+      if (newPosition.distance(drawing.getPosition()) < imageDiameter) {
+        //System.out.println("Collision met drawing");
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Checks collision with the map
+   */
+  public boolean collidesWithTiles(TiledLayer walklayer, Point2D newPosition) {
+    if (newPosition.getY() > (mapWith - 1) * 32) {
+      newPosition = new Double(newPosition.getX(), (mapWith - 1) * 32);
+    } else if (newPosition.getX() > (mapHeight - 1) * 32) {
+      newPosition = new Double((mapWith - 1) * 32, newPosition.getX());
+    }
+    int currentTile = walklayer.data2D[(int) Math.floor((newPosition.getY())/ 32)][(int) Math
+        .floor((newPosition.getX())
+            / 32)];
+    if (currentTile == red) {
+      //System.out.println("Collision met map");
+      return true;
+    } else {
+      return false;
+    }
   }
 
 
   /**
-   * Lets teh visitor dance within tebounds of the stage
-   *
-   * @param drawings --> to check for collision
+   * Lets teh visitor dance within the bounds of the stage.
    */
-  public void dance(ArrayList<Drawable> drawings) {
+  public void dance() {
     /**
-     * Code that lets teh visitor dance;
+     * Code that lets the visitor dance;
      */
+
+
+
   }
 
 
@@ -267,7 +386,7 @@ public class Visitor implements Drawable {
   }
 
   public void setNewDestination() {
-    int number = (int)(Math.random() * 100);
+    int number = (int) (Math.random() * 100);
     if (number < 2) {
       currentDestination = Location.EXIT;
     } else if (number < 7) {

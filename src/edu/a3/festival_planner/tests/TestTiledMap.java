@@ -49,7 +49,7 @@ public class TestTiledMap extends JPanel implements ActionListener {
   long lastTime = System.currentTimeMillis();
   long totalPastTime = 0;
   final int startNumberOfVisitors = 1;
-  final int totalNumberOfVisitors = 1000;
+  final int totalNumberOfVisitors = 200;
   ArrayList<Drawable> drawings;
   ArrayList<Visitor> visitors;
   Camera camera = new Camera(this);
@@ -60,7 +60,7 @@ public class TestTiledMap extends JPanel implements ActionListener {
     fillVisitorImageList();
     visitors = new ArrayList<>();
     //tm = new TiledMap("C:\\Users\\Gebruiker\\Festival Planner\\Maps\\Map_20_03_2017_V4.json");
-    tm = new TiledMap("maps/MapV4.json");
+    tm = new TiledMap("maps/MapV7.json");
     drawings = new ArrayList<>();
     TiledLayer walkable = tm.getWalkableLayer();
     bfs = new BreadthFirstSearch(walkable.getAccesiblePoints());

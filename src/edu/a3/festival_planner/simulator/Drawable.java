@@ -11,7 +11,7 @@ public interface Drawable {
 
   void draw(Graphics2D g2d);
 
-  void update(ArrayList<Drawable> drawings, TiledLayer walklayer, long pastTime);
+  void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double pastTime);
 
   Point2D getPosition();
 

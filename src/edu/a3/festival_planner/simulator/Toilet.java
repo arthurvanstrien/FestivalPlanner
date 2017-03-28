@@ -43,7 +43,7 @@ public class Toilet implements Drawable {
   }
 
   @Override
-  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, long pastTime) {
+  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double pastTime) {
 
   }
 
