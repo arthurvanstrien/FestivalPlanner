@@ -1,15 +1,19 @@
 package edu.a3.festival_planner.simulator;
 
 
+import edu.a3.festival_planner.agenda.Agenda;
+import edu.a3.festival_planner.agenda.Show;
+import edu.a3.festival_planner.general.Time;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
-import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by robin on 12-3-2017.
@@ -53,6 +57,7 @@ public class Visitor implements Drawable {
   /**
    * Constructor to spawn a visitor at the entrance
    */
+
 //  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer,
 //      ArrayList<AreaLayer> entrances) {
 //    speed = 10;
@@ -64,14 +69,14 @@ public class Visitor implements Drawable {
 //  }
 
   public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, ArrayList<AreaLayer> entrances,
-      BreadthFirstSearch bfs) {
-    speed = 10;
+      BreadthFirstSearch bfs, Agenda agenda) {
+    speed = 3;
     angle = Math.PI;
     this.position = spawnOnEntrance(drawings, walklayer, entrances);
     appointImage();
     isOnLocation = false;
     this.bfs = bfs;
-    setNewDestination();
+    setNewDestination(agenda);
     destination = new Point2D.Double(2800, 1500);
   }
 
@@ -128,13 +133,14 @@ public class Visitor implements Drawable {
    * through te list to meet all constraints and collisions with the objects.
    */
   @Override
-  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double elapsedTime) {
+  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double elapsedTime, Agenda agenda) {
     totalElapsedTime += elapsedTime;
     Point2D newPosition;
     if (isOnLocation) {
       /**
        * Set een timer die na een n.t.b. tijd de dance.activiteit uit en een nieuwe destination zetten.
        */
+        //setNewDestination(agenda);
     } else {
       /**
        * code met if in objectlayer van een Location, isOnLocation = true;
@@ -163,6 +169,7 @@ public class Visitor implements Drawable {
             nextPointInPath();
           } else {
             isOnLocation = true;
+            totalElapsedTime = 0;
           }
         }
       }
@@ -337,17 +344,13 @@ public class Visitor implements Drawable {
 
 
   /**
-   * Lets teh visitor dance within the bounds of the stage.
+   * Lets the visitor dance within the bounds of the stage.
    */
   public void dance() {
     /**
      * Code that lets the visitor dance;
      */
-
-
-
   }
-
 
   /**
    * @return gives the position of the visitor
@@ -361,11 +364,14 @@ public class Visitor implements Drawable {
    * this method sets the destination.
    *
    * @param destination will be the new destination
+   * @param time
    */
   @Override
-  public void setDestination(Point2D destination) {
+  public void setDestination(Point2D destination, Time time) {
     this.destination = destination;
   }
+
+
 
   /**
    * Gives the visitor a random image of a predefined pool
@@ -385,20 +391,64 @@ public class Visitor implements Drawable {
 
   }
 
-  public void setNewDestination() {
-    int number = (int) (Math.random() * 100);
-    if (number < 2) {
-      currentDestination = Location.EXIT;
-    } else if (number < 7) {
-      currentDestination = Location.TOILET_2;
-    } else if (number < 10) {
-      currentDestination = Location.TOILET_1;
-    } else if (number < 40) {
+  public void setNewDestination(Agenda agenda) {
+    Set<Show> shows = agenda.getAllShows();
+    HashMap<Location,Show> showMap =  new HashMap<>();
+    double totalPopularity = 0;
+    double toiletPopularity = 2;
+    double exitPopularity = 0.5;
+    totalPopularity += toiletPopularity+toiletPopularity+exitPopularity;
+    for (Show s:shows) {
+      totalPopularity += s.getExpectedPopularity();
+      showMap.put(s.getStage().getLocation(), s);
+    }
+    double popularityCounter = 0;
+
+
+
+    int number = (int) (Math.random() * totalPopularity);
+    if((showMap.get(Location.STAGE_1)) != null) {
+      popularityCounter = ((showMap.get(Location.STAGE_1).getExpectedPopularity()));
+    }
+    if (number < popularityCounter){
       currentDestination = Location.STAGE_1;
-    } else if (number < 70) {
-      currentDestination = Location.STAGE_2;
     } else {
-      currentDestination = Location.STAGE_3;
+
+      if((showMap.get(Location.STAGE_2)) != null) {
+        popularityCounter += ((showMap.get(Location.STAGE_2).getExpectedPopularity()));
+      }
+      if (number < popularityCounter) {
+        currentDestination = Location.STAGE_2;
+
+      } else {
+        if((showMap.get(Location.STAGE_3)) != null) {
+          popularityCounter += ((showMap.get(Location.STAGE_3).getExpectedPopularity()));
+        }
+          if(number < popularityCounter) {
+          currentDestination = Location.STAGE_3;
+          }
+          else {
+
+            popularityCounter += exitPopularity;
+            if (number < popularityCounter  ) {
+              currentDestination = Location.EXIT;
+            } else {
+
+              popularityCounter += toiletPopularity;
+              if (number < popularityCounter) {
+                currentDestination = Location.TOILET_1;
+              } else {
+
+                popularityCounter += toiletPopularity;
+                if (number < popularityCounter) {
+                  currentDestination = Location.TOILET_2;
+                } else {
+                  currentDestination = Location.EXIT;
+                }
+              }
+            }
+          }
+      }
     }
     isOnLocation = false;
     newDestination = true;

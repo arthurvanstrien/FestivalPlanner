@@ -4,18 +4,15 @@ import edu.a3.festival_planner.simulator.AreaLayer;
 import edu.a3.festival_planner.simulator.BreadthFirstSearch;
 import edu.a3.festival_planner.simulator.Camera;
 import edu.a3.festival_planner.simulator.Drawable;
-import edu.a3.festival_planner.simulator.Location;
 import edu.a3.festival_planner.simulator.TiledLayer;
 import edu.a3.festival_planner.simulator.TiledMap;
 import edu.a3.festival_planner.simulator.Visitor;
 import edu.a3.festival_planner.simulator.VisitorImageList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D.Double;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -66,10 +63,11 @@ public class TestTiledMap extends JPanel implements ActionListener {
     bfs = new BreadthFirstSearch(walkable.getAccesiblePoints());
     ArrayList<AreaLayer> entrances = tm.getAreaLayers();
     for (int i = 0; visitors.size() < startNumberOfVisitors; i++) {
-      Visitor tempVisitor = new Visitor(drawings,walkable,entrances, bfs);
+      Visitor tempVisitor = new Visitor(drawings,walkable,entrances, bfs, null);
       if(tempVisitor.canSpawnOnLocation(drawings, walkable)) {
-        tempVisitor.setNewDestination();
-        tempVisitor.setDestination(tm.enumToPointDestination(tempVisitor.getCurrentDestination()));
+        tempVisitor.setNewDestination(null);
+        tempVisitor.setDestination(tm.enumToPointDestination(tempVisitor.getCurrentDestination()),
+            time);
         drawings.add(tempVisitor);
         visitors.add(tempVisitor);
       }
@@ -94,10 +92,11 @@ public class TestTiledMap extends JPanel implements ActionListener {
 
     //if the amount of total visitors has not been reached there is a chance to spawn a new visitor
     if (visitors.size() < totalNumberOfVisitors && Math.random() > 0.7) {
-      Visitor tempVisitor = new Visitor(drawings, tm.getWalkableLayer(), tm.getAreaLayers(), bfs);
+      Visitor tempVisitor = new Visitor(drawings, tm.getWalkableLayer(), tm.getAreaLayers(), bfs, null);
       if (tempVisitor.canSpawnOnLocation(drawings, tm.getWalkableLayer())) {
-        tempVisitor.setNewDestination();
-        tempVisitor.setDestination(tm.enumToPointDestination(tempVisitor.getCurrentDestination()));
+        tempVisitor.setNewDestination(null);
+        tempVisitor.setDestination(tm.enumToPointDestination(tempVisitor.getCurrentDestination()),
+            time);
         drawings.add(tempVisitor);
         visitors.add(tempVisitor);
       }
@@ -106,13 +105,13 @@ public class TestTiledMap extends JPanel implements ActionListener {
     //check wether the visitor is at his destination, if he is a new location is set
     for(Visitor v : visitors) {
       if(v.getAtDestination()) {
-        v.setNewDestination();
-        v.setDestination(tm.enumToPointDestination(v.getCurrentDestination()));
+        v.setNewDestination(null);
+        v.setDestination(tm.enumToPointDestination(v.getCurrentDestination()), time);
       }
     }
 
     for (Drawable drawable : drawings) {
-        drawable.update(drawings, tm.getWalkableLayer(), pastTime);
+        drawable.update(drawings, tm.getWalkableLayer(), pastTime, null);
       }
       repaint();
     }

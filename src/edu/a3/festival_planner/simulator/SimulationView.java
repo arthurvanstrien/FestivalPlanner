@@ -63,7 +63,7 @@ public class SimulationView extends JFrame implements ActionListener {
 
     JPanel simulation = new JPanel(new BorderLayout());
 
-    tiledMapView = new TiledMapView(main.getTiledMap());
+    tiledMapView = new TiledMapView(main.getTiledMap(), agenda);
     JPanel tiledMap = tiledMapView;
     simulation.setBorder(BorderFactory.createEtchedBorder());
     simulation.add(tiledMap, BorderLayout.CENTER);
@@ -118,7 +118,7 @@ public class SimulationView extends JFrame implements ActionListener {
     currentTime.setText("Current time : " + time.toString());
     currentSpeed.setText("speed: " + sliderSpeed.getValue());
 
-    tiledMapView.update(elapsedTime);
+    tiledMapView.update(elapsedTime * (sliderSpeed.getValue() / 100), time);
   }
 
   @Override

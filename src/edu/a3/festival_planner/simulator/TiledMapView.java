@@ -1,9 +1,10 @@
 package edu.a3.festival_planner.simulator;
 
+import edu.a3.festival_planner.agenda.Agenda;
+import edu.a3.festival_planner.general.Time;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import javax.swing.JPanel;
 
 /**
@@ -15,16 +16,15 @@ public class TiledMapView extends JPanel {
   Camera camera;
   ArrayList<Drawable> visitors;
   BreadthFirstSearch bfs;
+  Agenda agenda;
+  int maxNumberOfVisitors = 20;
 
-  public TiledMapView(TiledMap tiledMap) {
+  public TiledMapView(TiledMap tiledMap, Agenda agenda) {
     this.tiledMap = tiledMap;
     camera = new Camera(this);
     visitors = new ArrayList<>();
     bfs = new BreadthFirstSearch(tiledMap.getWalkableLayer().getAccesiblePoints());
-
-    for (int x = 0; x < 50; x++) {
-      spawnVisitor();
-    }
+    this.agenda = agenda;
   }
 
   public void paintComponent(Graphics g) {
@@ -39,20 +39,30 @@ public class TiledMapView extends JPanel {
     }
   }
 
-  public void update(double elapsedTime){
+  public void update(double elapsedTime, Time time){
+    spawnVisitor(time);
     for(Drawable v : visitors) {
-      v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime);
+      v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime, agenda);
+      if(v instanceof  Visitor) {
+        if(((Visitor) v).getAtDestination()) {
+          v.setDestination(tiledMap.enumToPointDestination(((Visitor) v).getCurrentDestination()), time);
+        }
+      }
     }
+
     repaint();
   }
 
-  public void spawnVisitor() {
-      ArrayList<AreaLayer> entrances = tiledMap.getAreaLayers();
-      Visitor visitorToAdd = new Visitor(visitors,  tiledMap.getWalkableLayer(),entrances, bfs);
-      if(visitorToAdd.hasSpawned()) {
-        visitorToAdd.setNewDestination();
-        visitorToAdd.setDestination(tiledMap.enumToPointDestination(visitorToAdd.getCurrentDestination()));
-        visitors.add(visitorToAdd);
+  public void spawnVisitor(Time time) {
+    //if the amount of total visitors has not been reached there is a chance to spawn a new visitor
+    if (visitors.size() < maxNumberOfVisitors && Math.random() > 0.7) {
+      Visitor tempVisitor = new Visitor(visitors, tiledMap.getWalkableLayer(), tiledMap.getAreaLayers(), bfs, agenda);
+      if (tempVisitor.canSpawnOnLocation(visitors, tiledMap.getWalkableLayer())) {
+        tempVisitor.setDestination(tiledMap.enumToPointDestination(tempVisitor.getCurrentDestination()),
+            time);
+        visitors.add(tempVisitor);
       }
+    }
   }
+
 }

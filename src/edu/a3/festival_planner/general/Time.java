@@ -42,4 +42,17 @@ public class Time implements Serializable {
   public String toString() {
     return String.format("%02d", hour) + ":" + String.format("%02d", minute);
   }
+
+  public boolean isBefore(Time time){
+    return toSeconds() < time.toSeconds();
+  }
+
+  public boolean isAfter(Time time){
+    return toSeconds() < time.toSeconds();
+  }
+
+  public boolean isTheSame(Time time){
+    return toSeconds() == time.toSeconds();
+  }
+
 }

@@ -1,5 +1,6 @@
 package edu.a3.festival_planner.agenda;
 
+import edu.a3.festival_planner.simulator.Location;
 import java.io.Serializable;
 
 /**
@@ -8,6 +9,7 @@ import java.io.Serializable;
 public class Stage implements Serializable, Comparable {
 
   private String name;
+  private Location location;
   private int surfaceArea;
 
   public Stage(String name) {
@@ -16,6 +18,13 @@ public class Stage implements Serializable, Comparable {
 
   public Stage(String name, int surfaceArea) {
     this.name = name;
+    if(name.equals("Main Stage")) {
+      location = Location.STAGE_1;
+    } else if(name.equals("Second Stage")) {
+      location = Location.STAGE_2;
+    } else {
+      location = Location.STAGE_3;
+    }
     this.surfaceArea = surfaceArea;
   }
 
@@ -44,5 +53,9 @@ public class Stage implements Serializable, Comparable {
   public int compareTo(Object o) {
     Stage comparableStage = (Stage) o;
     return comparableStage.getSurfaceArea() - this.getSurfaceArea();
+  }
+
+  public Location getLocation() {
+    return location;
   }
 }

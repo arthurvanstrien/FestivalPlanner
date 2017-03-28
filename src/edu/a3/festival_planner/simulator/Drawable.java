@@ -1,5 +1,7 @@
 package edu.a3.festival_planner.simulator;
 
+import edu.a3.festival_planner.agenda.Agenda;
+import edu.a3.festival_planner.general.Time;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -11,9 +13,9 @@ public interface Drawable {
 
   void draw(Graphics2D g2d);
 
-  void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double pastTime);
+  void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double pastTime, Agenda agenda);
 
   Point2D getPosition();
 
-  void setDestination(Point2D destination);
+  void setDestination(Point2D destination, Time time);
 }

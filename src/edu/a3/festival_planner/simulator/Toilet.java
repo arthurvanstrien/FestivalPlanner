@@ -1,5 +1,7 @@
 package edu.a3.festival_planner.simulator;
 
+import edu.a3.festival_planner.agenda.Agenda;
+import edu.a3.festival_planner.general.Time;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -43,7 +45,7 @@ public class Toilet implements Drawable {
   }
 
   @Override
-  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double pastTime) {
+  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double pastTime, Agenda agenda) {
 
   }
 
@@ -53,7 +55,7 @@ public class Toilet implements Drawable {
   }
 
   @Override
-  public void setDestination(Point2D destination) {
+  public void setDestination(Point2D destination, Time time) {
 
   }
 }

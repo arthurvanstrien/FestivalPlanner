@@ -5,6 +5,8 @@ import edu.a3.festival_planner.general.Time;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by dionb on 6-2-2017.
@@ -79,5 +81,21 @@ public class Agenda implements Serializable {
 
   public Time[] getTimes() {
     return times;
+  }
+
+  /**
+   * returns a set with all shows.
+   * @return
+   */
+  public Set<Show> getAllShows() {
+    Set<Show> shows = new HashSet<>();
+    for(int r = 0; r < getShows().length; r++) {
+      for (int h = 0; h < getShows()[r].length; h++) {
+        if(getShows()[r][h] != null) {
+          shows.add(getShows()[r][h]);
+        }
+      }
+    }
+    return shows;
   }
 }
