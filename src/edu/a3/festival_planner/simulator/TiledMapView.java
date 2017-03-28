@@ -17,7 +17,7 @@ public class TiledMapView extends JPanel {
   ArrayList<Drawable> visitors;
   BreadthFirstSearch bfs;
   Agenda agenda;
-  int maxNumberOfVisitors = 20;
+  int maxNumberOfVisitors = 1;
 
   public TiledMapView(TiledMap tiledMap, Agenda agenda) {
     this.tiledMap = tiledMap;

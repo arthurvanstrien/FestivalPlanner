@@ -44,6 +44,8 @@ public class Visitor implements Drawable {
   private int collisionCounter = 0;
   private Time arrivalTime;
   private HashMap<Location,Show> shows;
+  private boolean hasPooped;
+  private boolean debug = false;
 
 //  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, Point2D position) {
 //    if (canSpawnOnLocation(drawings, walklayer, position)) {
@@ -80,6 +82,7 @@ public class Visitor implements Drawable {
     this.bfs = bfs;
     setNewDestination(agenda, time);
     destination = new Point2D.Double(2800, 1500);
+    hasPooped = false;
   }
 
   /**
@@ -138,32 +141,52 @@ public class Visitor implements Drawable {
   public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double elapsedTime, Agenda agenda, Time time) {
     totalElapsedTime += elapsedTime;
     Point2D newPosition;
+
     if (isOnLocation) {
       switch(currentDestination){
         case STAGE_1:{
-          if(time.isAfter(shows.get(Location.STAGE_1).getEndTime()));
-          setNewDestination(agenda, time);
+          if(time.isAfter(shows.get(Location.STAGE_1).getEndTime()) && !time.isBefore(shows.get(Location.STAGE_1).getBeginTime())) {
+            setNewDestination(agenda, time);
+          }
+          if(debug) {
+            System.out.println(time.toString() + " klaar om:" + shows.get(Location.STAGE_1).getBeginTime());
+          }
         }break;
         case STAGE_2:{
-          if(time.isAfter(shows.get(Location.STAGE_2).getEndTime()));
-          setNewDestination(agenda, time);
+          if(time.isAfter(shows.get(Location.STAGE_2).getEndTime()) && !time.isBefore(shows.get(Location.STAGE_2).getBeginTime())) {
+            setNewDestination(agenda, time);
+          }
+          if(debug) {
+            System.out.println(time.toString() + " klaar om:" + shows.get(Location.STAGE_2).getBeginTime());
+          }
         }break;
         case STAGE_3:{
-          if(time.isAfter(shows.get(Location.STAGE_3).getEndTime()));
-          setNewDestination(agenda, time);
+          if(time.isAfter(shows.get(Location.STAGE_3).getEndTime()) && !time.isBefore(shows.get(Location.STAGE_3).getBeginTime())) {
+            setNewDestination(agenda, time);
+          } else if(shows.get(Location.STAGE_3) == null) {
+            setNewDestination(agenda, time);
+          }
+          if(debug) {
+            System.out.println(time.toString() + " klaar om:" + shows.get(Location.STAGE_3).getBeginTime());
+          }
         }break;
         case TOILET_1:{
-          int poopinTime = (int) (Math.random()*(3*60));
+          int poopinTime = (int) ((Math.random()*(2*60))) + 60;
           if(time.toSeconds() > arrivalTime.toSeconds()+poopinTime){
             setNewDestination(agenda,time);
-            System.out.println("Done poopin mate!");
+            hasPooped = true;
+          }
+          if(debug) {
+            System.out.println("gestart om" + arrivalTime);
           }
         }break;
         case TOILET_2:{
-          int poopinTime = (int) (Math.random()*(3*60));
+          int poopinTime = (int) (Math.random()*(2*60) + 60);
           if(time.toSeconds() > arrivalTime.toSeconds()+poopinTime){
             setNewDestination(agenda,time);
-            System.out.println("Done poopin mate!");
+            hasPooped = true;
+          }if(debug) {
+            System.out.println("gestart om" + arrivalTime);
           }
         }break;
         case EXIT:break;
@@ -190,7 +213,8 @@ public class Visitor implements Drawable {
         if (currentStepInPath < path.size()) {
           inBetweenDestination = new Point2D.Double((path.get(currentStepInPath).getX() * 32) + 10,
               (path.get(currentStepInPath).getY() * 32) + 10);
-        } else {
+        }
+        if(path.size() == 0) {
           isOnLocation = true;
           arrivalTime = time;
         }
@@ -203,6 +227,7 @@ public class Visitor implements Drawable {
             nextPointInPath();
           } else {
             isOnLocation = true;
+            arrivalTime = time;
             totalElapsedTime = 0;
           }
         }
@@ -431,8 +456,12 @@ public class Visitor implements Drawable {
     HashMap<Location,Show> showMap =  new HashMap<>();
     double totalPopularity = 0;
     double toiletPopularity = 2;
+    if(!hasPooped){
+      totalPopularity += toiletPopularity + toiletPopularity;
+    }
+
     double exitPopularity = 0.5;
-    totalPopularity += toiletPopularity+toiletPopularity+exitPopularity;
+    totalPopularity += exitPopularity;
     for (Show s:shows) {
       if(!s.getBeginTime().isBefore(time)) {
         if(time.toSeconds() >= s.getBeginTime().toSeconds()-(60*30)) {
@@ -443,9 +472,6 @@ public class Visitor implements Drawable {
     }
     this.shows = showMap;
     double popularityCounter = 0;
-
-
-
 
     int number = (int) (Math.random() * totalPopularity);
     if((showMap.get(Location.STAGE_1)) != null) {
@@ -474,23 +500,25 @@ public class Visitor implements Drawable {
             if (number < popularityCounter  ) {
               currentDestination = Location.EXIT;
             } else {
-
-              popularityCounter += toiletPopularity;
-              if (number < popularityCounter) {
-                currentDestination = Location.TOILET_1;
-              } else {
-
+              if(!hasPooped) {
                 popularityCounter += toiletPopularity;
                 if (number < popularityCounter) {
-                  currentDestination = Location.TOILET_2;
+                  currentDestination = Location.TOILET_1;
                 } else {
+
+                  popularityCounter += toiletPopularity;
+                  if (number < popularityCounter) {
+                    currentDestination = Location.TOILET_2;
+                  }
+                }
+              }else {
                   currentDestination = Location.EXIT;
                 }
               }
             }
           }
       }
-    }
+
     isOnLocation = false;
     newDestination = true;
   }

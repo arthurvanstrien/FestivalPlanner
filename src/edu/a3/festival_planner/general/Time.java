@@ -48,7 +48,7 @@ public class Time implements Serializable {
   }
 
   public boolean isAfter(Time time){
-    return toSeconds() < time.toSeconds();
+    return toSeconds() > time.toSeconds();
   }
 
   public boolean isTheSame(Time time){
