@@ -42,6 +42,8 @@ public class Visitor implements Drawable {
   private final int mapWith = 100;
   private final int mapHeight = 100;
   private int collisionCounter = 0;
+  private Time arrivalTime;
+  private HashMap<Location,Show> shows;
 
 //  public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, Point2D position) {
 //    if (canSpawnOnLocation(drawings, walklayer, position)) {
@@ -69,14 +71,14 @@ public class Visitor implements Drawable {
 //  }
 
   public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, ArrayList<AreaLayer> entrances,
-      BreadthFirstSearch bfs, Agenda agenda) {
+      BreadthFirstSearch bfs, Agenda agenda, Time time) {
     speed = 3;
     angle = Math.PI;
     this.position = spawnOnEntrance(drawings, walklayer, entrances);
     appointImage();
     isOnLocation = false;
     this.bfs = bfs;
-    setNewDestination(agenda);
+    setNewDestination(agenda, time);
     destination = new Point2D.Double(2800, 1500);
   }
 
@@ -133,10 +135,41 @@ public class Visitor implements Drawable {
    * through te list to meet all constraints and collisions with the objects.
    */
   @Override
-  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double elapsedTime, Agenda agenda) {
+  public void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double elapsedTime, Agenda agenda, Time time) {
     totalElapsedTime += elapsedTime;
     Point2D newPosition;
     if (isOnLocation) {
+      switch(currentDestination){
+        case STAGE_1:{
+          if(time.isAfter(shows.get(Location.STAGE_1).getEndTime()));
+          setNewDestination(agenda, time);
+        }break;
+        case STAGE_2:{
+          if(time.isAfter(shows.get(Location.STAGE_2).getEndTime()));
+          setNewDestination(agenda, time);
+        }break;
+        case STAGE_3:{
+          if(time.isAfter(shows.get(Location.STAGE_3).getEndTime()));
+          setNewDestination(agenda, time);
+        }break;
+        case TOILET_1:{
+          int poopinTime = (int) (Math.random()*(3*60));
+          if(time.toSeconds() > arrivalTime.toSeconds()+poopinTime){
+            setNewDestination(agenda,time);
+            System.out.println("Done poopin mate!");
+          }
+        }break;
+        case TOILET_2:{
+          int poopinTime = (int) (Math.random()*(3*60));
+          if(time.toSeconds() > arrivalTime.toSeconds()+poopinTime){
+            setNewDestination(agenda,time);
+            System.out.println("Done poopin mate!");
+          }
+        }break;
+        case EXIT:break;
+        default: break;
+
+      }
       /**
        * Set een timer die na een n.t.b. tijd de dance.activiteit uit en een nieuwe destination zetten.
        */
@@ -159,6 +192,7 @@ public class Visitor implements Drawable {
               (path.get(currentStepInPath).getY() * 32) + 10);
         } else {
           isOnLocation = true;
+          arrivalTime = time;
         }
       } else {
         //check if het visitor is at the current inBetweenDestination if true then the next inBetweenDestination is set
@@ -221,6 +255,7 @@ public class Visitor implements Drawable {
       evadeVisitor(newPosition,drawings);
     }
   }
+
 
   private void nextPointInPath() {
     if(currentStepInPath < path.size()) {
@@ -391,7 +426,7 @@ public class Visitor implements Drawable {
 
   }
 
-  public void setNewDestination(Agenda agenda) {
+  public void setNewDestination(Agenda agenda, Time time) {
     Set<Show> shows = agenda.getAllShows();
     HashMap<Location,Show> showMap =  new HashMap<>();
     double totalPopularity = 0;
@@ -399,10 +434,16 @@ public class Visitor implements Drawable {
     double exitPopularity = 0.5;
     totalPopularity += toiletPopularity+toiletPopularity+exitPopularity;
     for (Show s:shows) {
-      totalPopularity += s.getExpectedPopularity();
-      showMap.put(s.getStage().getLocation(), s);
+      if(!s.getBeginTime().isBefore(time)) {
+        if(time.toSeconds() >= s.getBeginTime().toSeconds()-(60*30)) {
+          totalPopularity += s.getExpectedPopularity();
+          showMap.put(s.getStage().getLocation(), s);
+        }
+      }
     }
+    this.shows = showMap;
     double popularityCounter = 0;
+
 
 
 
@@ -461,4 +502,5 @@ public class Visitor implements Drawable {
   public boolean getAtDestination() {
     return isOnLocation;
   }
+
 }

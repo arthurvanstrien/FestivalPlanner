@@ -3,7 +3,6 @@ package edu.a3.festival_planner.simulator;
 import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.general.Main;
 import edu.a3.festival_planner.general.Time;
-import edu.a3.festival_planner.tests.TestTiledMap;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;

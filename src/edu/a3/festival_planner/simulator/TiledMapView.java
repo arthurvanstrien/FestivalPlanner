@@ -42,7 +42,7 @@ public class TiledMapView extends JPanel {
   public void update(double elapsedTime, Time time){
     spawnVisitor(time);
     for(Drawable v : visitors) {
-      v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime, agenda);
+      v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime, agenda, time);
       if(v instanceof  Visitor) {
         if(((Visitor) v).getAtDestination()) {
           v.setDestination(tiledMap.enumToPointDestination(((Visitor) v).getCurrentDestination()), time);
@@ -56,7 +56,7 @@ public class TiledMapView extends JPanel {
   public void spawnVisitor(Time time) {
     //if the amount of total visitors has not been reached there is a chance to spawn a new visitor
     if (visitors.size() < maxNumberOfVisitors && Math.random() > 0.7) {
-      Visitor tempVisitor = new Visitor(visitors, tiledMap.getWalkableLayer(), tiledMap.getAreaLayers(), bfs, agenda);
+      Visitor tempVisitor = new Visitor(visitors, tiledMap.getWalkableLayer(), tiledMap.getAreaLayers(), bfs, agenda,time);
       if (tempVisitor.canSpawnOnLocation(visitors, tiledMap.getWalkableLayer())) {
         tempVisitor.setDestination(tiledMap.enumToPointDestination(tempVisitor.getCurrentDestination()),
             time);
