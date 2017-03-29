@@ -22,13 +22,14 @@ public class SimulationView extends JFrame implements ActionListener {
   private long currenttime;
   private double seconds;
   private TiledMapView tiledMapView;
+  private int saves, visitors;
 
 
   /**
    * Generates GUI with an agenda to simulate
    * @param agenda
    */
-  public SimulationView(Main main, Agenda agenda) {
+  public SimulationView(Main main, Agenda agenda, int saves, int visitors) {
     super("Simulation: " + agenda.getName());
     //Initializing atributes
     time = new Time(0, 0);
@@ -37,6 +38,8 @@ public class SimulationView extends JFrame implements ActionListener {
     seconds = 0;
     this.main = main;
     this.agenda = agenda;
+    this.saves = saves;
+    this.visitors = visitors;
 
     Dimension screenSize = (Toolkit.getDefaultToolkit().getScreenSize());
     double screenWidth = screenSize.getWidth();
@@ -62,7 +65,7 @@ public class SimulationView extends JFrame implements ActionListener {
 
     JPanel simulation = new JPanel(new BorderLayout());
 
-    tiledMapView = new TiledMapView(main.getTiledMap(), agenda);
+    tiledMapView = new TiledMapView(main.getTiledMap(), agenda, visitors, saves);
     JPanel tiledMap = tiledMapView;
     simulation.setBorder(BorderFactory.createEtchedBorder());
     simulation.add(tiledMap, BorderLayout.CENTER);

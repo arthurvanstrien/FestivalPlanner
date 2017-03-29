@@ -18,14 +18,17 @@ public class TiledMapView extends JPanel {
   ArrayList<Drawable> visitors;
   BreadthFirstSearch bfs;
   Agenda agenda;
-  int maxNumberOfVisitors = 100;
+  int maxNumberOfVisitors;
+  int saves;
 
-  public TiledMapView(TiledMap tiledMap, Agenda agenda) {
+  public TiledMapView(TiledMap tiledMap, Agenda agenda, int maxNumberOfVisitors, int saves) {
     this.tiledMap = tiledMap;
     camera = new Camera(this);
     visitors = new ArrayList<>();
     bfs = new BreadthFirstSearch(tiledMap.getWalkableLayer().getAccesiblePoints());
     this.agenda = agenda;
+    this.maxNumberOfVisitors = maxNumberOfVisitors;
+    this.saves = saves;
   }
 
   public void paintComponent(Graphics g) {
