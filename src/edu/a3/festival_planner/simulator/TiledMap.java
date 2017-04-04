@@ -100,6 +100,7 @@ public class TiledMap {
 
   //translates the enum to an actuel spot on the map
   public Point2D enumToPointDestination(Location currentDestination) {
+    ArrayList<Area> entrances = getAreaLayers().get(0).getEntrances();
     ArrayList<Area> stages = getAreaLayers().get(0).getStages();
     ArrayList<Area> otherAreas = getAreaLayers().get(0).getOtherAreas();
       switch (currentDestination) {
@@ -108,6 +109,8 @@ public class TiledMap {
         case STAGE_3: return new Point2D.Double(stages.get(2).getX() + (stages.get(2).getWidth() / 2), (stages.get(2).getY() + (stages.get(2).getWidth() / 2)));
         case TOILET_1:return new Point2D.Double(otherAreas.get(0).getX() + (otherAreas.get(0).getWidth() / 2), otherAreas.get(0).getY() + (otherAreas.get(0).getHeigt() / 2));
         case TOILET_2:return new Point2D.Double(otherAreas.get(1).getX() + (otherAreas.get(1).getWidth() / 2), otherAreas.get(1).getY() + (otherAreas.get(1).getHeigt() / 2));
+        case GRASS: return new Point2D.Double(otherAreas.get(2).getX() + (otherAreas.get(2).getWidth() / 2), otherAreas.get(2).getY() + (otherAreas.get(2).getHeigt() / 2));
+        case EXIT:return new Point2D.Double(entrances.get(0).getX() + (entrances.get(0).getWidth() / 2), entrances.get(0).getY() + (entrances.get(0).getHeigt()) /2);
         default:return new Point2D.Double(2800, 1500);
       }
   }

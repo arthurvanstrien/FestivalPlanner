@@ -1,6 +1,7 @@
 package edu.a3.festival_planner.simulator;
 
 import edu.a3.festival_planner.agenda.Agenda;
+import edu.a3.festival_planner.agenda.Show;
 import edu.a3.festival_planner.general.Time;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -41,14 +42,17 @@ public class TiledMapView extends JPanel {
   }
 
   public void update(double elapsedTime, Time time){
-    spawnVisitor(time);
+    if(time.isBefore(agenda.getEndTime())) {
+      spawnVisitor(time);
+    }
     Iterator it = visitors.iterator();
     while(it.hasNext()) {
       Visitor v = (Visitor) it.next();
-      v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime, agenda, time, tiledMap);
-    }
-    if(visitors.size() > 0) {
-      ((Visitor) visitors.get(0)).printBlatter();
+      if(v.getExited()) {
+        it.remove();
+      } else {
+        v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime, agenda, time, tiledMap);
+      }
     }
     repaint();
   }
@@ -64,5 +68,4 @@ public class TiledMapView extends JPanel {
       }
     }
   }
-
 }

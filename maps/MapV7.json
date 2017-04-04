@@ -169,6 +169,17 @@
                  "width":93.3333333333334,
                  "x":833.333333333333,
                  "y":1408
+                }, 
+                {
+                 "height":266,
+                 "id":11,
+                 "name":"Grassfield",
+                 "rotation":0,
+                 "type":"field",
+                 "visible":true,
+                 "width":274,
+                 "x":486,
+                 "y":1799
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -177,7 +188,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":11,
+ "nextobjectid":12,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tileheight":32,

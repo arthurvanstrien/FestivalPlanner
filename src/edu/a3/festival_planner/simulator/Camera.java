@@ -3,6 +3,7 @@ package edu.a3.festival_planner.simulator;//
 // (powered by Fernflower decompiler)
 //
 
+import java.awt.MouseInfo;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -18,8 +19,10 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
 
   Point2D centerPoint = new Double(0.0D, 0.0D);
   double zoom = 0.4D;
+  double prevZoom = 0.4D;
   double rotation = 0.0D;
   Point2D lastMousePos;
+  Point2D currentMousePos;
   JPanel panel;
 
   public Camera(JPanel panel) {
@@ -33,8 +36,16 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
     AffineTransform tx = new AffineTransform();
     tx.translate((double) (0), (double) (0));
     //tx.translate((double)(windowWidth / 2), (double)(windowHeight / 2));
-    tx.scale(this.zoom, this.zoom);
-    tx.translate(this.centerPoint.getX(), this.centerPoint.getY());
+    if(lastMousePos != null) {
+      if (lastMousePos != null && zoom != prevZoom) {
+        lastMousePos = MouseInfo.getPointerInfo().getLocation();
+        prevZoom = zoom;
+      }
+      tx.translate(lastMousePos.getX(), lastMousePos.getY());
+      tx.scale(this.zoom, this.zoom);
+      tx.translate(-lastMousePos.getX(), -lastMousePos.getY());
+    }
+    tx.translate(centerPoint.getX(), centerPoint.getY());
     tx.rotate(this.rotation);
     return tx;
   }
@@ -70,6 +81,7 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
   }
 
   public void mouseWheelMoved(MouseWheelEvent e) {
+    this.currentMousePos = e.getLocationOnScreen();
     this.zoom *= (double) (1.0F - (float) e.getWheelRotation() / 25.0F);
     this.panel.repaint();
   }

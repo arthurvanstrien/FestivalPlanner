@@ -98,4 +98,14 @@ public class Agenda implements Serializable {
     }
     return shows;
   }
+
+  public Time getEndTime() {
+    Time latestTime = new Time(0, 0);
+    for (Show s : getAllShows()) {
+      if(s.getEndTime().isAfter(latestTime)) {
+        latestTime = s.getEndTime();
+      }
+    }
+    return latestTime;
+  }
 }
