@@ -60,6 +60,24 @@ public class TiledLayer {
     }
   }
 
+  public boolean containsPoint(Point2D point) {
+    return accesiblePoints.contains(point);
+  }
+
+  public Point2D getNearestPoint(Point2D point) {
+    Point2D record = accesiblePoints.get(0);
+    double recordDistance = point.distance(record);
+    for(Point2D p : accesiblePoints) {
+      if(p != point) {
+        if(p.distance(point) < recordDistance) {
+          recordDistance = p.distance(point);
+          record = point;
+        }
+      }
+    }
+    return record;
+  }
+
   public void setDirty() {
     isDirty = true;
   }

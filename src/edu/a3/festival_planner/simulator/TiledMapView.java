@@ -42,6 +42,7 @@ public class TiledMapView extends JPanel {
   }
 
   public void update(double elapsedTime, Time time){
+    System.out.println("updated");
     if(time.isBefore(agenda.getEndTime())) {
       spawnVisitor(time);
     }

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import sun.text.CodePointIterator;
 
 /**
  * Created by robin on 12-3-2017.
@@ -53,14 +54,14 @@ public class Visitor implements Drawable {
 
   public Visitor(ArrayList<Drawable> drawings, TiledLayer walklayer, ArrayList<AreaLayer> entrances,
       BreadthFirstSearch bfs, Agenda agenda, Time time, TiledMap tiledMap) {
-    speed = 3;
+    speed = 2;
     angle = Math.PI;
     this.position = spawnOnEntrance(drawings, walklayer, entrances);
     appointImage();
     isOnLocation = false;
     this.bfs = bfs;
     setNewDestination(agenda, time, tiledMap);
-    destination = new Point2D.Double(2800, 1500);
+    //destination = new Point2D.Double(2800, 1500);
     hasPooped = false;
   }
 
@@ -123,38 +124,44 @@ public class Visitor implements Drawable {
     if (isOnLocation) {
       switch (currentDestination) {
         case STAGE_1: {
+          if (debug) {
+            System.out.println(
+                time.toString() + " klaar om:" + shows.get(Location.STAGE_1).getEndTime());
+          }
           if (time.isAfter(shows.get(Location.STAGE_1).getEndTime()) && !time
               .isBefore(shows.get(Location.STAGE_1).getBeginTime())) {
             setNewDestination(agenda, time, tiledMap);
-          }
-          if (debug) {
-            System.out.println(
-                time.toString() + " klaar om:" + shows.get(Location.STAGE_1).getBeginTime());
+          } else if (shows.get(Location.STAGE_1) == null) {
+            setNewDestination(agenda, time, tiledMap);
           }
         }
         break;
         case STAGE_2: {
+          if (debug) {
+            System.out.println(
+                time.toString() + " klaar om:" + shows.get(Location.STAGE_2).getEndTime());
+          }
           if (time.isAfter(shows.get(Location.STAGE_2).getEndTime()) && !time
               .isBefore(shows.get(Location.STAGE_2).getBeginTime())) {
             setNewDestination(agenda, time, tiledMap);
+          } else if (shows.get(Location.STAGE_2) == null) {
+            setNewDestination(agenda, time, tiledMap);
           }
-          if (debug) {
-            System.out.println(
-                time.toString() + " klaar om:" + shows.get(Location.STAGE_2).getBeginTime());
-          }
+
         }
         break;
         case STAGE_3: {
+          if (debug) {
+            System.out.println(
+                time.toString() + " klaar om:" + shows.get(Location.STAGE_3).getEndTime());
+          }
           if (time.isAfter(shows.get(Location.STAGE_3).getEndTime()) && !time
               .isBefore(shows.get(Location.STAGE_3).getBeginTime())) {
             setNewDestination(agenda, time, tiledMap);
           } else if (shows.get(Location.STAGE_3) == null) {
             setNewDestination(agenda, time, tiledMap);
           }
-          if (debug) {
-            System.out.println(
-                time.toString() + " klaar om:" + shows.get(Location.STAGE_3).getBeginTime());
-          }
+
         }
         break;
         case TOILET_1: {
@@ -187,7 +194,10 @@ public class Visitor implements Drawable {
         }
         break;
         case GRASS:
-          if (time.isAfter(new Time(arrivalTime.getHour(), arrivalTime.getMinute() + 10))) {
+          if (time.isAfter(new Time(arrivalTime.getHour(), arrivalTime.getMinute() + 5))) {
+            if(debug) {
+              System.out.println("klaar met gras");
+            }
             setNewDestination(agenda, time, tiledMap);
           }
           ;
@@ -214,12 +224,25 @@ public class Visitor implements Drawable {
               position.getX() + "   " + position.getY() + "   " + destination.getX() + "   "
                   + destination.getY() + "   " + currentDestination);
         }
-        path = bfs
-            .searchShortestPath(
-                new Point((int) Math.floor(position.getX() / 32),
-                    (int) Math.floor(position.getY() / 32)),
-                new Point((int) Math.floor(destination.getX() / 32),
-                    (int) Math.floor(destination.getY() / 32)));
+        if(!walklayer.containsPoint(position)) {
+          if(debug) {
+            System.out.println("Punt niet op map, ander punt zoeken");
+          }
+          Point2D closestOnMap = walklayer.getNearestPoint(position);
+          path = bfs
+              .searchShortestPath(
+                  new Point((int) Math.floor(closestOnMap.getX()) / 32,
+                      (int) Math.floor(closestOnMap.getY()) / 32),
+                  new Point((int) Math.floor(destination.getX() / 32),
+                      (int) Math.floor(destination.getY()) / 32));
+        }else {
+          path = bfs
+              .searchShortestPath(
+                  new Point((int) Math.floor(position.getX()) / 32,
+                      (int) Math.floor(position.getY()) / 32),
+                  new Point((int) Math.floor(destination.getX() / 32),
+                      (int) Math.floor(destination.getY()) / 32));
+        }
         currentStepInPath = 0;
         if (path.size() < 2) {
           previousDestination = currentDestination;
@@ -308,13 +331,13 @@ public class Visitor implements Drawable {
   public void evadeVisitor(Point2D newPosition,ArrayList<Drawable> drawings){
     angle = angle % 360;
     if(angle >= 45 && angle <= 135){
-      newPosition = new Double(newPosition.getX() + 3, newPosition.getY());
+      newPosition = new Double(newPosition.getX() + 2, newPosition.getY());
     }else if(angle > 135 && angle <= 225){
-      newPosition = new Double(newPosition.getX(), newPosition.getY() - 3);
+      newPosition = new Double(newPosition.getX(), newPosition.getY() - 2);
     }else if(angle > 225 && angle <= 315){
-      newPosition = new Double(newPosition.getX() - 3, newPosition.getY());
+      newPosition = new Double(newPosition.getX() - 2, newPosition.getY());
     }else {
-      newPosition = new Double(newPosition.getX(), newPosition.getY() + 3);
+      newPosition = new Double(newPosition.getX(), newPosition.getY() + 2);
     }
     if(!collidesWithVisitor(drawings,newPosition)) {
       position = newPosition;
@@ -392,9 +415,6 @@ public class Visitor implements Drawable {
    * Checks collision with the map
    */
   public boolean collidesWithTiles(TiledLayer walklayer, Point2D newPosition) {
-//    if(position.getX() == position.getY() && position.getY() == -10) {
-//      return false;
-//    }
     if (newPosition.getY() > (mapWith - 1) * 32) {
       newPosition = new Double(newPosition.getX(), (mapWith - 1) * 32);
     }
@@ -470,11 +490,11 @@ public class Visitor implements Drawable {
       totalPopularity += (toiletPopularity + toiletPopularity);
     }
 
-    double exitPopularity = 0.5;
-    totalPopularity += exitPopularity;
+    double fieldPopularity = 0.5;
+    totalPopularity += fieldPopularity;
     for (Show s:shows) {
       if(!s.getBeginTime().isBefore(time)) {
-        if(time.toSeconds() >= s.getBeginTime().toSeconds()-(60*30)) {
+        if(time.toSeconds() >= s.getBeginTime().toSeconds()-(60*45)) {
           totalPopularity += s.getExpectedPopularity();
           showMap.put(s.getStage().getLocation(), s);
         }
@@ -483,9 +503,9 @@ public class Visitor implements Drawable {
     this.shows = showMap;
     double popularityCounter = 0;
 
-    int number = (int) (Math.random() * totalPopularity);
+    double number = (Math.random() * totalPopularity);
     if((showMap.get(Location.STAGE_1)) != null) {
-      popularityCounter = ((showMap.get(Location.STAGE_1).getExpectedPopularity()));
+      popularityCounter += ((showMap.get(Location.STAGE_1).getExpectedPopularity()));
     }
     if (number < popularityCounter){
       currentDestination = Location.STAGE_1;
@@ -505,7 +525,7 @@ public class Visitor implements Drawable {
           currentDestination = Location.STAGE_3;
           }
           else {
-            popularityCounter += exitPopularity;
+            popularityCounter += fieldPopularity;
             if (number < popularityCounter) {
               if(time.isBefore(new Time(agenda.getEndTime().getHour() - 1, agenda.getEndTime().getMinute()))) {
                 currentDestination = Location.GRASS;
@@ -525,12 +545,17 @@ public class Visitor implements Drawable {
                   }
                 }
               }else {
-                  currentDestination = Location.GRASS;
-                }
+                currentDestination = Location.GRASS;
+              }
                 }
               }
             }
-          destination = tiledMap.enumToPointDestination(currentDestination);
+      }
+    destination = tiledMap.enumToPointDestination(currentDestination);
+      if(debug) {
+        System.out.println(currentDestination + "word vertaald naar");
+
+        System.out.println(destination.getX() + "   " + destination.getY() + " op de map");
       }
     isOnLocation = false;
     newDestination = true;

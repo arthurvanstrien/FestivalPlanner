@@ -16,6 +16,7 @@ public class SimulationView extends JFrame implements ActionListener {
   private Main main;
   private Agenda agenda;
   private Time time;
+  private Timer timer;
   private JLabel currentTime, currentSpeed;
   private JSlider sliderSpeed;
   private long lastTime;
@@ -33,7 +34,8 @@ public class SimulationView extends JFrame implements ActionListener {
     //Initializing atributes
     time = new Time(0, 0);
     lastTime = System.nanoTime();
-    new Timer(15, this).start();
+    timer = new Timer(15, this);
+    timer.start();
     seconds = 0;
     this.main = main;
     this.agenda = agenda;
@@ -94,6 +96,15 @@ public class SimulationView extends JFrame implements ActionListener {
 
     options.add(timePanel);
     options.add(speed);
+
+    //if frame closed then this code has to run to stop the timer
+  this.addWindowListener(new java.awt.event.WindowAdapter() {
+    @Override
+    public void windowClosed(WindowEvent e) {
+      timer.stop();
+      super.windowClosed(e);
+    }
+  });
 
     //Final actions
 
