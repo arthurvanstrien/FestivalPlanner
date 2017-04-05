@@ -1,11 +1,14 @@
 package edu.a3.festival_planner.simulator;
 
 import edu.a3.festival_planner.agenda.Agenda;
+import edu.a3.festival_planner.agenda.Show;
 import edu.a3.festival_planner.general.Time;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import javax.swing.JPanel;
 
 /**
@@ -19,16 +22,17 @@ public class TiledMapView extends JPanel {
   BreadthFirstSearch bfs;
   Agenda agenda;
   int maxNumberOfVisitors;
-  int saves;
+  Time prevTime;
+  Map<Time, TiledMapView> saves;
 
-  public TiledMapView(TiledMap tiledMap, Agenda agenda, int maxNumberOfVisitors, int saves) {
+  public TiledMapView(TiledMap tiledMap, Agenda agenda, int amountSaves, int visitorAmount) {
     this.tiledMap = tiledMap;
     camera = new Camera(this);
     visitors = new ArrayList<>();
+    maxNumberOfVisitors = visitorAmount;
     bfs = new BreadthFirstSearch(tiledMap.getWalkableLayer().getAccesiblePoints());
     this.agenda = agenda;
-    this.maxNumberOfVisitors = maxNumberOfVisitors;
-    this.saves = saves;
+    this.saves = new HashMap();
   }
 
   public void paintComponent(Graphics g) {
@@ -44,28 +48,40 @@ public class TiledMapView extends JPanel {
   }
 
   public void update(double elapsedTime, Time time){
-    spawnVisitor(time);
+    boolean updateBlatter = false;
+    if(prevTime != null) {
+      if(!prevTime.isTheSame(time)) {
+        updateBlatter = true;
+      }
+    }
+    prevTime = time;
+    if(time.isBefore(agenda.getEndTime())) {
+      spawnVisitor(time);
+    }
     Iterator it = visitors.iterator();
     while(it.hasNext()) {
       Visitor v = (Visitor) it.next();
-      v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime, agenda, time, tiledMap);
-    }
-    if(visitors.size() > 0) {
-      ((Visitor) visitors.get(0)).printBlatter();
+      if(v.getExited()) {
+        it.remove();
+      } else {
+        v.update(visitors, elapsedTime, agenda, time, tiledMap);
+        if(updateBlatter) {
+          v.updateBlatter();
+        }
+      }
     }
     repaint();
   }
 
   public void spawnVisitor(Time time) {
     //if the amount of total visitors has not been reached there is a chance to spawn a new visitor
-    if (visitors.size() < maxNumberOfVisitors && Math.random() > 0.7) {
-      Visitor tempVisitor = new Visitor(visitors, tiledMap.getWalkableLayer(), tiledMap.getAreaLayers(), bfs, agenda,time, tiledMap);
+    if (visitors.size() < maxNumberOfVisitors && Math.random() > 0.85) {
+      Visitor tempVisitor = new Visitor(visitors, tiledMap.getAreaLayers(), bfs, agenda,time, tiledMap);
       if (tempVisitor.canSpawnOnLocation(visitors, tiledMap.getWalkableLayer())) {
         tempVisitor.setDestination(tiledMap.enumToPointDestination(tempVisitor.getCurrentDestination()),
-            time);
+                time);
         visitors.add(tempVisitor);
       }
     }
   }
-
 }
