@@ -3,6 +3,7 @@ package edu.a3.festival_planner.general;
 import edu.a3.festival_planner.agenda.AddArtistsGUI;
 import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.agenda.Tab;
+import edu.a3.festival_planner.simulator.OpenSimulator;
 import edu.a3.festival_planner.simulator.SimulationView;
 import edu.a3.festival_planner.simulator.TiledMap;
 import edu.a3.festival_planner.simulator.VisitorImageList;
@@ -186,7 +187,7 @@ public class Main extends JTabbedPane {
         simulateMenu.setEnabled(true);
       }
       JMenuItem simulateMenuItem = new JMenuItem(agenda.getName());
-      simulateMenuItem.addActionListener(e -> new SimulationView(Main.this, agenda));
+      simulateMenuItem.addActionListener(e -> new OpenSimulator(Main.this, agenda));
       simulateMenu.add(simulateMenuItem);
     }
 

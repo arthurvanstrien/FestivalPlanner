@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="Agenda:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Agenda_jar</output-path>
-    <root id="archive" name="Agenda.jar">
-      <element id="module-output" name="FestivalPlanner" />
-    </root>
-  </artifact>
-</component>
