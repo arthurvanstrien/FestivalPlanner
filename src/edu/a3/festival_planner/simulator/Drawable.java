@@ -13,7 +13,7 @@ public interface Drawable {
 
   void draw(Graphics2D g2d);
 
-  void update(ArrayList<Drawable> drawings, TiledLayer walklayer, double pastTime, Agenda agenda, Time time, TiledMap tiledMap);
+  void update(ArrayList<Drawable> drawings, double pastTime, Agenda agenda, Time time, TiledMap tiledMap);
 
   Point2D getPosition();
 

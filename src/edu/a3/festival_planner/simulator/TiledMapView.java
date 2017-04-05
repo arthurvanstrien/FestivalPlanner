@@ -19,7 +19,8 @@ public class TiledMapView extends JPanel {
   ArrayList<Drawable> visitors;
   BreadthFirstSearch bfs;
   Agenda agenda;
-  int maxNumberOfVisitors = 100;
+  int maxNumberOfVisitors = 200;
+  Time prevTime;
 
   public TiledMapView(TiledMap tiledMap, Agenda agenda) {
     this.tiledMap = tiledMap;
@@ -42,7 +43,13 @@ public class TiledMapView extends JPanel {
   }
 
   public void update(double elapsedTime, Time time){
-    System.out.println("updated");
+    boolean updateBlatter = false;
+    if(prevTime != null) {
+      if(!prevTime.isTheSame(time)) {
+        updateBlatter = true;
+      }
+    }
+    prevTime = time;
     if(time.isBefore(agenda.getEndTime())) {
       spawnVisitor(time);
     }
@@ -52,7 +59,10 @@ public class TiledMapView extends JPanel {
       if(v.getExited()) {
         it.remove();
       } else {
-        v.update(visitors, tiledMap.getWalkableLayer(), elapsedTime, agenda, time, tiledMap);
+        v.update(visitors, elapsedTime, agenda, time, tiledMap);
+        if(updateBlatter) {
+          v.updateBlatter();
+        }
       }
     }
     repaint();
@@ -60,8 +70,8 @@ public class TiledMapView extends JPanel {
 
   public void spawnVisitor(Time time) {
     //if the amount of total visitors has not been reached there is a chance to spawn a new visitor
-    if (visitors.size() < maxNumberOfVisitors && Math.random() > 0.7) {
-      Visitor tempVisitor = new Visitor(visitors, tiledMap.getWalkableLayer(), tiledMap.getAreaLayers(), bfs, agenda,time, tiledMap);
+    if (visitors.size() < maxNumberOfVisitors && Math.random() > 0.85) {
+      Visitor tempVisitor = new Visitor(visitors, tiledMap.getAreaLayers(), bfs, agenda,time, tiledMap);
       if (tempVisitor.canSpawnOnLocation(visitors, tiledMap.getWalkableLayer())) {
         tempVisitor.setDestination(tiledMap.enumToPointDestination(tempVisitor.getCurrentDestination()),
             time);

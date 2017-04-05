@@ -17,11 +17,13 @@ public class TiledLayer {
   boolean isDirty;
   String name;
   ArrayList<Point> accesiblePoints;
+  ArrayList<Point> greenPoints;
 
   public TiledLayer(JsonObject jsonLayer, TiledMap map) {
     this.map = map;
     isDirty = true;
     accesiblePoints = new ArrayList<>();
+    greenPoints = new ArrayList<>();
     this.height = jsonLayer.getInt("height");
     this.width = jsonLayer.getInt("width");
     data2D = new int[height][width];
@@ -31,13 +33,13 @@ public class TiledLayer {
 
     int index = 0;
 
-    for (int y = 0; y < this.height; ++y) {
-      for (int x = 0; x < this.width; ++x) {
+    for (int y = 0; y < this.height; y++) {
+      for (int x = 0; x < this.width; x++) {
         data2D[y][x] = data.getInt(index);
         if(data.getInt(index) == 3331 || data.getInt(index) == 0) {
           accesiblePoints.add(new Point(x, y));
         }
-        ++index;
+        index++;
       }
     }
 
@@ -48,8 +50,8 @@ public class TiledLayer {
     BufferedImage img = new BufferedImage(width * 32, height * 32, 2);
     Graphics2D g2d = img.createGraphics();
     if (isDirty) {
-      for (int y = 0; y < height; ++y) {
-        for (int x = 0; x < width; ++x) {
+      for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
           g2d.drawImage((Image) map.arrayImages.get(this.data2D[y][x]), x * 32, y * 32, (ImageObserver) null);
         }
       }
@@ -61,17 +63,22 @@ public class TiledLayer {
   }
 
   public boolean containsPoint(Point2D point) {
-    return accesiblePoints.contains(point);
+    for(Point2D p : accesiblePoints) {
+      if(p.getX() == point.getX() && p.getY() == point.getY()) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public Point2D getNearestPoint(Point2D point) {
     Point2D record = accesiblePoints.get(0);
     double recordDistance = point.distance(record);
     for(Point2D p : accesiblePoints) {
-      if(p != point) {
-        if(p.distance(point) < recordDistance) {
+      if(p.getX() != point.getX() && p.getY() != point.getY()) {
+        if(point.distance(p) < recordDistance) {
           recordDistance = p.distance(point);
-          record = point;
+          record = p;
         }
       }
     }
