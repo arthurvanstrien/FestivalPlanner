@@ -23,9 +23,9 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
 
     public AffineTransform getTransform(int windowWidth, int windowHeight) {
         AffineTransform tx = new AffineTransform();
-//        tx.translate(windowWidth / 2, windowHeight / 2);
+        tx.translate(windowWidth / 2, windowHeight / 2);
         tx.scale(this.zoom, this.zoom);
-        tx.translate(this.centerPoint.getX(), this.centerPoint.getY());
+        tx.translate(this.centerPoint.getX() - (windowWidth) * 1.25, this.centerPoint.getY() - (windowHeight * 1.25));
         tx.rotate(this.rotation);
         return tx;
     }
