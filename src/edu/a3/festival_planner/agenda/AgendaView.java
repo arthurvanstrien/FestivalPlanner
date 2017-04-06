@@ -4,10 +4,10 @@ import edu.a3.festival_planner.exceptions.ArtistException;
 import edu.a3.festival_planner.exceptions.NameException;
 import edu.a3.festival_planner.exceptions.PopularityException;
 import edu.a3.festival_planner.exceptions.TimeException;
-
 import edu.a3.festival_planner.general.Main;
 import edu.a3.festival_planner.general.Period;
 import edu.a3.festival_planner.general.Time;
+
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import java.awt.*;
@@ -347,11 +347,11 @@ public class AgendaView extends JTable {
         JLabel expectedPopularityLabel = new JLabel("Expected Popularity");
         JLabel expectedPopularityTextLabel = new JLabel(
             String.valueOf(show.getExpectedPopularity()));
-        String artistsString = "";
+        StringBuilder artistsString = new StringBuilder();
         for (Artist artist : show.getArtists()) {
-          artistsString += artist.getName() + " (" + artist.getGenre() + ")";
+          artistsString.append(artist.getName()).append(" (").append(artist.getGenre()).append(")");
           if (show.getArtists().indexOf(artist) < show.getArtists().size()) {
-            artistsString += ", ";
+            artistsString.append(", ");
           }
         }
         nameText.setText(artistsString.substring(0, artistsString.length() - 2));

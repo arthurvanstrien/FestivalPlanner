@@ -31,14 +31,10 @@ public class Main extends JTabbedPane {
   private TiledMap tiledMap;
 
   public static void main(String[] args) {
-    SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        new Main(args);
-      }
-    });
+    SwingUtilities.invokeLater(() -> new Main(args));
   }
 
-  public Main(String[] args) {
+  private Main(String[] args) {
 
     fillVisitorImageList();
 
@@ -103,14 +99,14 @@ public class Main extends JTabbedPane {
     try {
       VisitorImageList
           .addImage(ImageIO.read(
-              this.getClass().getClassLoader().getResource("bezoekers/VisitorBlueBlond.png")));
+                  this.getClass().getClassLoader().getResource("visitors/VisitorBlueBlond.png")));
     } catch (IOException e) {
       e.printStackTrace();
     }
     try {
       VisitorImageList
           .addImage(ImageIO.read(
-              this.getClass().getClassLoader().getResource("bezoekers/VisitorGreenBlond.png")));
+                  this.getClass().getClassLoader().getResource("visitors/VisitorGreenBlond.png")));
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -118,14 +114,14 @@ public class Main extends JTabbedPane {
     try {
       VisitorImageList
           .addImage(ImageIO.read(
-              this.getClass().getClassLoader().getResource("bezoekers/VisitorBlackBlond.png")));
+                  this.getClass().getClassLoader().getResource("visitors/VisitorBlackBlond.png")));
     } catch (IOException e) {
       e.printStackTrace();
     }
     try {
       VisitorImageList
           .addImage(ImageIO
-              .read(this.getClass().getClassLoader().getResource("bezoekers/VisitorRedBlack.png")));
+                  .read(this.getClass().getClassLoader().getResource("visitors/VisitorRedBlack.png")));
     } catch (IOException e) {
       e.printStackTrace();
     }

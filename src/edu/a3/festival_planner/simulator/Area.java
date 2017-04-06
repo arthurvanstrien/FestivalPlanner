@@ -1,15 +1,12 @@
 package edu.a3.festival_planner.simulator;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.geom.Point2D;
 import javax.json.JsonObject;
+import java.awt.*;
 
 /**
  * Created by dionb on 20-3-2017.
  */
-public class Area {
+class Area {
   private double x = 0;
   private double y = 0;
   private double height = 0;
@@ -42,7 +39,7 @@ public class Area {
     return name;
   }
 
-  public double getHeigt(){
+  public double getHeight() {
       return height;
   }
   public double getWidth(){

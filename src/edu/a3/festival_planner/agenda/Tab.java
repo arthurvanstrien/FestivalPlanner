@@ -1,6 +1,7 @@
 package edu.a3.festival_planner.agenda;
 
 import edu.a3.festival_planner.general.Main;
+
 import javax.swing.*;
 
 /**
@@ -8,7 +9,7 @@ import javax.swing.*;
  */
 public class Tab extends JScrollPane {
 
-  AgendaView agendaView;
+    private AgendaView agendaView;
 
   /**
    * Create new tab of given agenda and display it in the given main.

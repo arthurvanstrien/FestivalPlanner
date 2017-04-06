@@ -3,7 +3,7 @@ package edu.a3.festival_planner.tests;
 /**
  * Created by Arthur on 13-3-2017.
  */
-public class TestAddArtistsGUI {
+class TestAddArtistsGUI {
 
   public static int runTest() {
     int errors = 0;

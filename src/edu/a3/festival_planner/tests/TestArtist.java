@@ -5,7 +5,7 @@ import edu.a3.festival_planner.agenda.Artist;
 /**
  * Created by Arthur on 13-2-2017.
  */
-public class TestArtist {
+class TestArtist {
 
   public static int runTest() {
     int errors = 0;

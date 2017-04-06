@@ -14,7 +14,6 @@ public class OpenSimulator extends JDialog {
 
     private JTextField visitorsT;
 
-    private Time time;
     private JLabel errorMessage;
 
     /**
@@ -31,12 +30,12 @@ public class OpenSimulator extends JDialog {
         setMinimumSize(new Dimension(250, 100));
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(main.getFrame());
-        time = new Time(0, 0);
+        Time time = new Time(0, 0);
         JPanel content = new JPanel(new BorderLayout());
         add(content);
 
 
-        //Selectionpanel
+        //Selection panel
         JPanel selectionPanel = new JPanel(new GridLayout(2, 1, 5, 5));
 
         JLabel visitorsL = new JLabel("Maximum amount of visitors: ");

@@ -3,12 +3,13 @@ package edu.a3.festival_planner.tests;
 import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.agenda.Artist;
 import edu.a3.festival_planner.agenda.Show;
+
 import java.util.ArrayList;
 
 /**
  * Created by Arthur on 13-3-2017.
  */
-public class TestAgenda {
+class TestAgenda {
 
   public static int runTest() {
     int errors = 0;

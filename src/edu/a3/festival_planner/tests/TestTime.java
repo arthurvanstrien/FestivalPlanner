@@ -5,7 +5,7 @@ import edu.a3.festival_planner.general.Time;
 /**
  * Created by Arthur on 5-3-2017.
  */
-public class TestTime {
+class TestTime {
 
   public static int runTest() {
     int errors = 0;

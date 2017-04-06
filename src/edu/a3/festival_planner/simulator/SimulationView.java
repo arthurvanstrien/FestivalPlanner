@@ -1,6 +1,5 @@
 package edu.a3.festival_planner.simulator;
 
-import com.sun.javafx.UnmodifiableArrayList;
 import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.general.Main;
 import edu.a3.festival_planner.general.Time;
@@ -11,41 +10,36 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import java.util.Set;
 
 /**
  * Created by Eversdijk on 14-3-2017.
  */
-public class SimulationView extends JFrame implements ActionListener {
+class SimulationView extends JFrame implements ActionListener {
 
-  private Main main;
-  private Agenda agenda;
   private Time time;
   private Timer timer;
   private JLabel currentTime, currentSpeed;
   private JSlider sliderSpeed;
   private long lastTime;
-  private long currenttime;
   private double seconds;
   private TiledMapView tiledMapView;
-  private int saves, visitors;
+  private int saves;
 
 
   /**
    * Generates GUI with an agenda to simulate
-   * @param agenda
    */
   public SimulationView(Main main, Agenda agenda, int visitors) {
     super("Simulation: " + agenda.getName());
-    //Initializing atributes
+    //Initializing attributes
     time = new Time(0, 0);
     lastTime = System.nanoTime();
     timer = new Timer(15, this);
     timer.start();
     seconds = 0;
-    this.main = main;
-    this.agenda = agenda;
-    this.visitors = visitors;
+    Main main1 = main;
+    Agenda agenda1 = agenda;
+    int visitors1 = visitors;
 
     Dimension screenSize = (Toolkit.getDefaultToolkit().getScreenSize());
     double screenWidth = screenSize.getWidth();
@@ -129,11 +123,11 @@ public class SimulationView extends JFrame implements ActionListener {
       tiledMapView.setVisitors(new ArrayList<>(tiledMapView.getSaves().get(time)));
       timer.start();
     } else {
-      JOptionPane.showMessageDialog(this, "Je hebt een tijd ingevuld die nog niet is opgeslagen!!");
+      JOptionPane.showMessageDialog(this, "The selected time has not been saved yet.");
     }
   }
 
-  public boolean checkTimeExists(Time time) {
+  private boolean checkTimeExists(Time time) {
     for(Time t :tiledMapView.getSaves().keySet()) {
       if(t.isTheSame(time)) {
         return true;
@@ -142,8 +136,8 @@ public class SimulationView extends JFrame implements ActionListener {
     return false;
   }
 
-  public void update() {
-    currenttime = System.nanoTime();
+  private void update() {
+    long currenttime = System.nanoTime();
     double elapsedTime = (currenttime - lastTime) / 1000000000.0;
     lastTime = currenttime;
     seconds += (elapsedTime * (sliderSpeed.getValue() / 100));

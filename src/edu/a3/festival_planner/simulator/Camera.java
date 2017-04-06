@@ -6,13 +6,13 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 
-public class Camera implements MouseListener, MouseMotionListener, MouseWheelListener {
+class Camera implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-    Point2D centerPoint = new Double(0.0d, 0.0d);
-    double zoom = .4d;
-    double rotation = 0.0d;
-    Point2D lastMousePos;
-    JPanel panel;
+    private Point2D centerPoint = new Double(0.0d, 0.0d);
+    private double zoom = .4d;
+    private double rotation = 0.0d;
+    private Point2D lastMousePos;
+    private JPanel panel;
 
     public Camera(JPanel panel) {
         this.panel = panel;

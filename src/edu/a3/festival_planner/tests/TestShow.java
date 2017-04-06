@@ -4,13 +4,14 @@ import edu.a3.festival_planner.agenda.Artist;
 import edu.a3.festival_planner.agenda.Show;
 import edu.a3.festival_planner.agenda.Stage;
 import edu.a3.festival_planner.general.Time;
+
 import java.util.ArrayList;
 
 /**
  * Created by dionb on 13-2-2017.
  * Edited by Arthur van Strien on 05-03-2017.
  */
-public class TestShow {
+class TestShow {
 
   public static int runTest() {
     int amountOfErrors = 0;

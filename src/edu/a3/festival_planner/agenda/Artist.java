@@ -1,8 +1,8 @@
 package edu.a3.festival_planner.agenda;
 
 import edu.a3.festival_planner.exceptions.ArtistException;
-
 import edu.a3.festival_planner.general.Time;
+
 import java.util.HashMap;
 
 /**
@@ -10,8 +10,8 @@ import java.util.HashMap;
  */
 public class Artist extends Human implements Comparable {
 
-  String genre;
-  HashMap<Integer, Boolean> performingTimes;
+  private String genre;
+  private HashMap<Integer, Boolean> performingTimes;
 
   public Artist(String name, String genre) {
     super(name);

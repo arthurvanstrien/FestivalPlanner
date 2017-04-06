@@ -4,11 +4,11 @@ import edu.a3.festival_planner.exceptions.ArtistException;
 import edu.a3.festival_planner.exceptions.NameException;
 import edu.a3.festival_planner.exceptions.PopularityException;
 import edu.a3.festival_planner.exceptions.TimeException;
-
 import edu.a3.festival_planner.general.Period;
 import edu.a3.festival_planner.general.Time;
+
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Created by dionb on 6-2-2017.
@@ -110,9 +110,9 @@ public class Show implements Serializable {
 
   @Override
   public String toString() {
-    String artistsString = "";
+    StringBuilder artistsString = new StringBuilder();
     for (Artist artist : artists) {
-      artistsString += artist.getName() + ", ";
+      artistsString.append(artist.getName()).append(", ");
     }
     return name;
   }

@@ -36,11 +36,7 @@ public class Period {
    */
   public static boolean checkIfTimeIsInPeriod(Time time, Time beginTime, Time endTime) {
     try {
-      if (time.toSeconds() >= beginTime.toSeconds() && time.toSeconds() < endTime.toSeconds()) {
-        return true;
-      } else {
-        return false;
-      }
+      return time.toSeconds() >= beginTime.toSeconds() && time.toSeconds() < endTime.toSeconds();
     } catch (NullPointerException e) {
       return false;
     }

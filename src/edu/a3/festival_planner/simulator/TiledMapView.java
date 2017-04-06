@@ -5,14 +5,13 @@ import edu.a3.festival_planner.general.Time;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 
 /**
  * Created by snick on 20-3-2017.
  */
-public class TiledMapView extends JPanel {
+class TiledMapView extends JPanel {
 
   private TiledMap tiledMap;
   private Camera camera;
@@ -22,15 +21,13 @@ public class TiledMapView extends JPanel {
   private int maxNumberOfVisitors;
   private Time prevTime;
   private Map<Time, List<Drawable>> saves;
-  private boolean shouldOverride = false;
-  private boolean debug = false;
 
   public TiledMapView(TiledMap tiledMap, Agenda agenda, int visitorAmount) {
     this.tiledMap = tiledMap;
     camera = new Camera(this);
     visitors = new ArrayList<>();
     maxNumberOfVisitors = visitorAmount;
-    bfs = new BreadthFirstSearch(tiledMap.getWalkableLayer().getAccesiblePoints());
+    bfs = new BreadthFirstSearch(tiledMap.getWalkableLayer().getAccessiblePoints());
     this.agenda = agenda;
     this.saves = new HashMap();
   }
@@ -48,19 +45,16 @@ public class TiledMapView extends JPanel {
   }
 
   public void update(double elapsedTime, Time time){
-    if (checkTimeExists(time)) {
-      shouldOverride = false;
-    } else {
-      shouldOverride = true;
-    }
+    boolean shouldOverride = false;
+    shouldOverride = !checkTimeExists(time);
     if (time.toSeconds() % 1800 == 0) {
       saveCurrentSituation(time);
     }
-    boolean updateBlatter = false;
+    boolean updateBladder = false;
     boolean updateStomach = false;
     if(prevTime != null) {
       if(!prevTime.isTheSame(time)) {
-        updateBlatter = true;
+        updateBladder = true;
         updateStomach = true;
       }
     }
@@ -75,7 +69,7 @@ public class TiledMapView extends JPanel {
         it.remove();
       } else {
         v.update(visitors, elapsedTime, agenda, time, tiledMap);
-        if(updateBlatter) {
+        if (updateBladder) {
           v.updateBlatter();
         }
         if(updateStomach){
@@ -88,8 +82,9 @@ public class TiledMapView extends JPanel {
 
   private void saveCurrentSituation(Time time) {
     if (!saves.containsKey(time)) {
+      boolean debug = false;
       if (debug) {
-        System.out.println("Tijd opgeslagen: " + time.getHour() + "   " + time.getMinute());
+        System.out.println("Time saved: " + time.getHour() + "   " + time.getMinute());
       }
       ArrayList<Drawable> toAdd = new ArrayList<>();
       for (Drawable d : visitors) {
@@ -102,7 +97,7 @@ public class TiledMapView extends JPanel {
     }
   }
 
-  public void spawnVisitor(Time time) {
+  private void spawnVisitor(Time time) {
     //if the amount of total visitors has not been reached there is a chance to spawn a new visitor
     if (visitors.size() < maxNumberOfVisitors && Math.random() > 0.85) {
       Visitor tempVisitor = new Visitor(visitors, tiledMap.getAreaLayers(), bfs, agenda,time, tiledMap);
@@ -118,7 +113,7 @@ public class TiledMapView extends JPanel {
     return saves;
   }
 
-  public boolean checkTimeExists(Time time) {
+  private boolean checkTimeExists(Time time) {
     for (Time t : saves.keySet()) {
       if (t.isTheSame(time)) {
         return true;

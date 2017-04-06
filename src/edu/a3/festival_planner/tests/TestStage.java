@@ -6,7 +6,7 @@ import edu.a3.festival_planner.agenda.Stage;
  * Created by dionb on 13-2-2017.
  * Edited by Arthur on 05-03-2017.
  */
-public class TestStage {
+class TestStage {
 
   public static int runTest() {
     int amountOfErrors = 0;

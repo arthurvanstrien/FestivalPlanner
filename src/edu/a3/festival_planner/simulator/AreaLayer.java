@@ -1,55 +1,51 @@
 package edu.a3.festival_planner.simulator;
 
-import java.awt.Graphics2D;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import javax.json.JsonObject;
+import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * Created by dionb on 20-3-2017.
  */
-public class AreaLayer {
-  private TiledMap map;
-  private ArrayList<Area> stages;
+class AreaLayer {
+    private ArrayList<Area> stages;
   private ArrayList<Area> entrances;
   private ArrayList<Area> locations;
   private ArrayList<Area> stands;
   private ArrayList<Area> toilets;
-  private ArrayList<Area> fields;
-  private ArrayList<Area> allAreas;
-  private int amountStages = 0;
-  private int amountEntrances = 0;
-  private int amountLocations = 0;
-  private int ammountStands = 0;
-  private int ammountToilets = 0;
-  private int ammountFields = 0;
+    private ArrayList<Area> allAreas;
+    private int amountFields = 0;
 
   public AreaLayer(JsonObject layer, TiledMap map ) {
-    this.map = map;
+      TiledMap map1 = map;
     stages = new ArrayList<>();
     entrances = new ArrayList<>();
     locations = new ArrayList<>();
     stands = new ArrayList<>();
     toilets = new ArrayList<>();
     allAreas = new ArrayList<>();
-    fields = new ArrayList<>();
+      ArrayList<Area> fields = new ArrayList<>();
 
     for(int i = 0; i < layer.getJsonArray("objects").size(); i++) {
         JsonObject area = layer.getJsonArray("objects").getJsonObject(i);
         if(area.getString("type").equals("Stage")) {
           //type stage so it's added to the stage list
-          amountStages++;
+            int amountStages = 0;
+            amountStages++;
           stages.add(new Area(area));
         } else if(area.getString("type").equals("Entrance")) {
           //Type entrance so it's added to the entrances list
-          amountEntrances++;
+            int amountEntrances = 0;
+            amountEntrances++;
           entrances.add(new Area(area));
         } else if (area.getString("type").equals("Stand")){
           //Type Stand so it's  added to the stand list
-          ammountStands++;
+            int ammountStands = 0;
+            ammountStands++;
           stands.add(new Area(area));
         }else if(area.getString("type").equals("Toilet")){
-          ammountToilets++;
+            int ammountToilets = 0;
+            ammountToilets++;
           toilets.add(new Area(area));
         }
 //        else if(area.getString("type").equals("freefield")){
@@ -58,7 +54,8 @@ public class AreaLayer {
 //        }
         else{
           //None of the above type's so it's added to the location list for other areas
-          amountLocations++;
+            int amountLocations = 0;
+            amountLocations++;
           locations.add(new Area(area));
         }
     }

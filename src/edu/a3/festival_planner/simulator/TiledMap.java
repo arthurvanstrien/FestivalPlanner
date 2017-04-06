@@ -1,13 +1,14 @@
 package edu.a3.festival_planner.simulator;
 
-import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import javax.imageio.ImageIO;
-import javax.json.*;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -15,10 +16,10 @@ import java.util.Iterator;
 
 public class TiledMap {
 
-  ArrayList<TiledLayer> arrayLayers;
+  private ArrayList<TiledLayer> arrayLayers;
   ArrayList<BufferedImage> arrayImages;
-  ArrayList<AreaLayer> arrayObjectLayers;
-  TiledLayer walkableLayer;
+  private ArrayList<AreaLayer> arrayObjectLayers;
+  private TiledLayer walkableLayer;
 
   public TiledMap(String fileName) {
     JsonObject jo = null;
@@ -83,9 +84,9 @@ public class TiledMap {
   public void draw(Graphics2D g2d) {
     Iterator<TiledLayer> it1 = arrayLayers.iterator();
     while (it1.hasNext()) {
-      TiledLayer tl = (TiledLayer) it1.next();
+      TiledLayer tl = it1.next();
       if(!tl.name.equals("Walkable")) {
-        g2d.drawImage((Image) tl.getImage(), new AffineTransform(), (ImageObserver) null);
+        g2d.drawImage(tl.getImage(), new AffineTransform(), null);
       }
     }
   }
@@ -98,7 +99,7 @@ public class TiledMap {
   }
   public TiledLayer getWalkableLayer() {return walkableLayer;}
 
-  //translates the enum to an actuel spot on the map
+  //translates the enum to an actual spot on the map
   public Point2D enumToPointDestination(Location currentDestination) {
     ArrayList<Area> entrances = getAreaLayers().get(0).getEntrances();
     ArrayList<Area> stages = getAreaLayers().get(0).getStages();
@@ -107,17 +108,27 @@ public class TiledMap {
     ArrayList<Area> toiletAreas = getAreaLayers().get(0).getToiletArea();
     ArrayList<Area> fieldAreas = getAreaLayers().get(0).getFields();
       switch (currentDestination) {
-        case STAGE_1: return new Point2D.Double(stages.get(0).getX() + (stages.get(0).getWidth() / 2), (stages.get(0).getY() + (stages.get(0).getHeigt() / 2)));
-        case STAGE_2: return new Point2D.Double(stages.get(1).getX() + (stages.get(1).getWidth() / 2), (stages.get(1).getY() + (stages.get(1).getHeigt() / 2)));
+        case STAGE_1:
+          return new Point2D.Double(stages.get(0).getX() + (stages.get(0).getWidth() / 2), (stages.get(0).getY() + (stages.get(0).getHeight() / 2)));
+        case STAGE_2:
+          return new Point2D.Double(stages.get(1).getX() + (stages.get(1).getWidth() / 2), (stages.get(1).getY() + (stages.get(1).getHeight() / 2)));
         case STAGE_3: return new Point2D.Double(stages.get(2).getX() + (stages.get(2).getWidth() / 2), (stages.get(2).getY() + (stages.get(2).getWidth() / 2)));
-        case TOILET_1:return new Point2D.Double(toiletAreas.get(0).getX() + (toiletAreas.get(0).getWidth() / 2), toiletAreas.get(0).getY() + (toiletAreas.get(0).getHeigt() / 2));
-        case TOILET_2:return new Point2D.Double(toiletAreas.get(1).getX() + (toiletAreas.get(1).getWidth() / 2), toiletAreas.get(1).getY() + (toiletAreas.get(1).getHeigt() / 2));
-        case GRASS_1: return new Point2D.Double(otherAreas.get(0).getX() + (otherAreas.get(0).getWidth() / 2), otherAreas.get(0).getY() + (otherAreas.get(0).getHeigt() / 2));
-        case GRASS_2: return new Point2D.Double(otherAreas.get(1).getX() + (otherAreas.get(1).getWidth() / 2), otherAreas.get(1).getY() + (otherAreas.get(1).getHeigt() / 2));
-        case FOODSTAND_1: return new Point2D.Double(standAreas.get(0).getX() + (standAreas.get(0).getWidth() / 2), standAreas.get(0).getY() + (standAreas.get(0).getHeigt() / 2));
-        case FOODSTAND_2: return new Point2D.Double(standAreas.get(1).getX() + (standAreas.get(1).getWidth() / 2), standAreas.get(1).getY() + (standAreas.get(1).getHeigt() / 2));
-        case FOODSTAND_3: return new Point2D.Double(standAreas.get(2).getX() + (standAreas.get(2).getWidth() / 2), standAreas.get(2).getY() + (standAreas.get(2).getHeigt() / 2));
-        case EXIT:return new Point2D.Double(entrances.get(0).getX() + (entrances.get(0).getWidth() / 2), entrances.get(0).getY() + (entrances.get(0).getHeigt()) /2);
+        case TOILET_1:
+          return new Point2D.Double(toiletAreas.get(0).getX() + (toiletAreas.get(0).getWidth() / 2), toiletAreas.get(0).getY() + (toiletAreas.get(0).getHeight() / 2));
+        case TOILET_2:
+          return new Point2D.Double(toiletAreas.get(1).getX() + (toiletAreas.get(1).getWidth() / 2), toiletAreas.get(1).getY() + (toiletAreas.get(1).getHeight() / 2));
+        case GRASS_1:
+          return new Point2D.Double(otherAreas.get(0).getX() + (otherAreas.get(0).getWidth() / 2), otherAreas.get(0).getY() + (otherAreas.get(0).getHeight() / 2));
+        case GRASS_2:
+          return new Point2D.Double(otherAreas.get(1).getX() + (otherAreas.get(1).getWidth() / 2), otherAreas.get(1).getY() + (otherAreas.get(1).getHeight() / 2));
+        case FOODSTAND_1:
+          return new Point2D.Double(standAreas.get(0).getX() + (standAreas.get(0).getWidth() / 2), standAreas.get(0).getY() + (standAreas.get(0).getHeight() / 2));
+        case FOODSTAND_2:
+          return new Point2D.Double(standAreas.get(1).getX() + (standAreas.get(1).getWidth() / 2), standAreas.get(1).getY() + (standAreas.get(1).getHeight() / 2));
+        case FOODSTAND_3:
+          return new Point2D.Double(standAreas.get(2).getX() + (standAreas.get(2).getWidth() / 2), standAreas.get(2).getY() + (standAreas.get(2).getHeight() / 2));
+        case EXIT:
+          return new Point2D.Double(entrances.get(0).getX() + (entrances.get(0).getWidth() / 2), entrances.get(0).getY() + (entrances.get(0).getHeight()) / 2);
         default:return new Point2D.Double(2800, 1500);
       }
   }

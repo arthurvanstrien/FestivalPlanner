@@ -5,19 +5,15 @@ import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.agenda.Show;
 import edu.a3.festival_planner.general.Time;
 
-import java.awt.Graphics2D;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
-import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-
-import sun.text.CodePointIterator;
 
 /**
  * Created by robin on 12-3-2017.
@@ -26,7 +22,7 @@ public class Visitor implements Drawable,Cloneable {
 
     private final int red = 3329;
     private final int green = 3331;
-    private final double pathAccurency = (Math.random() * 8) + 4;
+    private final double pathAccuracy = (Math.random() * 8) + 4;
 
     private Location currentDestination;
     private Point2D position;
@@ -51,7 +47,7 @@ public class Visitor implements Drawable,Cloneable {
     private boolean hasHadFood;
     private boolean debug = false;
     private boolean exited = false;
-    private double blatter = 0;
+    private double bladder = 0;
     private double stomach = 0;
 
 
@@ -94,12 +90,12 @@ public class Visitor implements Drawable,Cloneable {
         totalElapsedTime += elapsedTime;
 
         if (isOnLocation) {
-            /**
+            /*
              * Set een timer die na een n.t.b. tijd de dance.activiteit uit en een nieuwe destination zetten.
              */
             activityOnLocation(agenda, time, tiledMap);
         } else {
-            /**
+            /*
              * code met if in objectlayer van een Location, isOnLocation = true;
              * set current location to location van objectlayer.
              *
@@ -122,7 +118,7 @@ public class Visitor implements Drawable,Cloneable {
         Point2D point = null;
         Area entrance = entrances.get(0).getEntrances().get(0);
         point = new Point2D.Double(entrance.getX() + (entrance.getWidth() - 50 * Math.random()),
-                entrance.getY() + (entrance.getHeigt() * Math.random()));
+                entrance.getY() + (entrance.getHeight() * Math.random()));
         return point;
     }
 
@@ -134,24 +130,20 @@ public class Visitor implements Drawable,Cloneable {
     }
 
     public boolean hasSpawned() {
-        if (position == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return position != null;
     }
 
-    public void walk(Time time, double elapsedTime, List<Drawable> drawings, TiledMap tiledMap) {
+    private void walk(Time time, double elapsedTime, List<Drawable> drawings, TiledMap tiledMap) {
         if (path.size() - currentStepInPath < 1) {
             isOnLocation = true;
             arrivalTime = time;
             totalElapsedTime = 0;
         } else {
-            if (position.getX() >= (inBetweenDestination.getX() - pathAccurency)
+            if (position.getX() >= (inBetweenDestination.getX() - pathAccuracy)
                     && position.getX() <= (
-                    inBetweenDestination.getX() + pathAccurency) && position.getY() >= (
-                    inBetweenDestination.getY() - pathAccurency)
-                    && position.getY() <= (inBetweenDestination.getY() + pathAccurency)) {
+                    inBetweenDestination.getX() + pathAccuracy) && position.getY() >= (
+                    inBetweenDestination.getY() - pathAccuracy)
+                    && position.getY() <= (inBetweenDestination.getY() + pathAccuracy)) {
                 if (currentStepInPath < path.size()) {
                     nextPointInPath();
                 }
@@ -181,7 +173,7 @@ public class Visitor implements Drawable,Cloneable {
                 position.getX() + elapsedTime * speed * Math.cos(angle),
                 position.getY() + elapsedTime * speed * Math.sin(angle));
         if (debug) {
-            System.out.println("Botsingen: " + collisionCounter + " blaas: " + blatter);
+            System.out.println("Botsingen: " + collisionCounter + " blaas: " + bladder);
         }
         if (!collidesWithVisitor(drawings, newPosition)) {
             if (!collidesWithTiles(tiledMap.getWalkableLayer(), newPosition)) {
@@ -195,7 +187,7 @@ public class Visitor implements Drawable,Cloneable {
         }
     }
 
-    public void newDestinationPathCalculation(TiledMap tiledMap, Time time) {
+    private void newDestinationPathCalculation(TiledMap tiledMap, Time time) {
         newDestination = false;
         Point2D posToGrid = new Point2D.Double(Math.round((position.getX() - 16) / 32), Math.round((position.getY() - 16) / 32));
         Point2D desToGrid = new Point2D.Double(Math.round((destination.getX() - 16) / 32), Math.round((destination.getY() - 16) / 32));
@@ -247,7 +239,7 @@ public class Visitor implements Drawable,Cloneable {
         }
     }
 
-    public void activityOnLocation(Agenda agenda, Time time, TiledMap tiledMap) {
+    private void activityOnLocation(Agenda agenda, Time time, TiledMap tiledMap) {
         switch (currentDestination) {
             case STAGE_1: {
                 hasPooped = false;
@@ -301,7 +293,7 @@ public class Visitor implements Drawable,Cloneable {
                 int poopinTime = (int) ((Math.random() * (2 * 60))) + 60;
                 if (time.toSeconds() > arrivalTime.toSeconds() + poopinTime) {
                     hasPooped = true;
-                    blatter = 0;
+                    bladder = 0;
                     setNewDestination(agenda, time, tiledMap);
                 }
                 if (debug) {
@@ -314,7 +306,7 @@ public class Visitor implements Drawable,Cloneable {
                 int poopinTime = (int) (Math.random() * (2 * 60) + 60);
                 if (time.toSeconds() > arrivalTime.toSeconds() + poopinTime) {
                     hasPooped = true;
-                    blatter = 0;
+                    bladder = 0;
                     setNewDestination(agenda, time, tiledMap);
                 }
                 if (debug) {
@@ -407,12 +399,9 @@ public class Visitor implements Drawable,Cloneable {
     }
 
     /**
-     * Let a visitor evade another visitor, we think
-     *
-     * @param newPosition
-     * @param drawings
+     * Let a visitor evade another visitor
      */
-    public void evadeVisitor(Point2D newPosition, List<Drawable> drawings) {
+    private void evadeVisitor(Point2D newPosition, List<Drawable> drawings) {
         angle = angle % 360;
         if (angle >= 45 && angle <= 135) {
             newPosition = new Double(newPosition.getX() + 2, newPosition.getY());
@@ -440,7 +429,7 @@ public class Visitor implements Drawable,Cloneable {
      * Checks for collision with unwalkable paths and other drawables
      * Old method, do not use.
      */
-    public boolean collides(List<Drawable> drawings, TiledLayer walklayer, Point2D newPosition) {
+    private boolean collides(List<Drawable> drawings, TiledLayer walklayer, Point2D newPosition) {
         if (newPosition.getY() > (mapWith) * 32) {
             newPosition = new Double(newPosition.getX(), 99 * 32);
         } else if (newPosition.getX() > (mapHeight) * 32) {
@@ -486,7 +475,7 @@ public class Visitor implements Drawable,Cloneable {
     /**
      * checks collision with visitors
      */
-    public boolean collidesWithVisitor(List<Drawable> drawings, Point2D newPosition) {
+    private boolean collidesWithVisitor(List<Drawable> drawings, Point2D newPosition) {
         for (Drawable drawing : drawings) {
             if (drawing == this) {
                 continue;
@@ -504,7 +493,7 @@ public class Visitor implements Drawable,Cloneable {
     /**
      * Checks collision with the map
      */
-    public boolean collidesWithTiles(TiledLayer walklayer, Point2D newPosition) {
+    private boolean collidesWithTiles(TiledLayer walklayer, Point2D newPosition) {
         if (newPosition.getY() > (mapWith - 1) * 32) {
             newPosition = new Double(newPosition.getX(), (mapWith - 1) * 32);
         }
@@ -524,15 +513,6 @@ public class Visitor implements Drawable,Cloneable {
         }
     }
 
-
-    /**
-     * Lets the visitor dance within the bounds of the stage.
-     */
-    public void dance() {
-        /**
-         * Code that lets the visitor dance;
-         */
-    }
 
     /**
      * @return gives the position of the visitor
@@ -572,12 +552,12 @@ public class Visitor implements Drawable,Cloneable {
 
     }
 
-    public void setNewDestination(Agenda agenda, Time time, TiledMap tiledMap) {
+    private void setNewDestination(Agenda agenda, Time time, TiledMap tiledMap) {
         Set<Show> shows = agenda.getAllShows();
         boolean destinationIsSet = false;
         HashMap<Location, Show> showMap = new HashMap<>();
         double totalPopularity = 0;
-        double toiletPopularity = 2 * blatter;
+        double toiletPopularity = 2 * bladder;
         double foodPopularity = 2 * stomach;
         if (!hasPooped) {
             totalPopularity += toiletPopularity;
@@ -673,7 +653,7 @@ public class Visitor implements Drawable,Cloneable {
         newDestination = true;
     }
 
-    public Location goToField() {
+    private Location goToField() {
         if (Math.random() < 0.5) {
             if (debug)
                 System.out.println("To Gras 1");
@@ -686,7 +666,7 @@ public class Visitor implements Drawable,Cloneable {
         }
     }
 
-    public Location goToToilet() {
+    private Location goToToilet() {
         if (Math.random() < 0.5) {
             if (debug)
                 System.out.println("To Toilet 1");
@@ -698,7 +678,7 @@ public class Visitor implements Drawable,Cloneable {
         }
     }
 
-    public Location goToStand() {
+    private Location goToStand() {
         double chance = Math.random();
         if (chance < 0.33) {
             if (debug)
@@ -726,7 +706,7 @@ public class Visitor implements Drawable,Cloneable {
     }
 
     public void updateBlatter() {
-        blatter += 0.01;
+        bladder += 0.01;
     }
 
     public void updateStomach() {

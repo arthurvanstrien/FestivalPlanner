@@ -2,6 +2,7 @@ package edu.a3.festival_planner.agenda;
 
 import edu.a3.festival_planner.general.Main;
 import edu.a3.festival_planner.general.Time;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,7 +86,7 @@ public class Agenda implements Serializable {
 
   /**
    * returns a set with all shows.
-   * @return
+   * @return set of all shows
    */
   public Set<Show> getAllShows() {
     Set<Show> shows = new HashSet<>();

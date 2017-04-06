@@ -2,8 +2,8 @@ package edu.a3.festival_planner.general;
 
 import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.agenda.AgendaView;
-import edu.a3.festival_planner.general.Main;
 import edu.a3.festival_planner.simulator.TiledMap;
+
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
@@ -12,7 +12,7 @@ import java.io.*;
 /**
  * Created by kevin on 9-2-2017.
  */
-public class FileManager {
+class FileManager {
 
   private JFileChooser fileChooser;
   private Main main;

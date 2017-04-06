@@ -1,16 +1,20 @@
 package edu.a3.festival_planner.tests;
 
 import edu.a3.festival_planner.simulator.BreadthFirstSearch;
-import java.awt.Point;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by snick on 19-3-2017.
  */
-public class TestBFS {
+class TestBFS {
 
-  private static int X0 = 100, Y0 = 100, X1 = 33, Y1 = 11, X2 = 7, Y2 = 89;
+  private static int X1 = 33;
+  private static int Y1 = 11;
+  private static int X2 = 7;
+  private static int Y2 = 89;
 
   /**
    * Run breadth first search test with predefined variables.
@@ -21,8 +25,10 @@ public class TestBFS {
     int errors = 0;
 
     List<Point> points = new ArrayList<>();
-    for (int x = 0; x < X0; x++) {
-      for (int y = 0; y < Y0; y++) {
+    int x0 = 100;
+    for (int x = 0; x < x0; x++) {
+      int y0 = 100;
+      for (int y = 0; y < y0; y++) {
         points.add(new Point(x, y));
       }
     }

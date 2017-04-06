@@ -1,13 +1,14 @@
 package edu.a3.festival_planner.simulator;
 
 import edu.a3.festival_planner.general.Time;
+
 import javax.swing.*;
 import java.awt.*;
 
 /**
  * Created by Eversdijk on 14-3-2017.
  */
-public class TimeGui extends JDialog {
+class TimeGui extends JDialog {
 
   private JComboBox<Integer> hoursC, minutesC;
   private SimulationView frame;
@@ -16,7 +17,6 @@ public class TimeGui extends JDialog {
 
   /**
    * Creates Gui
-   * @param simulationView
    */
 
   public TimeGui(SimulationView simulationView) {
@@ -35,7 +35,7 @@ public class TimeGui extends JDialog {
     add(content);
 
 
-    //Timepanel
+    //Time panel
     JPanel timePanel = new JPanel(new GridLayout(2, 2,5,20));
     JLabel hoursL = new JLabel("Hours: ");
     JLabel minutesL = new JLabel("Minutes: ");
@@ -70,7 +70,7 @@ public class TimeGui extends JDialog {
    *Set time of the given simulationView
    */
 
-  public void setTime() {
+  private void setTime() {
 
     int hours = (int) hoursC.getSelectedItem();
     int minutes = (int) minutesC.getSelectedItem();
