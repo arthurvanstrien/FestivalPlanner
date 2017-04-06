@@ -14,11 +14,15 @@ public class AreaLayer {
   private ArrayList<Area> entrances;
   private ArrayList<Area> locations;
   private ArrayList<Area> stands;
+  private ArrayList<Area> toilets;
+  private ArrayList<Area> fields;
   private ArrayList<Area> allAreas;
   private int amountStages = 0;
   private int amountEntrances = 0;
   private int amountLocations = 0;
   private int ammountStands = 0;
+  private int ammountToilets = 0;
+  private int ammountFields = 0;
 
   public AreaLayer(JsonObject layer, TiledMap map ) {
     this.map = map;
@@ -26,7 +30,9 @@ public class AreaLayer {
     entrances = new ArrayList<>();
     locations = new ArrayList<>();
     stands = new ArrayList<>();
+    toilets = new ArrayList<>();
     allAreas = new ArrayList<>();
+    fields = new ArrayList<>();
 
     for(int i = 0; i < layer.getJsonArray("objects").size(); i++) {
         JsonObject area = layer.getJsonArray("objects").getJsonObject(i);
@@ -42,8 +48,15 @@ public class AreaLayer {
           //Type Stand so it's  added to the stand list
           ammountStands++;
           stands.add(new Area(area));
-          System.out.println("StandArea: "+area.toString());
-        } else{
+        }else if(area.getString("type").equals("Toilet")){
+          ammountToilets++;
+          toilets.add(new Area(area));
+        }
+//        else if(area.getString("type").equals("freefield")){
+//          ammountFields++;
+//          fields.add(new Area(area));
+//        }
+        else{
           //None of the above type's so it's added to the location list for other areas
           amountLocations++;
           locations.add(new Area(area));
@@ -71,4 +84,8 @@ public class AreaLayer {
   public ArrayList<Area> getOtherAreas() {return locations;}
 
   public ArrayList<Area> getStandArea(){return stands;}
+
+  public ArrayList<Area> getToiletArea(){return toilets;}
+
+  public ArrayList<Area> getFields(){return toilets;}
 }

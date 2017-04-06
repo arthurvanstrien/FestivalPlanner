@@ -106,14 +106,18 @@ public class TiledMap {
     ArrayList<Area> stages = getAreaLayers().get(0).getStages();
     ArrayList<Area> otherAreas = getAreaLayers().get(0).getOtherAreas();
     ArrayList<Area> standAreas = getAreaLayers().get(0).getStandArea();
+    ArrayList<Area> toiletAreas = getAreaLayers().get(0).getToiletArea();
+    ArrayList<Area> fieldAreas = getAreaLayers().get(0).getFields();
       switch (currentDestination) {
         case STAGE_1: return new Point2D.Double(stages.get(0).getX() + (stages.get(0).getWidth() / 2), (stages.get(0).getY() + (stages.get(0).getHeigt() / 2)));
         case STAGE_2: return new Point2D.Double(stages.get(1).getX() + (stages.get(1).getWidth() / 2), (stages.get(1).getY() + (stages.get(1).getHeigt() / 2)));
         case STAGE_3: return new Point2D.Double(stages.get(2).getX() + (stages.get(2).getWidth() / 2), (stages.get(2).getY() + (stages.get(2).getWidth() / 2)));
-        case TOILET_1:return new Point2D.Double(otherAreas.get(0).getX() + (otherAreas.get(0).getWidth() / 2), otherAreas.get(0).getY() + (otherAreas.get(0).getHeigt() / 2));
-        case TOILET_2:return new Point2D.Double(otherAreas.get(1).getX() + (otherAreas.get(1).getWidth() / 2), otherAreas.get(1).getY() + (otherAreas.get(1).getHeigt() / 2));
-        case GRASS_1: return new Point2D.Double(otherAreas.get(2).getX() + (otherAreas.get(2).getWidth() / 2), otherAreas.get(2).getY() + (otherAreas.get(2).getHeigt() / 2));
-        case GRASS_2: return new Point2D.Double(otherAreas.get(3).getX() + (otherAreas.get(3).getWidth() / 2), otherAreas.get(3).getY() + (otherAreas.get(3).getHeigt() / 2));
+        case TOILET_1:return new Point2D.Double(toiletAreas.get(0).getX() + (toiletAreas.get(0).getWidth() / 2), toiletAreas.get(0).getY() + (toiletAreas.get(0).getHeigt() / 2));
+        case TOILET_2:return new Point2D.Double(toiletAreas.get(1).getX() + (toiletAreas.get(1).getWidth() / 2), toiletAreas.get(1).getY() + (toiletAreas.get(1).getHeigt() / 2));
+//        case GRASS_1: return new Point2D.Double(fieldAreas.get(0).getX() + (fieldAreas.get(0).getWidth() / 2), fieldAreas.get(0).getY() + (fieldAreas.get(0).getHeigt() / 2));
+//        case GRASS_2: return new Point2D.Double(fieldAreas.get(1).getX() + (fieldAreas.get(1).getWidth() / 2), fieldAreas.get(1).getY() + (fieldAreas.get(1).getHeigt() / 2));
+        case GRASS_1: return new Point2D.Double(otherAreas.get(0).getX() + (otherAreas.get(0).getWidth() / 2), otherAreas.get(0).getY() + (otherAreas.get(0).getHeigt() / 2));
+        case GRASS_2: return new Point2D.Double(otherAreas.get(1).getX() + (otherAreas.get(1).getWidth() / 2), otherAreas.get(1).getY() + (otherAreas.get(1).getHeigt() / 2));
         case FOODSTAND_1: return new Point2D.Double(standAreas.get(0).getX() + (standAreas.get(0).getWidth() / 2), standAreas.get(0).getY() + (standAreas.get(0).getHeigt() / 2));
         case FOODSTAND_2: return new Point2D.Double(standAreas.get(1).getX() + (standAreas.get(1).getWidth() / 2), standAreas.get(1).getY() + (standAreas.get(1).getHeigt() / 2));
         case FOODSTAND_3: return new Point2D.Double(standAreas.get(2).getX() + (standAreas.get(2).getWidth() / 2), standAreas.get(2).getY() + (standAreas.get(2).getHeigt() / 2));

@@ -577,19 +577,20 @@ public class Visitor implements Drawable {
 
     public void setNewDestination(Agenda agenda, Time time, TiledMap tiledMap) {
         Set<Show> shows = agenda.getAllShows();
+        boolean destinationIsSet = false;
         HashMap<Location, Show> showMap = new HashMap<>();
         double totalPopularity = 0;
         double toiletPopularity = 2 * blatter;
-        double foodPopularity = 4 * stomach;
+        double foodPopularity = 2 * stomach;
         if (!hasPooped) {
-            totalPopularity += (toiletPopularity + toiletPopularity);
+            totalPopularity += toiletPopularity;
         }
         if (!hasHadFood) {
-            toiletPopularity += (foodPopularity + foodPopularity + foodPopularity);
+            toiletPopularity += foodPopularity;
         }
 
-        double fieldPopularity = 0.5;
-        totalPopularity += (fieldPopularity+fieldPopularity);
+        double fieldPopularity = 1;
+        totalPopularity += fieldPopularity;
         for (Show s : shows) {
             if (!s.getBeginTime().isBefore(time)) {
                 if (time.toSeconds() >= s.getBeginTime().toSeconds() - (60 * 45)) {
@@ -607,75 +608,62 @@ public class Visitor implements Drawable {
         }
         if (number < popularityCounter) {
             currentDestination = Location.STAGE_1;
+            System.out.println("hij is stage1");
         } else {
             if ((showMap.get(Location.STAGE_2)) != null) {
                 popularityCounter += ((showMap.get(Location.STAGE_2).getExpectedPopularity()));
             }
             if (number < popularityCounter) {
                 currentDestination = Location.STAGE_2;
+                System.out.println("hij is stage2");
             } else {
                 if ((showMap.get(Location.STAGE_3)) != null) {
                     popularityCounter += ((showMap.get(Location.STAGE_3).getExpectedPopularity()));
                 }
                 if (number < popularityCounter) {
                     currentDestination = Location.STAGE_3;
+                    System.out.println("hij is stage3");
                 } else {
                     popularityCounter += fieldPopularity;
                     if (number < popularityCounter) {
                         if (time.isBefore(new Time(agenda.getEndTime().getHour() - 1, agenda.getEndTime().getMinute()))) {
-                            currentDestination = Location.GRASS_1;
+                            currentDestination = goToField();
                         } else {
                             currentDestination = Location.EXIT;
+                            System.out.println("hij is Exit");
                         }
-                    } else {
+                    } else
+                        {
                         if (!hasPooped) {
                             popularityCounter += toiletPopularity;
                             if (number < popularityCounter) {
-                                currentDestination = Location.TOILET_1;
-                                System.out.println("To Toilet1");
-                            } else {
-
-                                popularityCounter += toiletPopularity;
-                                if (number < popularityCounter) {
-                                    currentDestination = Location.TOILET_2;
-                                    System.out.println("To Toilet2");
-                                }
-                            }
-                        } else if (!hasHadFood) {
-                            popularityCounter += foodPopularity;
-                            if (number < popularityCounter) {
-                                currentDestination = Location.FOODSTAND_1;
-                                System.out.println("To Food1");
-                            } else {
-
-                                popularityCounter += foodPopularity;
-                                if (number < popularityCounter) {
-                                    currentDestination = Location.FOODSTAND_2;
-                                    System.out.println("To Food2");
-                                } else {
-
-                                    popularityCounter += foodPopularity;
-                                    if (number < popularityCounter) {
-                                        currentDestination = Location.FOODSTAND_3;
-                                        System.out.println("To Food3");
-                                    }
-                                }
-                            }
-                        } else {
-                            if (Math.random() < 0.5) {
-                                currentDestination = Location.GRASS_1;
-                                System.out.println("To Gras1");
-                            } else {
-                                currentDestination = Location.GRASS_2;
-                                System.out.println("To Gras2");
+                                currentDestination = goToToilet();
+                                destinationIsSet = true;
                             }
                         }
+                        if (!hasHadFood) {
+                            popularityCounter += foodPopularity;
+                            if (number < popularityCounter) {
+                                currentDestination = goToStand();
+                                destinationIsSet = true;
+                            }
+                        }
+                        if(!destinationIsSet) {
+                            currentDestination = goToField();
+                        }
+
+
                     }
                 }
             }
 
         }
+
+        if (currentDestination == null)
+            System.out.println("hij is null");
+
         destination = tiledMap.enumToPointDestination(currentDestination);
+
         if (debug) {
             System.out.println(currentDestination + "word vertaald naar");
             System.out.println(destination.getX() + "   " + destination.getY() + " op de map");
@@ -683,6 +671,45 @@ public class Visitor implements Drawable {
         isOnLocation = false;
         newDestination = true;
     }
+
+    public Location goToField(){
+        if (Math.random() < 0.5) {
+            System.out.println("To Gras 1");
+            return Location.GRASS_1;
+        } else {
+            System.out.println("To Gras 2");
+            return Location.GRASS_2;
+
+        }
+    }
+
+    public Location goToToilet(){
+        if (Math.random() < 0.5) {
+            System.out.println("To Toilet 1");
+            return Location.TOILET_1;
+        } else {
+            System.out.println("To Toilet 2");
+            return Location.TOILET_2;
+        }
+    }
+
+    public Location goToStand(){
+        double chance = Math.random();
+        if (chance < 0.33) {
+            System.out.println("To Food 1");
+            return Location.FOODSTAND_1;
+        } else if(chance < 0.66) {
+            System.out.println("To Food 2");
+            return Location.FOODSTAND_2;
+        } else {
+            System.out.println("To Food 3");
+            return Location.FOODSTAND_3;
+        }
+    }
+
+
+
+
 
     public Location getCurrentDestination() {
         return currentDestination;
@@ -695,7 +722,6 @@ public class Visitor implements Drawable {
 
     public void updateBlatter() {
         blatter += 0.01;
-        updateStomach();
     }
 
     public void updateStomach() {
