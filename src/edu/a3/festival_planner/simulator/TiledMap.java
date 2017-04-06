@@ -101,7 +101,6 @@ public class TiledMap {
 
   //translates the enum to an actuel spot on the map
   public Point2D enumToPointDestination(Location currentDestination) {
-    System.out.println("Location"+currentDestination.toString());
     ArrayList<Area> entrances = getAreaLayers().get(0).getEntrances();
     ArrayList<Area> stages = getAreaLayers().get(0).getStages();
     ArrayList<Area> otherAreas = getAreaLayers().get(0).getOtherAreas();
@@ -114,8 +113,6 @@ public class TiledMap {
         case STAGE_3: return new Point2D.Double(stages.get(2).getX() + (stages.get(2).getWidth() / 2), (stages.get(2).getY() + (stages.get(2).getWidth() / 2)));
         case TOILET_1:return new Point2D.Double(toiletAreas.get(0).getX() + (toiletAreas.get(0).getWidth() / 2), toiletAreas.get(0).getY() + (toiletAreas.get(0).getHeigt() / 2));
         case TOILET_2:return new Point2D.Double(toiletAreas.get(1).getX() + (toiletAreas.get(1).getWidth() / 2), toiletAreas.get(1).getY() + (toiletAreas.get(1).getHeigt() / 2));
-//        case GRASS_1: return new Point2D.Double(fieldAreas.get(0).getX() + (fieldAreas.get(0).getWidth() / 2), fieldAreas.get(0).getY() + (fieldAreas.get(0).getHeigt() / 2));
-//        case GRASS_2: return new Point2D.Double(fieldAreas.get(1).getX() + (fieldAreas.get(1).getWidth() / 2), fieldAreas.get(1).getY() + (fieldAreas.get(1).getHeigt() / 2));
         case GRASS_1: return new Point2D.Double(otherAreas.get(0).getX() + (otherAreas.get(0).getWidth() / 2), otherAreas.get(0).getY() + (otherAreas.get(0).getHeigt() / 2));
         case GRASS_2: return new Point2D.Double(otherAreas.get(1).getX() + (otherAreas.get(1).getWidth() / 2), otherAreas.get(1).getY() + (otherAreas.get(1).getHeigt() / 2));
         case FOODSTAND_1: return new Point2D.Double(standAreas.get(0).getX() + (standAreas.get(0).getWidth() / 2), standAreas.get(0).getY() + (standAreas.get(0).getHeigt() / 2));

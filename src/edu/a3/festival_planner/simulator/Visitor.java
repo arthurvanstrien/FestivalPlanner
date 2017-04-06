@@ -608,21 +608,24 @@ public class Visitor implements Drawable {
         }
         if (number < popularityCounter) {
             currentDestination = Location.STAGE_1;
-            System.out.println("hij is stage1");
+            if (debug)
+                System.out.println("hij is stage1");
         } else {
             if ((showMap.get(Location.STAGE_2)) != null) {
                 popularityCounter += ((showMap.get(Location.STAGE_2).getExpectedPopularity()));
             }
             if (number < popularityCounter) {
                 currentDestination = Location.STAGE_2;
-                System.out.println("hij is stage2");
+                if (debug)
+                    System.out.println("hij is stage2");
             } else {
                 if ((showMap.get(Location.STAGE_3)) != null) {
                     popularityCounter += ((showMap.get(Location.STAGE_3).getExpectedPopularity()));
                 }
                 if (number < popularityCounter) {
                     currentDestination = Location.STAGE_3;
-                    System.out.println("hij is stage3");
+                    if (debug)
+                        System.out.println("hij is stage3");
                 } else {
                     popularityCounter += fieldPopularity;
                     if (number < popularityCounter) {
@@ -630,10 +633,10 @@ public class Visitor implements Drawable {
                             currentDestination = goToField();
                         } else {
                             currentDestination = Location.EXIT;
-                            System.out.println("hij is Exit");
+                            if (debug)
+                                System.out.println("hij is Exit");
                         }
-                    } else
-                        {
+                    } else {
                         if (!hasPooped) {
                             popularityCounter += toiletPopularity;
                             if (number < popularityCounter) {
@@ -648,7 +651,7 @@ public class Visitor implements Drawable {
                                 destinationIsSet = true;
                             }
                         }
-                        if(!destinationIsSet) {
+                        if (!destinationIsSet) {
                             currentDestination = goToField();
                         }
 
@@ -660,7 +663,8 @@ public class Visitor implements Drawable {
         }
 
         if (currentDestination == null)
-            System.out.println("hij is null");
+            if (debug)
+                System.out.println("hij is null");
 
         destination = tiledMap.enumToPointDestination(currentDestination);
 
@@ -672,43 +676,47 @@ public class Visitor implements Drawable {
         newDestination = true;
     }
 
-    public Location goToField(){
+    public Location goToField() {
         if (Math.random() < 0.5) {
-            System.out.println("To Gras 1");
+            if (debug)
+                System.out.println("To Gras 1");
             return Location.GRASS_1;
         } else {
-            System.out.println("To Gras 2");
+            if (debug)
+                System.out.println("To Gras 2");
             return Location.GRASS_2;
 
         }
     }
 
-    public Location goToToilet(){
+    public Location goToToilet() {
         if (Math.random() < 0.5) {
-            System.out.println("To Toilet 1");
+            if (debug)
+                System.out.println("To Toilet 1");
             return Location.TOILET_1;
         } else {
-            System.out.println("To Toilet 2");
+            if (debug)
+                System.out.println("To Toilet 2");
             return Location.TOILET_2;
         }
     }
 
-    public Location goToStand(){
+    public Location goToStand() {
         double chance = Math.random();
         if (chance < 0.33) {
-            System.out.println("To Food 1");
+            if (debug)
+                System.out.println("To Food 1");
             return Location.FOODSTAND_1;
-        } else if(chance < 0.66) {
-            System.out.println("To Food 2");
+        } else if (chance < 0.66) {
+            if (debug)
+                System.out.println("To Food 2");
             return Location.FOODSTAND_2;
         } else {
-            System.out.println("To Food 3");
+            if (debug)
+                System.out.println("To Food 3");
             return Location.FOODSTAND_3;
         }
     }
-
-
-
 
 
     public Location getCurrentDestination() {
