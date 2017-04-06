@@ -48,9 +48,11 @@ public class TiledMapView extends JPanel {
 
   public void update(double elapsedTime, Time time){
     boolean updateBlatter = false;
+    boolean updateStomach = false;
     if(prevTime != null) {
       if(!prevTime.isTheSame(time)) {
         updateBlatter = true;
+        updateStomach = true;
       }
     }
     prevTime = time;
@@ -66,6 +68,9 @@ public class TiledMapView extends JPanel {
         v.update(visitors, elapsedTime, agenda, time, tiledMap);
         if(updateBlatter) {
           v.updateBlatter();
+        }
+        if(updateStomach){
+          v.updateStomach();
         }
       }
     }

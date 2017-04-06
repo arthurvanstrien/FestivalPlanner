@@ -42,6 +42,7 @@ public class AreaLayer {
           //Type Stand so it's  added to the stand list
           ammountStands++;
           stands.add(new Area(area));
+          System.out.println("StandArea: "+area.toString());
         } else{
           //None of the above type's so it's added to the location list for other areas
           amountLocations++;

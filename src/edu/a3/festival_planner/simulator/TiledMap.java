@@ -101,6 +101,7 @@ public class TiledMap {
 
   //translates the enum to an actuel spot on the map
   public Point2D enumToPointDestination(Location currentDestination) {
+    System.out.println("Location"+currentDestination.toString());
     ArrayList<Area> entrances = getAreaLayers().get(0).getEntrances();
     ArrayList<Area> stages = getAreaLayers().get(0).getStages();
     ArrayList<Area> otherAreas = getAreaLayers().get(0).getOtherAreas();
