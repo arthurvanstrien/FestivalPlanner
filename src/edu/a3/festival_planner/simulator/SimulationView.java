@@ -149,7 +149,7 @@ public class SimulationView extends JFrame implements ActionListener {
     seconds += (elapsedTime * (sliderSpeed.getValue() / 100));
     time = new Time((int) ((seconds / 60) / 60) % 24, (int) (seconds / 60) % 60);
     currentTime.setText("Current time : " + time.toString());
-    currentSpeed.setText("speed: " + sliderSpeed.getValue());
+    currentSpeed.setText("speed: " + sliderSpeed.getValue() + "%");
 
     tiledMapView.update(elapsedTime * (sliderSpeed.getValue() / 100), time);
   }
