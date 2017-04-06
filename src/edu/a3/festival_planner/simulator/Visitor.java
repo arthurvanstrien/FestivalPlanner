@@ -9,18 +9,16 @@ import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
-import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
-import sun.text.CodePointIterator;
 
 /**
  * Created by robin on 12-3-2017.
  */
-public class Visitor implements Drawable {
+public class Visitor implements Drawable, Cloneable {
 
   private final int red = 3329;
   private final int green = 3331;
@@ -48,10 +46,10 @@ public class Visitor implements Drawable {
   private boolean hasPooped;
   private boolean debug = false;
   private boolean exited = false;
-  private double blatter = 0;
+  private double bladder = 0;
 
 
-  public Visitor(ArrayList<Drawable> drawings, ArrayList<AreaLayer> entrances,
+  public Visitor(List<Drawable> drawings, ArrayList<AreaLayer> entrances,
       BreadthFirstSearch bfs, Agenda agenda, Time time, TiledMap tiledMap) {
     speed = 2;
     angle = Math.PI;
@@ -61,7 +59,6 @@ public class Visitor implements Drawable {
     this.bfs = bfs;
     setNewDestination(agenda, time, tiledMap);
   }
-
   /**
    * Draws the visitor.
    *
@@ -88,7 +85,7 @@ public class Visitor implements Drawable {
    * through te list to meet all constraints and collisions with the objects.
    */
   @Override
-  public void update(ArrayList<Drawable> drawings, double elapsedTime, Agenda agenda, Time time, TiledMap tiledMap) {
+  public void update(List drawings, double elapsedTime, Agenda agenda, Time time, TiledMap tiledMap) {
     totalElapsedTime += elapsedTime;
 
     if (isOnLocation) {
@@ -115,7 +112,7 @@ public class Visitor implements Drawable {
    * gebruik data uit de Area entrance om te bepalen waar de visitors mogen spawnen, let op, zet
    * collision wel aan
    */
-  private Point2D spawnOnEntrance(ArrayList<Drawable> drawings, TiledLayer walklayer,
+  private Point2D spawnOnEntrance(List<Drawable> drawings, TiledLayer walklayer,
       ArrayList<AreaLayer> entrances) {
     Point2D point = null;
     Area entrance = entrances.get(0).getEntrances().get(0);
@@ -127,7 +124,7 @@ public class Visitor implements Drawable {
   /**
    * checks if a visitor can spawn on this location
    */
-  public boolean canSpawnOnLocation(ArrayList<Drawable> drawings, TiledLayer walklayer) {
+  public boolean canSpawnOnLocation(List<Drawable> drawings, TiledLayer walklayer) {
     return !collides(drawings, walklayer, position);
   }
 
@@ -139,7 +136,7 @@ public class Visitor implements Drawable {
     }
   }
 
-  public void walk(Time time, double elapsedTime, ArrayList<Drawable> drawings, TiledMap tiledMap) {
+  public void walk(Time time, double elapsedTime, List<Drawable> drawings, TiledMap tiledMap) {
     if (path.size() - currentStepInPath < 1) {
       isOnLocation = true;
       arrivalTime = time;
@@ -179,7 +176,7 @@ public class Visitor implements Drawable {
         position.getX() + elapsedTime * speed * Math.cos(angle),
         position.getY() + elapsedTime * speed * Math.sin(angle));
     if(debug) {
-      System.out.println("Botsingen: " + collisionCounter + " blaas: " + blatter);
+      System.out.println("Botsingen: " + collisionCounter + " blaas: " + bladder);
     }
     if (!collidesWithVisitor(drawings, newPosition)) {
       if (!collidesWithTiles(tiledMap.getWalkableLayer(), newPosition)) {
@@ -295,7 +292,7 @@ public class Visitor implements Drawable {
         int poopinTime = (int) ((Math.random() * (2 * 60))) + 60;
         if (time.toSeconds() > arrivalTime.toSeconds() + poopinTime) {
           hasPooped = true;
-          blatter = 0;
+          bladder = 0;
           setNewDestination(agenda, time, tiledMap);
         }
         if (debug) {
@@ -307,7 +304,7 @@ public class Visitor implements Drawable {
         int poopinTime = (int) (Math.random() * (2 * 60) + 60);
         if (time.toSeconds() > arrivalTime.toSeconds() + poopinTime) {
           hasPooped = true;
-          blatter = 0;
+          bladder = 0;
           setNewDestination(agenda, time, tiledMap);
         }
         if (debug) {
@@ -354,7 +351,7 @@ public class Visitor implements Drawable {
    * @param newPosition
    * @param drawings
    */
-  public void evadeVisitor(Point2D newPosition,ArrayList<Drawable> drawings){
+  public void evadeVisitor(Point2D newPosition,List<Drawable> drawings){
     angle = angle % 360;
     if(angle >= 45 && angle <= 135){
       newPosition = new Double(newPosition.getX() + 2, newPosition.getY());
@@ -382,7 +379,7 @@ public class Visitor implements Drawable {
    * Checks for collision with unwalkable paths and other drawables
    * Old method, do not use.
    */
-  public boolean collides(ArrayList<Drawable> drawings, TiledLayer walklayer, Point2D newPosition) {
+  public boolean collides(List<Drawable> drawings, TiledLayer walklayer, Point2D newPosition) {
     if (newPosition.getY() > (mapWith) * 32) {
       newPosition = new Double(newPosition.getX(), 99 * 32);
     } else if (newPosition.getX() > (mapHeight) * 32) {
@@ -428,7 +425,7 @@ public class Visitor implements Drawable {
   /**
    * checks collision with visitors
    */
-  public boolean collidesWithVisitor(ArrayList<Drawable> drawings, Point2D newPosition) {
+  public boolean collidesWithVisitor(List<Drawable> drawings, Point2D newPosition) {
     for (Drawable drawing : drawings) {
       if (drawing == this) {
         continue;
@@ -519,7 +516,7 @@ public class Visitor implements Drawable {
     Set<Show> shows = agenda.getAllShows();
     HashMap<Location,Show> showMap =  new HashMap<>();
     double totalPopularity = 0;
-    double toiletPopularity = 2 * blatter;
+    double toiletPopularity = 2 * bladder;
     if(!hasPooped){
       totalPopularity += (toiletPopularity + toiletPopularity);
     }
@@ -603,7 +600,16 @@ public class Visitor implements Drawable {
     return exited;
   }
 
-  public void updateBlatter() {
-    blatter += 0.01;
+  public void updateBladder() {
+    bladder += 0.01;
+  }
+
+  public Visitor cloneDrawable() {
+    try {
+      return (Visitor) this.clone();
+    } catch (Exception e) {
+      System.out.println("Deze was niet clonable");
+    }
+    return null;
   }
 }

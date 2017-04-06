@@ -75,7 +75,6 @@ public class TimeGui extends JDialog {
     int hours = (int) hoursC.getSelectedItem();
     int minutes = (int) minutesC.getSelectedItem();
     time = new Time(hours, minutes);
-    System.out.println("Time:" + time.toString());
     frame.setTime(time);
   }
 }
