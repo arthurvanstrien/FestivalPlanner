@@ -13,16 +13,19 @@ public class AreaLayer {
   private ArrayList<Area> stages;
   private ArrayList<Area> entrances;
   private ArrayList<Area> locations;
+  private ArrayList<Area> stands;
   private ArrayList<Area> allAreas;
   private int amountStages = 0;
   private int amountEntrances = 0;
   private int amountLocations = 0;
+  private int ammountStands = 0;
 
   public AreaLayer(JsonObject layer, TiledMap map ) {
     this.map = map;
     stages = new ArrayList<>();
     entrances = new ArrayList<>();
     locations = new ArrayList<>();
+    stands = new ArrayList<>();
     allAreas = new ArrayList<>();
 
     for(int i = 0; i < layer.getJsonArray("objects").size(); i++) {
@@ -35,7 +38,11 @@ public class AreaLayer {
           //Type entrance so it's added to the entrances list
           amountEntrances++;
           entrances.add(new Area(area));
-        } else {
+        } else if (area.getString("type").equals("Stand")){
+          //Type Stand so it's  added to the stand list
+          ammountStands++;
+          stands.add(new Area(area));
+        } else{
           //None of the above type's so it's added to the location list for other areas
           amountLocations++;
           locations.add(new Area(area));
@@ -61,4 +68,6 @@ public class AreaLayer {
   public ArrayList<Area> getStages() {return stages;}
 
   public ArrayList<Area> getOtherAreas() {return locations;}
+
+  public ArrayList<Area> getStandArea(){return stands;}
 }

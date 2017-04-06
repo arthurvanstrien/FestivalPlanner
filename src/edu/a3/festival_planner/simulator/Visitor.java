@@ -320,7 +320,7 @@ public class Visitor implements Drawable {
 
       }
       break;
-      case GRASS: {
+      case GRASS_1: {
         hasPooped = false;
         if (time.isAfter(new Time(arrivalTime.getHour(), arrivalTime.getMinute() + 5))) {
           if (debug) {
@@ -329,7 +329,46 @@ public class Visitor implements Drawable {
           setNewDestination(agenda, time, tiledMap);
         }
       }
-      ;
+      break;
+      case GRASS_2: {
+        hasPooped = false;
+        if (time.isAfter(new Time(arrivalTime.getHour(), arrivalTime.getMinute() + 5))) {
+          if (debug) {
+            System.out.println("klaar met gras");
+          }
+          setNewDestination(agenda, time, tiledMap);
+        }
+      }
+      break;
+      case FOODSTAND_1: {
+        hasPooped = false;
+        if (time.isAfter(new Time(arrivalTime.getHour(), arrivalTime.getMinute() + 5))) {
+          if (debug) {
+            System.out.println("klaar met gras");
+          }
+          setNewDestination(agenda, time, tiledMap);
+        }
+      }
+      break;
+      case FOODSTAND_2: {
+        hasPooped = false;
+        if (time.isAfter(new Time(arrivalTime.getHour(), arrivalTime.getMinute() + 5))) {
+          if (debug) {
+            System.out.println("klaar met gras");
+          }
+          setNewDestination(agenda, time, tiledMap);
+        }
+      }
+      break;
+      case FOODSTAND_3: {
+        hasPooped = false;
+        if (time.isAfter(new Time(arrivalTime.getHour(), arrivalTime.getMinute() + 5))) {
+          if (debug) {
+            System.out.println("klaar met gras");
+          }
+          setNewDestination(agenda, time, tiledMap);
+        }
+      }
       break;
       default:
         break;
@@ -562,7 +601,7 @@ public class Visitor implements Drawable {
             popularityCounter += fieldPopularity;
             if (number < popularityCounter) {
               if(time.isBefore(new Time(agenda.getEndTime().getHour() - 1, agenda.getEndTime().getMinute()))) {
-                currentDestination = Location.GRASS;
+                currentDestination = Location.GRASS_1;
               } else {
                 currentDestination = Location.EXIT;
               }
@@ -579,7 +618,7 @@ public class Visitor implements Drawable {
                   }
                 }
               }else {
-                currentDestination = Location.GRASS;
+                currentDestination = Location.GRASS_1;
               }
                 }
               }
