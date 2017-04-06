@@ -61,7 +61,7 @@ public class Main extends JTabbedPane {
 
     try {
       ImageIcon img = new ImageIcon(
-              this.getClass().getClassLoader().getResource("\\images\\Agenda.png"));
+              this.getClass().getClassLoader().getResource("images\\Agenda.png"));
       frame.setIconImage(img.getImage());
     } catch (Exception e) {
       e.printStackTrace();
@@ -82,7 +82,7 @@ public class Main extends JTabbedPane {
   }
 
   /**
-   * Add new agenda tab to the program.
+   * Add new edu.a3.festival_planner.agenda tab to the program.
    */
   public void add(Agenda agenda) {
     agendas.add(agenda);
@@ -99,14 +99,14 @@ public class Main extends JTabbedPane {
     try {
       VisitorImageList
           .addImage(ImageIO.read(
-                  this.getClass().getClassLoader().getResource("visitors/VisitorBlueBlond.png")));
+                  this.getClass().getClassLoader().getResource("visitors\\VisitorBlueBlond.png")));
     } catch (IOException e) {
       e.printStackTrace();
     }
     try {
       VisitorImageList
           .addImage(ImageIO.read(
-                  this.getClass().getClassLoader().getResource("visitors/VisitorGreenBlond.png")));
+                  this.getClass().getClassLoader().getResource("visitors\\VisitorGreenBlond.png")));
 
     } catch (IOException e) {
       e.printStackTrace();
@@ -114,14 +114,14 @@ public class Main extends JTabbedPane {
     try {
       VisitorImageList
           .addImage(ImageIO.read(
-                  this.getClass().getClassLoader().getResource("visitors/VisitorBlackBlond.png")));
+                  this.getClass().getClassLoader().getResource("visitors\\VisitorBlackBlond.png")));
     } catch (IOException e) {
       e.printStackTrace();
     }
     try {
       VisitorImageList
           .addImage(ImageIO
-                  .read(this.getClass().getClassLoader().getResource("visitors/VisitorRedBlack.png")));
+                  .read(this.getClass().getClassLoader().getResource("visitors\\VisitorRedBlack.png")));
     } catch (IOException e) {
       e.printStackTrace();
     }

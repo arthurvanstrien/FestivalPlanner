@@ -27,7 +27,7 @@ class SimulationView extends JFrame implements ActionListener {
 
 
   /**
-   * Generates GUI with an agenda to simulate
+   * Generates GUI with an edu.a3.festival_planner.agenda to simulate
    */
   public SimulationView(Main main, Agenda agenda, int visitors) {
     super("Simulation: " + agenda.getName());
@@ -52,7 +52,7 @@ class SimulationView extends JFrame implements ActionListener {
 
     try {
       ImageIcon img = new ImageIcon(
-              this.getClass().getClassLoader().getResource("\\images\\Cogs.png"));
+              this.getClass().getClassLoader().getResource("images\\Cogs.png"));
       setIconImage(img.getImage());
     } catch (Exception e) {
       e.printStackTrace();
@@ -79,7 +79,7 @@ class SimulationView extends JFrame implements ActionListener {
     JPanel timePanel = new JPanel(new GridLayout(0, 1));
     currentTime = new JLabel("Current time : " + time.toString());
     ImageIcon clock = new ImageIcon(
-            new ImageIcon("res\\images\\Clock.png").getImage().getScaledInstance(50, 50, 1));
+            new ImageIcon(this.getClass().getClassLoader().getResource("images\\Clock.png")).getImage().getScaledInstance(50, 50, 1));
     JButton clockImage = new JButton(clock);
     clockImage.addActionListener(e -> new TimeGui(this));
 

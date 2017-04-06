@@ -77,7 +77,7 @@ public class AgendaView extends JTable {
   }
 
   /**
-   * Changes the ability to edit of the agenda.
+   * Changes the ability to edit of the edu.a3.festival_planner.agenda.
    */
   public void setEditable(boolean isEditable) {
     this.isEditable = isEditable;

@@ -12,7 +12,7 @@ public class Tab extends JScrollPane {
     private AgendaView agendaView;
 
   /**
-   * Create new tab of given agenda and display it in the given main.
+   * Create new tab of given edu.a3.festival_planner.agenda and display it in the given main.
    */
   public Tab(Main main, Agenda agenda) {
     super(VERTICAL_SCROLLBAR_AS_NEEDED, HORIZONTAL_SCROLLBAR_AS_NEEDED);

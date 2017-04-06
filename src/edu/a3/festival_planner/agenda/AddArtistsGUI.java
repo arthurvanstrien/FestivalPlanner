@@ -1,6 +1,7 @@
 package edu.a3.festival_planner.agenda;
 
 import edu.a3.festival_planner.general.Main;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -15,7 +16,7 @@ public class AddArtistsGUI extends JDialog {
   private ArrayList<Artist> artists;
 
   /**
-   * Add artists while creating new agenda.
+   * Add artists while creating new edu.a3.festival_planner.agenda.
    */
   public AddArtistsGUI(Main main, String name) {
     super(main.getFrame(), "Add Artists", true);
@@ -23,7 +24,7 @@ public class AddArtistsGUI extends JDialog {
   }
 
   /**
-   * Add artists to existing agenda
+   * Add artists to existing edu.a3.festival_planner.agenda
    */
   public AddArtistsGUI(Agenda agenda, Main main) {
     super(main.getFrame(), "Add Artists", true);

@@ -34,7 +34,7 @@ class FileManager {
   }
 
   /**
-   * Save agenda to file.
+   * Save edu.a3.festival_planner.agenda to file.
    */
   public void saveAgenda(Agenda agenda) {
     fileChooser.setCurrentDirectory(agendasDir);
@@ -90,7 +90,7 @@ class FileManager {
   }
 
   /**
-   * Load agenda from file.
+   * Load edu.a3.festival_planner.agenda from file.
    */
   public Agenda loadAgenda(File file) {
     return load(file);
