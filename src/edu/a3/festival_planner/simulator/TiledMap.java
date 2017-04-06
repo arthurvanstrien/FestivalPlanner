@@ -48,6 +48,7 @@ public class TiledMap {
       String photoName = jsonTileSet.getString("image");
 
       try {
+        System.out.println(photoName);
         img = ImageIO.read(getClass().getClassLoader().getResource(photoName));
       } catch (Exception e) {
         e.printStackTrace();
