@@ -8,9 +8,9 @@ import java.awt.geom.Point2D.Double;
 
 public class Camera implements MouseListener, MouseMotionListener, MouseWheelListener {
 
-    Point2D centerPoint = new Double(0.0D, 0.0D);
-    double zoom = 1.0D;
-    double rotation = 0.0D;
+    Point2D centerPoint = new Double(0.0d, 0.0d);
+    double zoom = .4d;
+    double rotation = 0.0d;
     Point2D lastMousePos;
     JPanel panel;
 
@@ -23,8 +23,7 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
 
     public AffineTransform getTransform(int windowWidth, int windowHeight) {
         AffineTransform tx = new AffineTransform();
-        tx.translate((double) (0), (double) (0));
-        //tx.translate((double)(windowWidth / 2), (double)(windowHeight / 2));
+//        tx.translate(windowWidth / 2, windowHeight / 2);
         tx.scale(this.zoom, this.zoom);
         tx.translate(this.centerPoint.getX(), this.centerPoint.getY());
         tx.rotate(this.rotation);
@@ -55,7 +54,6 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
             this.lastMousePos = e.getPoint();
             this.panel.repaint();
         }
-
     }
 
     public void mouseMoved(MouseEvent e) {
