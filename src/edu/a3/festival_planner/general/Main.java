@@ -4,14 +4,14 @@ import edu.a3.festival_planner.agenda.AddArtistsGUI;
 import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.agenda.Tab;
 import edu.a3.festival_planner.simulator.OpenSimulator;
-import edu.a3.festival_planner.simulator.SimulationView;
 import edu.a3.festival_planner.simulator.TiledMap;
 import edu.a3.festival_planner.simulator.VisitorImageList;
-import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -65,7 +65,7 @@ public class Main extends JTabbedPane {
 
     try {
       ImageIcon img = new ImageIcon(
-          this.getClass().getClassLoader().getResource("\\Images\\Agenda.png"));
+              this.getClass().getClassLoader().getResource("\\images\\Agenda.png"));
       frame.setIconImage(img.getImage());
     } catch (Exception e) {
       e.printStackTrace();

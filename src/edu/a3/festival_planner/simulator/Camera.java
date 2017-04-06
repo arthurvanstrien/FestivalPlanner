@@ -3,17 +3,12 @@ package edu.a3.festival_planner.simulator;//
 // (powered by Fernflower decompiler)
 //
 
-import java.awt.MouseInfo;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 public class Camera implements MouseListener, MouseMotionListener, MouseWheelListener {
 
@@ -67,10 +62,10 @@ public class Camera implements MouseListener, MouseMotionListener, MouseWheelLis
   }
 
   public void mouseDragged(MouseEvent e) {
-    if (SwingUtilities.isMiddleMouseButton(e)) {
-      this.centerPoint = new Double(
-          this.centerPoint.getX() - (this.lastMousePos.getX() - (double) e.getX()) / this.zoom,
-          this.centerPoint.getY() - (this.lastMousePos.getY() - (double) e.getY()) / this.zoom);
+      if (SwingUtilities.isLeftMouseButton(e)) {
+          this.centerPoint.setLocation(
+                  this.centerPoint.getX() + (this.lastMousePos.getX() - (double) e.getX()) / this.zoom,
+                  this.centerPoint.getY() + (this.lastMousePos.getY() - (double) e.getY()) / this.zoom);
       this.lastMousePos = e.getPoint();
       this.panel.repaint();
     }

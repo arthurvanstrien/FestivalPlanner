@@ -1,15 +1,14 @@
 package edu.a3.festival_planner.simulator;
 
 import edu.a3.festival_planner.agenda.Agenda;
-import edu.a3.festival_planner.agenda.Show;
 import edu.a3.festival_planner.general.Time;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import javax.swing.JPanel;
 
 /**
  * Created by snick on 20-3-2017.
@@ -25,7 +24,7 @@ public class TiledMapView extends JPanel {
   Time prevTime;
   Map<Time, TiledMapView> saves;
 
-  public TiledMapView(TiledMap tiledMap, Agenda agenda, int amountSaves, int visitorAmount) {
+  public TiledMapView(TiledMap tiledMap, Agenda agenda, int visitorAmount) {
     this.tiledMap = tiledMap;
     camera = new Camera(this);
     visitors = new ArrayList<>();

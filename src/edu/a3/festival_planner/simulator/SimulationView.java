@@ -3,10 +3,12 @@ package edu.a3.festival_planner.simulator;
 import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.general.Main;
 import edu.a3.festival_planner.general.Time;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
 /**
  * Created by Eversdijk on 14-3-2017.
@@ -30,7 +32,7 @@ public class SimulationView extends JFrame implements ActionListener {
    * Generates GUI with an agenda to simulate
    * @param agenda
    */
-  public SimulationView(Main main, Agenda agenda, int saves, int visitors) {
+  public SimulationView(Main main, Agenda agenda, int visitors) {
     super("Simulation: " + agenda.getName());
     //Initializing atributes
     time = new Time(0, 0);
@@ -40,7 +42,6 @@ public class SimulationView extends JFrame implements ActionListener {
     seconds = 0;
     this.main = main;
     this.agenda = agenda;
-    this.saves = saves;
     this.visitors = visitors;
 
     Dimension screenSize = (Toolkit.getDefaultToolkit().getScreenSize());
@@ -54,7 +55,7 @@ public class SimulationView extends JFrame implements ActionListener {
 
     try {
       ImageIcon img = new ImageIcon(
-          this.getClass().getClassLoader().getResource("\\Images\\Cogs.png"));
+              this.getClass().getClassLoader().getResource("\\images\\Cogs.png"));
       setIconImage(img.getImage());
     } catch (Exception e) {
       e.printStackTrace();
@@ -67,7 +68,7 @@ public class SimulationView extends JFrame implements ActionListener {
 
     JPanel simulation = new JPanel(new BorderLayout());
 
-    tiledMapView = new TiledMapView(main.getTiledMap(), agenda, visitors, saves);
+      tiledMapView = new TiledMapView(main.getTiledMap(), agenda, visitors);
     JPanel tiledMap = tiledMapView;
     simulation.setBorder(BorderFactory.createEtchedBorder());
     simulation.add(tiledMap, BorderLayout.CENTER);
@@ -81,7 +82,7 @@ public class SimulationView extends JFrame implements ActionListener {
     JPanel timePanel = new JPanel(new GridLayout(0, 1));
     currentTime = new JLabel("Current time : " + time.toString());
     ImageIcon clock = new ImageIcon(
-        new ImageIcon("res\\Images\\Clock.png").getImage().getScaledInstance(50, 50, 1));
+            new ImageIcon("res\\images\\Clock.png").getImage().getScaledInstance(50, 50, 1));
     JButton clockImage = new JButton(clock);
     clockImage.addActionListener(e -> new TimeGui(this));
 
