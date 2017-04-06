@@ -1,5 +1,6 @@
 package edu.a3.festival_planner.simulator;
 
+import com.sun.javafx.UnmodifiableArrayList;
 import edu.a3.festival_planner.agenda.Agenda;
 import edu.a3.festival_planner.general.Main;
 import edu.a3.festival_planner.general.Time;
@@ -9,6 +10,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by Eversdijk on 14-3-2017.
@@ -118,9 +121,25 @@ public class SimulationView extends JFrame implements ActionListener {
   }
 
   public void setTime(Time time) {
-    this.time = time;
-    seconds = ((time.getHour() * 60) + time.getMinute()) * 60;
+    boolean timeExists = checkTimeExists(time);
+    if(timeExists) {
+      this.time = time;
+      seconds = ((time.getHour() * 60) + time.getMinute()) * 60;
+      timer.stop();
+      tiledMapView.setVisitors(new ArrayList<>(tiledMapView.getSaves().get(time)));
+      timer.start();
+    } else {
+      JOptionPane.showMessageDialog(this, "Je hebt een tijd ingevuld die nog niet is opgeslagen!!");
+    }
+  }
 
+  public boolean checkTimeExists(Time time) {
+    for(Time t :tiledMapView.getSaves().keySet()) {
+      if(t.isTheSame(time)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   public void update() {

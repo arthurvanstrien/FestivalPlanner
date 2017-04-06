@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by robin on 12-3-2017.
@@ -45,7 +45,7 @@ public class Toilet implements Drawable {
   }
 
   @Override
-  public void update(ArrayList<Drawable> drawings, double pastTime, Agenda agenda, Time time, TiledMap tiledMap) {
+  public void update(List<Drawable> drawings, double pastTime, Agenda agenda, Time time, TiledMap tiledMap) {
 
   }
 
@@ -56,6 +56,10 @@ public class Toilet implements Drawable {
 
   @Override
   public void setDestination(Point2D destination, Time time) {
-
   }
+
+  public Toilet cloneDrawable() {
+    return null;
+  }
+
 }

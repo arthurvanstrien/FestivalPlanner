@@ -55,4 +55,18 @@ public class Time implements Serializable {
     return toSeconds() == time.toSeconds();
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Time time = (Time) o;
+
+    return toSeconds() == time.toSeconds();
+  }
+
+  @Override
+  public int hashCode() {
+    return toSeconds();
+  }
 }

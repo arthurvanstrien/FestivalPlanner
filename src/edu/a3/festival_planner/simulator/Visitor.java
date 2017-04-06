@@ -22,7 +22,7 @@ import sun.text.CodePointIterator;
 /**
  * Created by robin on 12-3-2017.
  */
-public class Visitor implements Drawable {
+public class Visitor implements Drawable,Cloneable {
 
     private final int red = 3329;
     private final int green = 3331;
@@ -55,7 +55,7 @@ public class Visitor implements Drawable {
     private double stomach = 0;
 
 
-    public Visitor(ArrayList<Drawable> drawings, ArrayList<AreaLayer> entrances,
+    public Visitor(List<Drawable> drawings, ArrayList<AreaLayer> entrances,
                    BreadthFirstSearch bfs, Agenda agenda, Time time, TiledMap tiledMap) {
         speed = 2;
         angle = Math.PI;
@@ -83,17 +83,14 @@ public class Visitor implements Drawable {
     }
 
     /**
-     * Method is unfinished
-     * <p>
-     * This will change in the future
-     * <p>
+     *
      * Updates the location of the visitor.
      *
      * @param drawings contains a list of all other objects that have been drawn. The Method wil cycle
      *                 through te list to meet all constraints and collisions with the objects.
      */
     @Override
-    public void update(ArrayList<Drawable> drawings, double elapsedTime, Agenda agenda, Time time, TiledMap tiledMap) {
+    public void update(List<Drawable> drawings, double elapsedTime, Agenda agenda, Time time, TiledMap tiledMap) {
         totalElapsedTime += elapsedTime;
 
         if (isOnLocation) {
@@ -120,7 +117,7 @@ public class Visitor implements Drawable {
      * gebruik data uit de Area entrance om te bepalen waar de visitors mogen spawnen, let op, zet
      * collision wel aan
      */
-    private Point2D spawnOnEntrance(ArrayList<Drawable> drawings, TiledLayer walklayer,
+    private Point2D spawnOnEntrance(List<Drawable> drawings, TiledLayer walklayer,
                                     ArrayList<AreaLayer> entrances) {
         Point2D point = null;
         Area entrance = entrances.get(0).getEntrances().get(0);
@@ -132,7 +129,7 @@ public class Visitor implements Drawable {
     /**
      * checks if a visitor can spawn on this location
      */
-    public boolean canSpawnOnLocation(ArrayList<Drawable> drawings, TiledLayer walklayer) {
+    public boolean canSpawnOnLocation(List<Drawable> drawings, TiledLayer walklayer) {
         return !collides(drawings, walklayer, position);
     }
 
@@ -144,7 +141,7 @@ public class Visitor implements Drawable {
         }
     }
 
-    public void walk(Time time, double elapsedTime, ArrayList<Drawable> drawings, TiledMap tiledMap) {
+    public void walk(Time time, double elapsedTime, List<Drawable> drawings, TiledMap tiledMap) {
         if (path.size() - currentStepInPath < 1) {
             isOnLocation = true;
             arrivalTime = time;
@@ -415,7 +412,7 @@ public class Visitor implements Drawable {
      * @param newPosition
      * @param drawings
      */
-    public void evadeVisitor(Point2D newPosition, ArrayList<Drawable> drawings) {
+    public void evadeVisitor(Point2D newPosition, List<Drawable> drawings) {
         angle = angle % 360;
         if (angle >= 45 && angle <= 135) {
             newPosition = new Double(newPosition.getX() + 2, newPosition.getY());
@@ -443,7 +440,7 @@ public class Visitor implements Drawable {
      * Checks for collision with unwalkable paths and other drawables
      * Old method, do not use.
      */
-    public boolean collides(ArrayList<Drawable> drawings, TiledLayer walklayer, Point2D newPosition) {
+    public boolean collides(List<Drawable> drawings, TiledLayer walklayer, Point2D newPosition) {
         if (newPosition.getY() > (mapWith) * 32) {
             newPosition = new Double(newPosition.getX(), 99 * 32);
         } else if (newPosition.getX() > (mapHeight) * 32) {
@@ -489,7 +486,7 @@ public class Visitor implements Drawable {
     /**
      * checks collision with visitors
      */
-    public boolean collidesWithVisitor(ArrayList<Drawable> drawings, Point2D newPosition) {
+    public boolean collidesWithVisitor(List<Drawable> drawings, Point2D newPosition) {
         for (Drawable drawing : drawings) {
             if (drawing == this) {
                 continue;
@@ -734,5 +731,14 @@ public class Visitor implements Drawable {
 
     public void updateStomach() {
         stomach += 0.01;
+    }
+
+    public Visitor cloneDrawable() {
+        try {
+            return (Visitor) this.clone();
+        } catch (Exception e) {
+            System.out.println("Deze was niet clonable");
+        }
+        return null;
     }
 }
