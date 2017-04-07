@@ -27,7 +27,6 @@ public class TiledMap {
     arrayImages = new ArrayList<>();
     arrayObjectLayers = new ArrayList<>();
     try (
-
         InputStream is = new FileInputStream(fileName);
         JsonReader jsonReader = Json.createReader(is)) {
       jo = jsonReader.readObject();
